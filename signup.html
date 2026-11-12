@@ -63,7 +63,7 @@
   </div>
 
   <div class="body">
-    <div id="demoNote" class="note hidden" data-en="Demo mode: Firebase is not connected yet. OTP code is 123456." data-bn="ডেমো মোড: Firebase এখনো যুক্ত হয়নি। OTP কোড হলো 123456">ডেমো মোড: Firebase এখনো যুক্ত হয়নি। OTP কোড হলো 123456</div>
+    <div id="demoNote" class="note hidden" data-en="Demo mode: Firebase is not connected yet. Nothing is saved." data-bn="ডেমো মোড: Firebase এখনো যুক্ত হয়নি। কোনো তথ্য সেভ হবে না।">ডেমো মোড: Firebase এখনো যুক্ত হয়নি। কোনো তথ্য সেভ হবে না।</div>
     <div id="msg" class="msg"></div>
 
     <!-- ===== STEP 1: FORM ===== -->
@@ -110,9 +110,8 @@
       </div>
 
       <div class="field" id="f-city">
-        <label><span data-en="City" data-bn="শহর">শহর</span> <span class="req">*</span></label>
+        <label><span data-en="City" data-bn="শহর">শহর</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
         <input type="text" id="city">
-        <div class="err" data-en="Please write your city" data-bn="শহরের নাম লিখুন">শহরের নাম লিখুন</div>
       </div>
 
       <!-- Customer only -->
@@ -175,18 +174,9 @@
         <div class="err" data-en="You must accept the terms" data-bn="শর্তাবলী মানতে হবে">শর্তাবলী মানতে হবে</div>
       </div>
 
-      <button type="submit" class="btn" id="sendBtn" data-en="Send OTP" data-bn="OTP পাঠান">OTP পাঠান</button>
+      <button type="submit" class="btn" id="sendBtn" data-en="Create Account" data-bn="অ্যাকাউন্ট খুলুন">অ্যাকাউন্ট খুলুন</button>
       <div class="link"><span data-en="Already have an account?" data-bn="আগে থেকেই অ্যাকাউন্ট আছে?">আগে থেকেই অ্যাকাউন্ট আছে?</span> <a href="login.html" data-en="Login" data-bn="লগইন">লগইন</a></div>
     </form>
-
-    <!-- ===== STEP 2: OTP ===== -->
-    <div id="step2" class="hidden otp-box">
-      <h3 data-en="Verify your number" data-bn="নম্বর ভেরিফাই করুন">নম্বর ভেরিফাই করুন</h3>
-      <p style="color:var(--muted);margin-top:6px"><span data-en="We sent a 6-digit code to" data-bn="৬ সংখ্যার কোড পাঠানো হয়েছে">৬ সংখ্যার কোড পাঠানো হয়েছে</span> <b id="showPhone"></b></p>
-      <input type="text" id="otp" maxlength="6" inputmode="numeric" placeholder="------">
-      <button class="btn" id="verifyBtn" data-en="Verify & Create Account" data-bn="ভেরিফাই করে অ্যাকাউন্ট খুলুন">ভেরিফাই করে অ্যাকাউন্ট খুলুন</button>
-      <div class="link"><a href="#" id="backBtn" data-en="← Change number" data-bn="← নম্বর বদলান">← নম্বর বদলান</a></div>
-    </div>
 
     <!-- ===== STEP 3: SUCCESS ===== -->
     <div id="step3" class="hidden success">
@@ -201,21 +191,21 @@
 <script type="module">
 /* =========================================================
    ধাপ ১: এখানে তোমার Firebase-এর তথ্য বসাও।
-   যতক্ষণ "YOUR_API_KEY" থাকবে, পেজ ডেমো মোডে চলবে (OTP = 123456)
+   যতক্ষণ "YOUR_API_KEY" থাকবে, পেজ ডেমো মোডে চলবে
    ========================================================= */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "000000000",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDdYRVY6tnAd1ovEmq_7nvqtmMcFoHN9wA",
+  authDomain: "solutions-transport.firebaseapp.com",
+  projectId: "solutions-transport",
+  storageBucket: "solutions-transport.firebasestorage.app",
+  messagingSenderId: "166077237931",
+  appId: "1:166077237931:web:23d45ede46e66bf45e85ee"
 };
 /* ========================================================= */
 
 const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
 const $ = id => document.getElementById(id);
-let lang = "bn", role = "customer", fb = null, confirmation = null, fullPhone = "";
+let lang = "bn", role = "customer", fb = null, fullPhone = "";
 
 if (DEMO) $("demoNote").classList.remove("hidden");
 
@@ -246,7 +236,6 @@ function validate(){
   let ok = true;
   ok &= mark("f-name", $("name").value.trim().length < 2);
   ok &= mark("f-phone", !/^\d{7,12}$/.test($("phone").value.replace(/\D/g,"").replace(/^0+/,"")));
-  ok &= mark("f-city", !$("city").value.trim());
   if (role === "driver"){
     ok &= mark("f-vtype", !$("vtype").value);
     ok &= mark("f-plate", !$("plate").value.trim());
@@ -268,44 +257,18 @@ async function loadFirebase(){
   const fs   = await import(`https://www.gstatic.com/firebasejs/${v}/firebase-firestore.js`);
   const a = app.initializeApp(firebaseConfig);
   fb = { authMod: auth, fsMod: fs, auth: auth.getAuth(a), db: fs.getFirestore(a) };
-  fb.recaptcha = new auth.RecaptchaVerifier(fb.auth, "sendBtn", { size: "invisible" });
   return fb;
 }
 
-/* ---------- ধাপ ১: OTP পাঠানো ---------- */
+/* ---------- অ্যাকাউন্ট খোলা (OTP ছাড়া) ----------
+   মোবাইল নম্বর দিয়ে একটা লুকানো লগইন-ইমেইল বানানো হয়,
+   তাই ইউজার পরে "মোবাইল নম্বর + পাসওয়ার্ড" দিয়েই লগইন করবে।
+   পরে OTP যোগ করতে চাইলে শুধু এই অংশটা বদলাতে হবে। */
 $("step1").onsubmit = async e => {
   e.preventDefault(); clearError();
   if (!validate()) return;
   fullPhone = $("cc").value + $("phone").value.replace(/\D/g,"").replace(/^0+/,"");
   $("sendBtn").disabled = true;
-  try {
-    if (!DEMO){
-      const f = await loadFirebase();
-      confirmation = await f.authMod.signInWithPhoneNumber(f.auth, fullPhone, f.recaptcha);
-    }
-    $("showPhone").textContent = fullPhone;
-    $("step1").classList.add("hidden");
-    $("step2").classList.remove("hidden");
-    $("otp").focus();
-  } catch(err){
-    console.error(err);
-    showError("Could not send OTP. Check the number and try again.", "OTP পাঠানো যায়নি। নম্বর ঠিক আছে কিনা দেখে আবার চেষ্টা করুন।");
-  }
-  $("sendBtn").disabled = false;
-};
-
-$("backBtn").onclick = e => {
-  e.preventDefault(); clearError();
-  $("step2").classList.add("hidden");
-  $("step1").classList.remove("hidden");
-};
-
-/* ---------- ধাপ ২: OTP ভেরিফাই + অ্যাকাউন্ট সেভ ---------- */
-$("verifyBtn").onclick = async () => {
-  clearError();
-  const code = $("otp").value.trim();
-  if (!/^\d{6}$/.test(code)) return showError("Enter the 6-digit code", "৬ সংখ্যার কোড দিন");
-  $("verifyBtn").disabled = true;
 
   const data = {
     role, name: $("name").value.trim(), phone: fullPhone,
@@ -315,34 +278,32 @@ $("verifyBtn").onclick = async () => {
     plateNumber: role === "driver" ? $("plate").value.trim() : "",
     capacityTon: role === "driver" ? Number($("cap").value) : 0,
     licenseNumber: role === "driver" ? $("license").value.trim() : "",
+    phoneVerified: false,
     status: role === "driver" ? "pending" : "active"   // ড্রাইভার অ্যাডমিন চেক করার পর active হবে
   };
 
   try {
     if (DEMO){
-      if (code !== "123456") throw new Error("bad-code");
-      console.log("DEMO - saved data:", data);
+      console.log("DEMO - data:", data);
     } else {
-      const res = await confirmation.confirm(code);
-      const user = res.user;
-      // পাসওয়ার্ড যুক্ত করা: পরে ফোন নম্বর + পাসওয়ার্ড দিয়ে লগইন করা যাবে
+      const f = await loadFirebase();
       const loginEmail = fullPhone.replace("+","") + "@solutions-login.app";
-      const cred = fb.authMod.EmailAuthProvider.credential(loginEmail, $("pass").value);
-      await fb.authMod.linkWithCredential(user, cred);
-      // ইউজারের তথ্য Firestore-এ সেভ
-      await fb.fsMod.setDoc(fb.fsMod.doc(fb.db, "users", user.uid),
-        { ...data, createdAt: fb.fsMod.serverTimestamp() });
+      const res = await f.authMod.createUserWithEmailAndPassword(f.auth, loginEmail, $("pass").value);
+      await f.fsMod.setDoc(f.fsMod.doc(f.db, "users", res.user.uid),
+        { ...data, createdAt: f.fsMod.serverTimestamp() });
     }
-    $("step2").classList.add("hidden");
+    $("step1").classList.add("hidden");
     $("step3").classList.remove("hidden");
   } catch(err){
     console.error(err);
-    if (err.code === "auth/credential-already-in-use" || err.code === "auth/email-already-in-use" || err.code === "auth/provider-already-linked")
+    if (err.code === "auth/email-already-in-use")
       showError("This number already has an account. Please login.", "এই নম্বরে আগে থেকেই অ্যাকাউন্ট আছে। লগইন করুন।");
+    else if (err.code === "auth/network-request-failed")
+      showError("No internet connection. Try again.", "ইন্টারনেট সংযোগ নেই। আবার চেষ্টা করুন।");
     else
-      showError("Wrong code or something went wrong. Try again.", "কোড ভুল অথবা সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      showError("Something went wrong. Try again.", "সমস্যা হয়েছে। আবার চেষ্টা করুন।");
   }
-  $("verifyBtn").disabled = false;
+  $("sendBtn").disabled = false;
 };
 
 applyLang();
