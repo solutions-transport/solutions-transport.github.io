@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0b2e59; --blue2:#123f78; --orange:#f39c12; --bg:#f2f5f9;
+    --text:#1d2633; --muted:#6b7686; --border:#d5dce6; --error:#d63031; --ok:#1e9e5a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 16px}
+  .card{background:#fff;width:100%;max-width:520px;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.12);overflow:hidden}
+  .head{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:22px 24px;position:relative}
+  .logo{font-size:26px;font-weight:700;letter-spacing:.5px}
+  .logo span{color:var(--orange)}
+  .head p{opacity:.85;font-size:14px;margin-top:4px}
+  .lang{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px}
+  .body{padding:24px}
+  .roles{display:flex;gap:10px;margin-bottom:20px}
+  .role{flex:1;border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-weight:600;transition:.2s}
+  .role .ic{font-size:26px;display:block;margin-bottom:4px}
+  .role.active{border-color:var(--orange);background:#fff7ea;color:var(--blue)}
+  .section-title{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;margin:18px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  label .req{color:var(--error)}
+  label .opt{color:var(--muted);font-weight:400;font-size:12px}
+  input,select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;outline:none}
+  input:focus,select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(18,63,120,.12)}
+  .field{margin-bottom:14px}
+  .row{display:flex;gap:10px}
+  .row > *{flex:1}
+  .phone{display:flex;gap:8px}
+  .phone select{width:120px;flex:none}
+  .err{color:var(--error);font-size:12px;margin-top:4px;display:none}
+  .field.bad input,.field.bad select{border-color:var(--error)}
+  .field.bad .err{display:block}
+  .check{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:6px 0 14px}
+  .check input{width:auto;margin-top:3px}
+  .btn{width:100%;background:var(--orange);color:#fff;border:none;padding:13px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .link{text-align:center;margin-top:14px;font-size:14px;color:var(--muted)}
+  .link a{color:var(--blue2);font-weight:600}
+  .hidden{display:none}
+  .otp-box{text-align:center}
+  .otp-box input{text-align:center;font-size:24px;letter-spacing:10px;max-width:240px;margin:14px auto}
+  .note{background:#fff7ea;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px;border-radius:6px;margin-bottom:14px}
+  .msg{padding:10px;border-radius:8px;font-size:14px;margin-bottom:12px;display:none}
+  .msg.error{display:block;background:#fdecec;color:var(--error)}
+  .success{text-align:center;padding:20px 0}
+  .success .big{font-size:60px;color:var(--ok)}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="head">
+    <div class="logo">Solu<span>tions</span></div>
+    <p data-en="Transport & Logistics" data-bn="ট্রান্সপোর্ট ও লজিস্টিকস">ট্রান্সপোর্ট ও লজিস্টিকস</p>
+    <button class="lang" id="langBtn">English</button>
+  </div>
+
+  <div class="body">
+    <div id="demoNote" class="note hidden" data-en="Demo mode: Firebase is not connected yet. OTP code is 123456." data-bn="ডেমো মোড: Firebase এখনো যুক্ত হয়নি। OTP কোড হলো 123456">ডেমো মোড: Firebase এখনো যুক্ত হয়নি। OTP কোড হলো 123456</div>
+    <div id="msg" class="msg"></div>
+
+    <!-- ===== STEP 1: FORM ===== -->
+    <form id="step1" novalidate>
+      <div class="roles">
+        <div class="role active" data-role="customer"><span class="ic">📦</span><span data-en="Customer" data-bn="কাস্টমার">কাস্টমার</span></div>
+        <div class="role" data-role="driver"><span class="ic">🚚</span><span data-en="Driver" data-bn="ড্রাইভার">ড্রাইভার</span></div>
+      </div>
+
+      <div class="section-title" data-en="Basic information" data-bn="সাধারণ তথ্য">সাধারণ তথ্য</div>
+
+      <div class="field" id="f-name">
+        <label><span data-en="Full name" data-bn="পুরো নাম">পুরো নাম</span> <span class="req">*</span></label>
+        <input type="text" id="name">
+        <div class="err" data-en="Please write your name" data-bn="নাম লিখুন">নাম লিখুন</div>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label><span data-en="Mobile number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</span> <span class="req">*</span></label>
+        <div class="phone">
+          <select id="cc">
+            <option value="+966">🇸🇦 +966</option>
+            <option value="+880">🇧🇩 +880</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+974">🇶🇦 +974</option>
+            <option value="+965">🇰🇼 +965</option>
+            <option value="+968">🇴🇲 +968</option>
+            <option value="+973">🇧🇭 +973</option>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+92">🇵🇰 +92</option>
+            <option value="+977">🇳🇵 +977</option>
+            <option value="+20">🇪🇬 +20</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+          </select>
+          <input type="tel" id="phone" placeholder="5XXXXXXXX">
+        </div>
+        <div class="err" data-en="Enter a valid mobile number" data-bn="সঠিক মোবাইল নম্বর দিন">সঠিক মোবাইল নম্বর দিন</div>
+      </div>
+
+      <div class="field">
+        <label><span data-en="Email" data-bn="ইমেইল">ইমেইল</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+        <input type="email" id="email">
+      </div>
+
+      <div class="field" id="f-city">
+        <label><span data-en="City" data-bn="শহর">শহর</span> <span class="req">*</span></label>
+        <input type="text" id="city">
+        <div class="err" data-en="Please write your city" data-bn="শহরের নাম লিখুন">শহরের নাম লিখুন</div>
+      </div>
+
+      <!-- Customer only -->
+      <div id="customerBox">
+        <div class="field">
+          <label><span data-en="Company name" data-bn="কোম্পানির নাম">কোম্পানির নাম</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+          <input type="text" id="company">
+        </div>
+      </div>
+
+      <!-- Driver only -->
+      <div id="driverBox" class="hidden">
+        <div class="section-title" data-en="Vehicle information" data-bn="গাড়ির তথ্য">গাড়ির তথ্য</div>
+        <div class="field" id="f-vtype">
+          <label><span data-en="Vehicle type" data-bn="গাড়ির ধরন">গাড়ির ধরন</span> <span class="req">*</span></label>
+          <select id="vtype">
+            <option value="" data-en="-- Select --" data-bn="-- বেছে নিন --">-- বেছে নিন --</option>
+            <option value="pickup" data-en="Pickup" data-bn="পিকআপ">পিকআপ</option>
+            <option value="van" data-en="Van" data-bn="ভ্যান">ভ্যান</option>
+            <option value="small_truck" data-en="Small truck" data-bn="ছোট ট্রাক">ছোট ট্রাক</option>
+            <option value="big_truck" data-en="Big truck" data-bn="বড় ট্রাক">বড় ট্রাক</option>
+            <option value="trailer" data-en="Trailer" data-bn="ট্রেইলার">ট্রেইলার</option>
+            <option value="refrigerated" data-en="Refrigerated truck" data-bn="ফ্রিজার ট্রাক">ফ্রিজার ট্রাক</option>
+          </select>
+          <div class="err" data-en="Select vehicle type" data-bn="গাড়ির ধরন বেছে নিন">গাড়ির ধরন বেছে নিন</div>
+        </div>
+        <div class="row">
+          <div class="field" id="f-plate">
+            <label><span data-en="Plate number" data-bn="নম্বর প্লেট">নম্বর প্লেট</span> <span class="req">*</span></label>
+            <input type="text" id="plate">
+            <div class="err" data-en="Required" data-bn="লিখুন">লিখুন</div>
+          </div>
+          <div class="field" id="f-cap">
+            <label><span data-en="Capacity (ton)" data-bn="ধারণক্ষমতা (টন)">ধারণক্ষমতা (টন)</span> <span class="req">*</span></label>
+            <input type="number" id="cap" min="0" step="0.5">
+            <div class="err" data-en="Required" data-bn="লিখুন">লিখুন</div>
+          </div>
+        </div>
+        <div class="field" id="f-license">
+          <label><span data-en="Driving license number" data-bn="ড্রাইভিং লাইসেন্স নম্বর">ড্রাইভিং লাইসেন্স নম্বর</span> <span class="req">*</span></label>
+          <input type="text" id="license">
+          <div class="err" data-en="Required" data-bn="লিখুন">লিখুন</div>
+        </div>
+      </div>
+
+      <div class="section-title" data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</div>
+      <div class="field" id="f-pass">
+        <label><span data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</span> <span class="req">*</span></label>
+        <input type="password" id="pass">
+        <div class="err" data-en="At least 6 characters" data-bn="কমপক্ষে ৬ অক্ষর">কমপক্ষে ৬ অক্ষর</div>
+      </div>
+      <div class="field" id="f-pass2">
+        <label><span data-en="Confirm password" data-bn="পাসওয়ার্ড আবার লিখুন">পাসওয়ার্ড আবার লিখুন</span> <span class="req">*</span></label>
+        <input type="password" id="pass2">
+        <div class="err" data-en="Passwords do not match" data-bn="পাসওয়ার্ড মেলেনি">পাসওয়ার্ড মেলেনি</div>
+      </div>
+
+      <div class="field" id="f-terms">
+        <label class="check"><input type="checkbox" id="terms"> <span data-en="I agree to the terms and conditions" data-bn="আমি শর্তাবলী মেনে নিচ্ছি">আমি শর্তাবলী মেনে নিচ্ছি</span></label>
+        <div class="err" data-en="You must accept the terms" data-bn="শর্তাবলী মানতে হবে">শর্তাবলী মানতে হবে</div>
+      </div>
+
+      <button type="submit" class="btn" id="sendBtn" data-en="Send OTP" data-bn="OTP পাঠান">OTP পাঠান</button>
+      <div class="link"><span data-en="Already have an account?" data-bn="আগে থেকেই অ্যাকাউন্ট আছে?">আগে থেকেই অ্যাকাউন্ট আছে?</span> <a href="login.html" data-en="Login" data-bn="লগইন">লগইন</a></div>
+    </form>
+
+    <!-- ===== STEP 2: OTP ===== -->
+    <div id="step2" class="hidden otp-box">
+      <h3 data-en="Verify your number" data-bn="নম্বর ভেরিফাই করুন">নম্বর ভেরিফাই করুন</h3>
+      <p style="color:var(--muted);margin-top:6px"><span data-en="We sent a 6-digit code to" data-bn="৬ সংখ্যার কোড পাঠানো হয়েছে">৬ সংখ্যার কোড পাঠানো হয়েছে</span> <b id="showPhone"></b></p>
+      <input type="text" id="otp" maxlength="6" inputmode="numeric" placeholder="------">
+      <button class="btn" id="verifyBtn" data-en="Verify & Create Account" data-bn="ভেরিফাই করে অ্যাকাউন্ট খুলুন">ভেরিফাই করে অ্যাকাউন্ট খুলুন</button>
+      <div class="link"><a href="#" id="backBtn" data-en="← Change number" data-bn="← নম্বর বদলান">← নম্বর বদলান</a></div>
+    </div>
+
+    <!-- ===== STEP 3: SUCCESS ===== -->
+    <div id="step3" class="hidden success">
+      <div class="big">✔</div>
+      <h3 data-en="Account created!" data-bn="অ্যাকাউন্ট তৈরি হয়েছে!">অ্যাকাউন্ট তৈরি হয়েছে!</h3>
+      <p style="color:var(--muted);margin:8px 0 16px" data-en="Welcome to Solutions." data-bn="Solutions-এ আপনাকে স্বাগতম।">Solutions-এ আপনাকে স্বাগতম।</p>
+      <a href="index.html" class="btn" style="display:block;text-decoration:none" data-en="Go to Home" data-bn="হোম পেজে যান">হোম পেজে যান</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+/* =========================================================
+   ধাপ ১: এখানে তোমার Firebase-এর তথ্য বসাও।
+   যতক্ষণ "YOUR_API_KEY" থাকবে, পেজ ডেমো মোডে চলবে (OTP = 123456)
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "000000000",
+  appId: "YOUR_APP_ID"
+};
+/* ========================================================= */
+
+const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
+const $ = id => document.getElementById(id);
+let lang = "bn", role = "customer", fb = null, confirmation = null, fullPhone = "";
+
+if (DEMO) $("demoNote").classList.remove("hidden");
+
+/* ---------- ভাষা বদল ---------- */
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
+  $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
+}
+$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
+
+/* ---------- কাস্টমার / ড্রাইভার ---------- */
+document.querySelectorAll(".role").forEach(r => r.onclick = () => {
+  document.querySelectorAll(".role").forEach(x => x.classList.remove("active"));
+  r.classList.add("active");
+  role = r.dataset.role;
+  $("driverBox").classList.toggle("hidden", role !== "driver");
+  $("customerBox").classList.toggle("hidden", role !== "customer");
+});
+
+/* ---------- মেসেজ ---------- */
+function showError(en, bn){ const m=$("msg"); m.className="msg error"; m.textContent = lang==="bn"?bn:en; }
+function clearError(){ $("msg").className="msg"; }
+
+/* ---------- ফর্ম চেক ---------- */
+function mark(id, bad){ $(id).classList.toggle("bad", bad); return !bad; }
+function validate(){
+  let ok = true;
+  ok &= mark("f-name", $("name").value.trim().length < 2);
+  ok &= mark("f-phone", !/^\d{7,12}$/.test($("phone").value.replace(/\D/g,"").replace(/^0+/,"")));
+  ok &= mark("f-city", !$("city").value.trim());
+  if (role === "driver"){
+    ok &= mark("f-vtype", !$("vtype").value);
+    ok &= mark("f-plate", !$("plate").value.trim());
+    ok &= mark("f-cap", !($("cap").value > 0));
+    ok &= mark("f-license", !$("license").value.trim());
+  }
+  ok &= mark("f-pass", $("pass").value.length < 6);
+  ok &= mark("f-pass2", $("pass2").value !== $("pass").value || !$("pass2").value);
+  ok &= mark("f-terms", !$("terms").checked);
+  return !!ok;
+}
+
+/* ---------- Firebase লোড ---------- */
+async function loadFirebase(){
+  if (fb) return fb;
+  const v = "10.12.2";
+  const app  = await import(`https://www.gstatic.com/firebasejs/${v}/firebase-app.js`);
+  const auth = await import(`https://www.gstatic.com/firebasejs/${v}/firebase-auth.js`);
+  const fs   = await import(`https://www.gstatic.com/firebasejs/${v}/firebase-firestore.js`);
+  const a = app.initializeApp(firebaseConfig);
+  fb = { authMod: auth, fsMod: fs, auth: auth.getAuth(a), db: fs.getFirestore(a) };
+  fb.recaptcha = new auth.RecaptchaVerifier(fb.auth, "sendBtn", { size: "invisible" });
+  return fb;
+}
+
+/* ---------- ধাপ ১: OTP পাঠানো ---------- */
+$("step1").onsubmit = async e => {
+  e.preventDefault(); clearError();
+  if (!validate()) return;
+  fullPhone = $("cc").value + $("phone").value.replace(/\D/g,"").replace(/^0+/,"");
+  $("sendBtn").disabled = true;
+  try {
+    if (!DEMO){
+      const f = await loadFirebase();
+      confirmation = await f.authMod.signInWithPhoneNumber(f.auth, fullPhone, f.recaptcha);
+    }
+    $("showPhone").textContent = fullPhone;
+    $("step1").classList.add("hidden");
+    $("step2").classList.remove("hidden");
+    $("otp").focus();
+  } catch(err){
+    console.error(err);
+    showError("Could not send OTP. Check the number and try again.", "OTP পাঠানো যায়নি। নম্বর ঠিক আছে কিনা দেখে আবার চেষ্টা করুন।");
+  }
+  $("sendBtn").disabled = false;
+};
+
+$("backBtn").onclick = e => {
+  e.preventDefault(); clearError();
+  $("step2").classList.add("hidden");
+  $("step1").classList.remove("hidden");
+};
+
+/* ---------- ধাপ ২: OTP ভেরিফাই + অ্যাকাউন্ট সেভ ---------- */
+$("verifyBtn").onclick = async () => {
+  clearError();
+  const code = $("otp").value.trim();
+  if (!/^\d{6}$/.test(code)) return showError("Enter the 6-digit code", "৬ সংখ্যার কোড দিন");
+  $("verifyBtn").disabled = true;
+
+  const data = {
+    role, name: $("name").value.trim(), phone: fullPhone,
+    email: $("email").value.trim(), city: $("city").value.trim(),
+    company: role === "customer" ? $("company").value.trim() : "",
+    vehicleType: role === "driver" ? $("vtype").value : "",
+    plateNumber: role === "driver" ? $("plate").value.trim() : "",
+    capacityTon: role === "driver" ? Number($("cap").value) : 0,
+    licenseNumber: role === "driver" ? $("license").value.trim() : "",
+    status: role === "driver" ? "pending" : "active"   // ড্রাইভার অ্যাডমিন চেক করার পর active হবে
+  };
+
+  try {
+    if (DEMO){
+      if (code !== "123456") throw new Error("bad-code");
+      console.log("DEMO - saved data:", data);
+    } else {
+      const res = await confirmation.confirm(code);
+      const user = res.user;
+      // পাসওয়ার্ড যুক্ত করা: পরে ফোন নম্বর + পাসওয়ার্ড দিয়ে লগইন করা যাবে
+      const loginEmail = fullPhone.replace("+","") + "@solutions-login.app";
+      const cred = fb.authMod.EmailAuthProvider.credential(loginEmail, $("pass").value);
+      await fb.authMod.linkWithCredential(user, cred);
+      // ইউজারের তথ্য Firestore-এ সেভ
+      await fb.fsMod.setDoc(fb.fsMod.doc(fb.db, "users", user.uid),
+        { ...data, createdAt: fb.fsMod.serverTimestamp() });
+    }
+    $("step2").classList.add("hidden");
+    $("step3").classList.remove("hidden");
+  } catch(err){
+    console.error(err);
+    if (err.code === "auth/credential-already-in-use" || err.code === "auth/email-already-in-use" || err.code === "auth/provider-already-linked")
+      showError("This number already has an account. Please login.", "এই নম্বরে আগে থেকেই অ্যাকাউন্ট আছে। লগইন করুন।");
+    else
+      showError("Wrong code or something went wrong. Try again.", "কোড ভুল অথবা সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+  }
+  $("verifyBtn").disabled = false;
+};
+
+applyLang();
+</script>
+</body>
+</html>
