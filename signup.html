@@ -44,6 +44,9 @@
   .link{text-align:center;margin-top:14px;font-size:14px;color:var(--muted)}
   .link a{color:var(--blue2);font-weight:600}
   .hidden{display:none}
+  .pw{position:relative}
+  .pw input{padding-right:46px}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px;padding:4px;line-height:1}
   .otp-box{text-align:center}
   .otp-box input{text-align:center;font-size:24px;letter-spacing:10px;max-width:240px;margin:14px auto}
   .note{background:#fff7ea;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px;border-radius:6px;margin-bottom:14px}
@@ -160,12 +163,12 @@
       <div class="section-title" data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</div>
       <div class="field" id="f-pass">
         <label><span data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</span> <span class="req">*</span></label>
-        <input type="password" id="pass">
+        <div class="pw"><input type="password" id="pass"><button type="button" class="eye" data-for="pass" aria-label="Show password">👁</button></div>
         <div class="err" data-en="At least 6 characters" data-bn="কমপক্ষে ৬ অক্ষর">কমপক্ষে ৬ অক্ষর</div>
       </div>
       <div class="field" id="f-pass2">
         <label><span data-en="Confirm password" data-bn="পাসওয়ার্ড আবার লিখুন">পাসওয়ার্ড আবার লিখুন</span> <span class="req">*</span></label>
-        <input type="password" id="pass2">
+        <div class="pw"><input type="password" id="pass2"><button type="button" class="eye" data-for="pass2" aria-label="Show password">👁</button></div>
         <div class="err" data-en="Passwords do not match" data-bn="পাসওয়ার্ড মেলেনি">পাসওয়ার্ড মেলেনি</div>
       </div>
 
@@ -224,6 +227,14 @@ document.querySelectorAll(".role").forEach(r => r.onclick = () => {
   role = r.dataset.role;
   $("driverBox").classList.toggle("hidden", role !== "driver");
   $("customerBox").classList.toggle("hidden", role !== "customer");
+});
+
+/* ---------- পাসওয়ার্ড দেখা / লুকানো ---------- */
+document.querySelectorAll(".eye").forEach(b => b.onclick = () => {
+  const inp = $(b.dataset.for);
+  const show = inp.type === "password";
+  inp.type = show ? "text" : "password";
+  b.textContent = show ? "🙈" : "👁";
 });
 
 /* ---------- মেসেজ ---------- */
