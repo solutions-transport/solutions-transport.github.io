@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0b2e59; --blue2:#123f78; --orange:#f39c12; --bg:#f2f5f9;
+    --text:#1d2633; --muted:#6b7686; --border:#d5dce6; --error:#d63031; --ok:#1e9e5a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  .top{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{font-size:22px;font-weight:700}
+  .logo span{color:var(--orange)}
+  .tag{background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px}
+  .top .sp{flex:1}
+  .tbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit}
+  .wrap{max-width:820px;margin:24px auto;padding:0 16px}
+  .card{background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.10);padding:24px;margin-bottom:20px}
+  h2{color:var(--blue);font-size:20px;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
+  .section-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--blue);margin:22px 0 12px;border-bottom:2px solid var(--border);padding-bottom:6px}
+  .num{background:var(--blue);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+  label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .req{color:var(--error)}
+  .opt{color:var(--muted);font-weight:400;font-size:12px}
+  input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fff}
+  textarea{min-height:80px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(18,63,120,.12)}
+  .field{margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+  .phone{display:flex;gap:8px}
+  .phone select{width:120px;flex:none}
+  .err{color:var(--error);font-size:12px;margin-top:4px;display:none}
+  .field.bad input,.field.bad select{border-color:var(--error)}
+  .field.bad .err{display:block}
+  .pw{position:relative}
+  .pw input{padding-right:46px}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px}
+  .btn{background:var(--orange);color:#fff;border:none;padding:13px 22px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit}
+  .btn.full{width:100%}
+  .btn.gray{background:#e6ebf2;color:var(--text)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .actions{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+  .msg{padding:10px 12px;border-radius:8px;font-size:14px;margin-bottom:14px;display:none}
+  .msg.error{display:block;background:#fdecec;color:var(--error)}
+  .msg.ok{display:block;background:#e6f6ee;color:var(--ok)}
+  .hidden{display:none !important}
+  .login{max-width:420px;margin:40px auto}
+  .filters{display:grid;grid-template-columns:1.5fr 1.2fr 1fr 1fr auto;gap:10px;margin-bottom:12px;align-items:end}
+  .filters label{font-size:12px;color:var(--muted);margin-bottom:3px}
+  @media(max-width:700px){.filters{grid-template-columns:1fr 1fr}.filters .wide{grid-column:1/-1}}
+  .count{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .act.ed{background:#e8eefb;color:var(--blue2)}
+  .editbar{background:#e8eefb;color:var(--blue2);border-radius:8px;padding:10px 12px;font-size:14px;font-weight:600;margin-bottom:12px}
+  tr.editing td{background:#fff7ea}
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th{color:var(--muted);font-weight:600;font-size:13px}
+  .empty{color:var(--muted);text-align:center;padding:20px}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{flex:1;min-width:160px;background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:15px;color:var(--text)}
+  .tab.active{border-color:var(--orange);background:#fff7ea;color:var(--blue)}
+  .badge{display:inline-block;min-width:22px;padding:1px 7px;border-radius:11px;background:var(--error);color:#fff;font-size:12px;margin-left:6px}
+  .st{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700}
+  .st.pending{background:#fff3d6;color:#a86b00}
+  .st.active{background:#e6f6ee;color:var(--ok)}
+  .st.rejected{background:#fdecec;color:var(--error)}
+  .small{font-size:12px;color:var(--muted)}
+  .act{border:none;border-radius:6px;padding:6px 10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;margin-right:4px}
+  .act.ok{background:var(--ok);color:#fff}
+  .act.no{background:var(--error);color:#fff}
+  .act:disabled{opacity:.5;cursor:wait}
+  .ufilters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:12px;align-items:end}
+  .ufilters label{font-size:12px;color:var(--muted);margin-bottom:3px}
+  @media(max-width:700px){.ufilters{grid-template-columns:1fr 1fr}.ufilters .wide{grid-column:1/-1}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="logo">Solu<span>tions</span></div>
+  <span class="tag">ADMIN</span>
+  <div class="sp"></div>
+  <button class="tbtn" id="langBtn">English</button>
+  <button class="tbtn hidden" id="logoutBtn" data-en="Logout" data-bn="লগআউট">লগআউট</button>
+</div>
+
+<!-- ===== অ্যাডমিন লগইন ===== -->
+<div class="wrap login" id="loginBox">
+  <div class="card">
+    <h2 data-en="Admin Login" data-bn="অ্যাডমিন লগইন">অ্যাডমিন লগইন</h2>
+    <p class="sub" data-en="Only admins can enter." data-bn="শুধু অ্যাডমিন ঢুকতে পারবে।">শুধু অ্যাডমিন ঢুকতে পারবে।</p>
+    <div id="loginMsg" class="msg"></div>
+    <div class="field">
+      <label data-en="Mobile number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</label>
+      <div class="phone">
+        <select id="lcc">
+          <option value="+966">🇸🇦 +966</option>
+          <option value="+880">🇧🇩 +880</option>
+          <option value="+971">🇦🇪 +971</option>
+        </select>
+        <input type="tel" id="lphone" placeholder="5XXXXXXXX">
+      </div>
+    </div>
+    <div class="field">
+      <label data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</label>
+      <div class="pw"><input type="password" id="lpass"><button type="button" class="eye" data-for="lpass">👁</button></div>
+    </div>
+    <button class="btn full" id="loginBtn" data-en="Login" data-bn="লগইন">লগইন</button>
+  </div>
+</div>
+
+<!-- ===== ক্লায়েন্ট ফর্ম ===== -->
+<div class="wrap hidden" id="adminBox">
+  <div class="tabs">
+    <button class="tab active" data-tab="usersPanel"><span data-en="User approval" data-bn="ইউজার অনুমোদন">ইউজার অনুমোদন</span><span class="badge hidden" id="pendBadge">0</span></button>
+    <button class="tab" data-tab="clientsPanel"><span data-en="Clients" data-bn="ক্লায়েন্ট">ক্লায়েন্ট</span></button>
+  </div>
+
+  <!-- ===== ইউজার অনুমোদন ===== -->
+  <div id="usersPanel">
+  <div class="card">
+    <h2 data-en="User approval" data-bn="ইউজার অনুমোদন">ইউজার অনুমোদন</h2>
+    <p class="sub" data-en="New sign-ups wait here. Approve or reject them." data-bn="নতুন সাইন আপ এখানে অপেক্ষা করে। অনুমোদন বা বাতিল করুন।">নতুন সাইন আপ এখানে অপেক্ষা করে। অনুমোদন বা বাতিল করুন।</p>
+    <div id="userMsg" class="msg"></div>
+    <div class="ufilters">
+      <div class="wide">
+        <label data-en="Search" data-bn="খুঁজুন">খুঁজুন</label>
+        <input type="text" id="uSearch" data-ph-en="Name, phone, plate..." data-ph-bn="নাম, ফোন, নম্বর প্লেট..." placeholder="নাম, ফোন, নম্বর প্লেট...">
+      </div>
+      <div>
+        <label data-en="Status" data-bn="অবস্থা">অবস্থা</label>
+        <select id="uStatus">
+          <option value="pending" data-en="Waiting" data-bn="অপেক্ষমাণ">অপেক্ষমাণ</option>
+          <option value="active" data-en="Approved" data-bn="অনুমোদিত">অনুমোদিত</option>
+          <option value="rejected" data-en="Rejected" data-bn="বাতিল">বাতিল</option>
+          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
+        </select>
+      </div>
+      <div>
+        <label data-en="User type" data-bn="ইউজারের ধরন">ইউজারের ধরন</label>
+        <select id="uRole">
+          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
+          <option value="customer" data-en="Customer" data-bn="কাস্টমার">কাস্টমার</option>
+          <option value="driver" data-en="Driver" data-bn="ড্রাইভার">ড্রাইভার</option>
+        </select>
+      </div>
+    </div>
+    <div class="count" id="uCount"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th data-en="Name" data-bn="নাম">নাম</th>
+          <th data-en="Type" data-bn="ধরন">ধরন</th>
+          <th data-en="Phone" data-bn="ফোন">ফোন</th>
+          <th data-en="Details" data-bn="বিস্তারিত">বিস্তারিত</th>
+          <th data-en="Status" data-bn="অবস্থা">অবস্থা</th>
+          <th data-en="Action" data-bn="কাজ">কাজ</th>
+        </tr></thead>
+        <tbody id="uRows"><tr><td colspan="6" class="empty">…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <!-- ===== ক্লায়েন্ট ===== -->
+  <div id="clientsPanel" class="hidden">
+  <div class="card">
+    <h2 data-en="Client Information Form" data-bn="ক্লায়েন্ট তথ্য ফর্ম">ক্লায়েন্ট তথ্য ফর্ম</h2>
+    <p class="sub" data-en="Fields marked * are required." data-bn="* চিহ্নিত ঘরগুলো অবশ্যই পূরণ করতে হবে।">* চিহ্নিত ঘরগুলো অবশ্যই পূরণ করতে হবে।</p>
+    <div id="formMsg" class="msg"></div>
+    <div id="editBar" class="editbar hidden"></div>
+
+    <form id="clientForm" novalidate>
+
+      <!-- ১. কোম্পানির তথ্য -->
+      <div class="section-title"><span class="num">1</span><span data-en="Company information" data-bn="কোম্পানির তথ্য">কোম্পানির তথ্য</span></div>
+      <div class="field" id="f-cname">
+        <label><span data-en="Company name" data-bn="কোম্পানির নাম">কোম্পানির নাম</span> <span class="req">*</span></label>
+        <input type="text" id="cname">
+        <div class="err" data-en="Write the company name" data-bn="কোম্পানির নাম লিখুন">কোম্পানির নাম লিখুন</div>
+      </div>
+      <div class="grid">
+        <div class="field" id="f-ctype">
+          <label><span data-en="Company type" data-bn="কোম্পানির ধরন">কোম্পানির ধরন</span> <span class="req">*</span></label>
+          <select id="ctype">
+            <option value="" data-en="-- Select --" data-bn="-- বেছে নিন --">-- বেছে নিন --</option>
+            <option value="trading" data-en="Trading" data-bn="ট্রেডিং">ট্রেডিং</option>
+            <option value="construction" data-en="Construction" data-bn="কনস্ট্রাকশন">কনস্ট্রাকশন</option>
+            <option value="factory" data-en="Factory / Manufacturing" data-bn="কারখানা / ম্যানুফ্যাকচারিং">কারখানা / ম্যানুফ্যাকচারিং</option>
+            <option value="wholesale" data-en="Wholesale" data-bn="পাইকারি ব্যবসা">পাইকারি ব্যবসা</option>
+            <option value="retail" data-en="Retail / Shop" data-bn="খুচরা / দোকান">খুচরা / দোকান</option>
+            <option value="food" data-en="Food / Restaurant" data-bn="খাবার / রেস্টুরেন্ট">খাবার / রেস্টুরেন্ট</option>
+            <option value="logistics" data-en="Logistics / Transport" data-bn="লজিস্টিকস / ট্রান্সপোর্ট">লজিস্টিকস / ট্রান্সপোর্ট</option>
+            <option value="individual" data-en="Individual (no company)" data-bn="ব্যক্তিগত (কোম্পানি নয়)">ব্যক্তিগত (কোম্পানি নয়)</option>
+            <option value="other" data-en="Other" data-bn="অন্যান্য">অন্যান্য</option>
+          </select>
+          <div class="err" data-en="Select the company type" data-bn="কোম্পানির ধরন বেছে নিন">কোম্পানির ধরন বেছে নিন</div>
+        </div>
+        <div class="field">
+          <label><span data-en="CR number" data-bn="সিআর (CR) নম্বর">সিআর (CR) নম্বর</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+          <input type="text" id="cr">
+        </div>
+      </div>
+
+      <!-- ২. যোগাযোগের তথ্য -->
+      <div class="section-title"><span class="num">2</span><span data-en="Contact information" data-bn="যোগাযোগের তথ্য">যোগাযোগের তথ্য</span></div>
+      <div class="field">
+        <label><span data-en="Contact person name" data-bn="যোগাযোগকারীর নাম">যোগাযোগকারীর নাম</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+        <input type="text" id="contact">
+      </div>
+      <div class="grid">
+        <div class="field" id="f-phone">
+          <label><span data-en="Phone number" data-bn="ফোন নম্বর">ফোন নম্বর</span> <span class="req">*</span></label>
+          <div class="phone">
+            <select id="cc">
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+880">🇧🇩 +880</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+974">🇶🇦 +974</option>
+              <option value="+965">🇰🇼 +965</option>
+              <option value="+968">🇴🇲 +968</option>
+              <option value="+973">🇧🇭 +973</option>
+            </select>
+            <input type="tel" id="phone" placeholder="5XXXXXXXX">
+          </div>
+          <div class="err" data-en="Enter a valid phone number" data-bn="সঠিক ফোন নম্বর দিন">সঠিক ফোন নম্বর দিন</div>
+        </div>
+        <div class="field" id="f-email">
+          <label><span data-en="Email" data-bn="ইমেইল">ইমেইল</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+          <input type="email" id="email">
+          <div class="err" data-en="Email is not correct" data-bn="ইমেইল সঠিক নয়">ইমেইল সঠিক নয়</div>
+        </div>
+      </div>
+
+      <!-- ৩. কোম্পানির ঠিকানা -->
+      <div class="section-title"><span class="num">3</span><span data-en="Company address" data-bn="কোম্পানির ঠিকানা">কোম্পানির ঠিকানা</span></div>
+      <div class="grid">
+        <div class="field" id="f-city">
+          <label><span data-en="City" data-bn="শহর">শহর</span> <span class="req">*</span></label>
+          <input type="text" id="city">
+          <div class="err" data-en="Write the city" data-bn="শহরের নাম লিখুন">শহরের নাম লিখুন</div>
+        </div>
+        <div class="field">
+          <label><span data-en="District / Area" data-bn="এলাকা">এলাকা</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+          <input type="text" id="area">
+        </div>
+      </div>
+      <div class="field">
+        <label><span data-en="Full address (street, building)" data-bn="পূর্ণ ঠিকানা (রাস্তা, বিল্ডিং)">পূর্ণ ঠিকানা (রাস্তা, বিল্ডিং)</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+        <input type="text" id="address">
+      </div>
+      <div class="field">
+        <label><span data-en="Google Maps link" data-bn="গুগল ম্যাপ লিংক">গুগল ম্যাপ লিংক</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+        <input type="url" id="maplink" placeholder="https://maps.app.goo.gl/...">
+      </div>
+
+      <!-- ৪. অন্যান্য -->
+      <div class="section-title"><span class="num">4</span><span data-en="Other" data-bn="অন্যান্য">অন্যান্য</span></div>
+      <div class="field">
+        <label><span data-en="Notes" data-bn="নোট">নোট</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
+        <textarea id="notes"></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn" id="saveBtn" data-en="Save client" data-bn="ক্লায়েন্ট সেভ করুন">ক্লায়েন্ট সেভ করুন</button>
+        <button type="reset" class="btn gray" id="resetBtn" data-en="Clear form" data-bn="ফর্ম খালি করুন">ফর্ম খালি করুন</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== সেভ করা ক্লায়েন্টের তালিকা ===== -->
+  <div class="card">
+    <h2 data-en="Client list" data-bn="ক্লায়েন্ট তালিকা">ক্লায়েন্ট তালিকা</h2>
+    <p class="sub" data-en="Latest 100 clients" data-bn="সর্বশেষ ১০০ জন ক্লায়েন্ট">সর্বশেষ ১০০ জন ক্লায়েন্ট</p>
+    <div class="filters">
+      <div class="wide">
+        <label data-en="Search" data-bn="খুঁজুন">খুঁজুন</label>
+        <input type="text" id="search" data-ph-en="Name, phone or email..." data-ph-bn="নাম, ফোন বা ইমেইল..." placeholder="নাম, ফোন বা ইমেইল...">
+      </div>
+      <div>
+        <label data-en="Company name" data-bn="কোম্পানির নাম">কোম্পানির নাম</label>
+        <select id="fName"></select>
+      </div>
+      <div>
+        <label data-en="Company type" data-bn="কোম্পানির ধরন">কোম্পানির ধরন</label>
+        <select id="fType"></select>
+      </div>
+      <div>
+        <label data-en="City" data-bn="শহর">শহর</label>
+        <select id="fCity"></select>
+      </div>
+      <button type="button" class="btn gray" id="fClear" data-en="Reset" data-bn="রিসেট">রিসেট</button>
+    </div>
+    <div class="count" id="count"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th data-en="Company" data-bn="কোম্পানি">কোম্পানি</th>
+          <th data-en="Type" data-bn="ধরন">ধরন</th>
+          <th data-en="Phone" data-bn="ফোন">ফোন</th>
+          <th data-en="Email" data-bn="ইমেইল">ইমেইল</th>
+          <th data-en="City" data-bn="শহর">শহর</th>
+          <th data-en="Action" data-bn="কাজ">কাজ</th>
+        </tr></thead>
+        <tbody id="rows"><tr><td colspan="6" class="empty">…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDdYRVY6tnAd1ovEmq_7nvqtmMcFoHN9wA",
+  authDomain: "solutions-transport.firebaseapp.com",
+  projectId: "solutions-transport",
+  storageBucket: "solutions-transport.firebasestorage.app",
+  messagingSenderId: "166077237931",
+  appId: "1:166077237931:web:23d45ede46e66bf45e85ee"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+let lang = "bn", clients = [], users = [], editId = null;
+
+/* ---------- ভাষা ---------- */
+const typeName = v => { const o = document.querySelector(`#ctype option[value="${v}"]`); return o ? o.dataset[lang] : v; };
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
+  document.querySelectorAll("[data-ph-en]").forEach(el => el.placeholder = lang === "bn" ? el.dataset.phBn : el.dataset.phEn);
+  $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
+  renderRows(); renderUsers(); if (editId) setEdit(editId);
+}
+$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
+
+/* ---------- পাসওয়ার্ড দেখা ---------- */
+document.querySelectorAll(".eye").forEach(b => b.onclick = () => {
+  const i = $(b.dataset.for); const s = i.type === "password";
+  i.type = s ? "text" : "password"; b.textContent = s ? "🙈" : "👁";
+});
+
+function say(boxId, type, en, bn){ const m = $(boxId); m.className = "msg " + type; m.textContent = lang === "bn" ? bn : en; }
+function hush(boxId){ $(boxId).className = "msg"; }
+const cleanPhone = (cc, v) => cc + v.replace(/\D/g, "").replace(/^0+/, "");
+
+/* ---------- লগইন ---------- */
+$("loginBtn").onclick = async () => {
+  hush("loginMsg");
+  const phone = cleanPhone($("lcc").value, $("lphone").value);
+  const email = phone.replace("+", "") + "@solutions-login.app";
+  $("loginBtn").disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, email, $("lpass").value);
+  } catch(e){
+    console.error(e);
+    say("loginMsg", "error", "Wrong number or password.", "নম্বর বা পাসওয়ার্ড ভুল।");
+  }
+  $("loginBtn").disabled = false;
+};
+$("logoutBtn").onclick = () => signOut(auth);
+
+/* ---------- অ্যাডমিন কিনা চেক ---------- */
+onAuthStateChanged(auth, async user => {
+  if (!user){
+    $("loginBox").classList.remove("hidden");
+    $("adminBox").classList.add("hidden");
+    $("logoutBtn").classList.add("hidden");
+    return;
+  }
+  const adm = await getDoc(doc(db, "admins", user.uid)).catch(() => null);
+  if (!adm || !adm.exists()){
+    await signOut(auth);
+    say("loginMsg", "error", "This account is not an admin.", "এই অ্যাকাউন্ট অ্যাডমিন না।");
+    return;
+  }
+  $("loginBox").classList.add("hidden");
+  $("adminBox").classList.remove("hidden");
+  $("logoutBtn").classList.remove("hidden");
+  loadClients(); loadUsers();
+});
+
+/* ---------- ফর্ম চেক ---------- */
+function mark(id, bad){ $(id).classList.toggle("bad", bad); return !bad; }
+function validate(){
+  let ok = true;
+  ok &= mark("f-cname", !$("cname").value.trim());
+  ok &= mark("f-ctype", !$("ctype").value);
+  ok &= mark("f-phone", !/^\d{7,12}$/.test($("phone").value.replace(/\D/g, "").replace(/^0+/, "")));
+  const em = $("email").value.trim();
+  ok &= mark("f-email", em !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em));
+  ok &= mark("f-city", !$("city").value.trim());
+  return !!ok;
+}
+
+/* ---------- সেভ ---------- */
+$("clientForm").onsubmit = async e => {
+  e.preventDefault(); hush("formMsg");
+  if (!validate()) return;
+  $("saveBtn").disabled = true;
+  const data = {
+    companyName: $("cname").value.trim(),
+    companyType: $("ctype").value,
+    crNumber: $("cr").value.trim(),
+    contactPerson: $("contact").value.trim(),
+    phone: cleanPhone($("cc").value, $("phone").value),
+    email: $("email").value.trim(),
+    city: $("city").value.trim(),
+    area: $("area").value.trim(),
+    address: $("address").value.trim(),
+    mapLink: $("maplink").value.trim(),
+    notes: $("notes").value.trim()
+  };
+  try {
+    if (editId){
+      await updateDoc(doc(db, "clients", editId), { ...data, updatedBy: auth.currentUser.uid, updatedAt: serverTimestamp() });
+      say("formMsg", "ok", "Client updated ✓", "ক্লায়েন্ট আপডেট হয়েছে ✓");
+    } else {
+      await addDoc(collection(db, "clients"), { ...data, createdBy: auth.currentUser.uid, createdAt: serverTimestamp() });
+      say("formMsg", "ok", "Client saved ✓", "ক্লায়েন্ট সেভ হয়েছে ✓");
+    }
+    $("clientForm").reset();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    loadClients();
+  } catch(err){
+    console.error(err);
+    say("formMsg", "error", "Could not save. Try again.", "সেভ হয়নি। আবার চেষ্টা করুন।");
+  }
+  $("saveBtn").disabled = false;
+};
+$("clientForm").onreset = () => {
+  document.querySelectorAll(".field.bad").forEach(f => f.classList.remove("bad"));
+  setEdit(null);
+};
+function setEdit(id){
+  editId = id;
+  const c = clients.find(x => x.id === id);
+  $("editBar").classList.toggle("hidden", !c);
+  if (c) $("editBar").textContent = T(`✏️ Editing: ${c.companyName} — change the fields and press "Update". Press "Cancel" to stop.`, `✏️ এডিট হচ্ছে: ${c.companyName} — ঘরগুলো বদলে "আপডেট করুন" চাপুন। বাদ দিতে "বাতিল" চাপুন।`);
+  $("saveBtn").textContent = c ? T("Update client", "আপডেট করুন") : T("Save client", "ক্লায়েন্ট সেভ করুন");
+  $("resetBtn").textContent = c ? T("Cancel", "বাতিল") : T("Clear form", "ফর্ম খালি করুন");
+  renderRows();
+}
+
+/* ---------- তালিকা ---------- */
+async function loadClients(){
+  try {
+    const snap = await getDocs(query(collection(db, "clients"), orderBy("createdAt", "desc"), limit(100)));
+    clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e){ console.error(e); clients = []; }
+  renderRows();
+}
+function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function fillFilters(){
+  const all = lang === "bn" ? "-- সব --" : "-- All --";
+  const keepT = $("fType").value, keepC = $("fCity").value, keepN = $("fName").value;
+  const names = [...new Set(clients.map(c => (c.companyName || "").trim()).filter(Boolean))].sort((x, y) => x.localeCompare(y));
+  $("fName").innerHTML = `<option value="">${all}</option>` + names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join("");
+  $("fName").value = names.includes(keepN) ? keepN : "";
+  const types = [...document.querySelectorAll("#ctype option")].filter(o => o.value);
+  $("fType").innerHTML = `<option value="">${all}</option>` + types.map(o => `<option value="${o.value}">${esc(o.dataset[lang])}</option>`).join("");
+  const cities = [...new Set(clients.map(c => (c.city || "").trim()).filter(Boolean))].sort((x, y) => x.localeCompare(y));
+  $("fCity").innerHTML = `<option value="">${all}</option>` + cities.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+  $("fType").value = keepT; $("fCity").value = cities.includes(keepC) ? keepC : "";
+}
+function renderRows(){
+  fillFilters();
+  const q = $("search").value.trim().toLowerCase();
+  const t = $("fType").value, city = $("fCity").value, nm = $("fName").value;
+  const list = clients.filter(c =>
+    (!q || [c.companyName, c.phone, c.email, c.contactPerson].join(" ").toLowerCase().includes(q)) &&
+    (!nm || (c.companyName || "").trim() === nm) &&
+    (!t || c.companyType === t) &&
+    (!city || (c.city || "").trim() === city));
+  $("count").textContent = lang === "bn" ? `মোট ${list.length} জন দেখানো হচ্ছে` : `Showing ${list.length}`;
+  $("rows").innerHTML = list.length
+    ? list.map(c => `<tr class="${c.id === editId ? "editing" : ""}"><td>${esc(c.companyName)}</td><td>${esc(typeName(c.companyType))}</td><td>${esc(c.phone)}</td><td>${esc(c.email)}</td><td>${esc(c.city)}</td>
+      <td><button class="act ed" data-edit="${c.id}">✏️ ${lang === "bn" ? "এডিট" : "Edit"}</button><button class="act no" data-del="${c.id}">🗑 ${lang === "bn" ? "মুছুন" : "Delete"}</button></td></tr>`).join("")
+    : `<tr><td colspan="6" class="empty">${lang === "bn" ? "কোনো ক্লায়েন্ট পাওয়া যায়নি" : "No clients found"}</td></tr>`;
+}
+$("fName").onchange = renderRows;
+$("fType").onchange = renderRows;
+$("fCity").onchange = renderRows;
+$("fClear").onclick = () => { $("search").value = ""; $("fName").value = ""; $("fType").value = ""; $("fCity").value = ""; renderRows(); };
+
+/* ---------- এডিট / ডিলিট ---------- */
+$("rows").onclick = async e => {
+  const ed = e.target.closest("button[data-edit]"), del = e.target.closest("button[data-del]");
+  if (ed){
+    const c = clients.find(x => x.id === ed.dataset.edit); if (!c) return;
+    $("clientForm").reset();
+    $("cname").value = c.companyName || ""; $("ctype").value = c.companyType || ""; $("cr").value = c.crNumber || "";
+    $("contact").value = c.contactPerson || "";
+    const cc = [...$("cc").options].map(o => o.value).sort((a, b) => b.length - a.length).find(v => (c.phone || "").startsWith(v));
+    if (cc){ $("cc").value = cc; $("phone").value = c.phone.slice(cc.length); } else $("phone").value = c.phone || "";
+    $("email").value = c.email || ""; $("city").value = c.city || ""; $("area").value = c.area || "";
+    $("address").value = c.address || ""; $("maplink").value = c.mapLink || ""; $("notes").value = c.notes || "";
+    hush("formMsg"); setEdit(c.id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  if (del){
+    const c = clients.find(x => x.id === del.dataset.del); if (!c) return;
+    if (!confirm(lang === "bn" ? `"${c.companyName}" মুছে ফেলবেন? এটা আর ফেরত আনা যাবে না।` : `Delete "${c.companyName}"? This cannot be undone.`)) return;
+    del.disabled = true;
+    try {
+      await deleteDoc(doc(db, "clients", c.id));
+      if (editId === c.id) $("clientForm").reset();
+      clients = clients.filter(x => x.id !== c.id);
+      say("formMsg", "ok", "Client deleted", "ক্লায়েন্ট মুছে ফেলা হয়েছে");
+      renderRows();
+    } catch(err){
+      console.error(err); del.disabled = false;
+      say("formMsg", "error", "Could not delete. Try again.", "মোছা যায়নি। আবার চেষ্টা করুন।");
+    }
+  }
+};
+$("search").oninput = renderRows;
+
+/* ---------- ট্যাব ---------- */
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  t.classList.add("active");
+  ["usersPanel", "clientsPanel"].forEach(id => $(id).classList.toggle("hidden", id !== t.dataset.tab));
+});
+
+/* ---------- ইউজার অনুমোদন ---------- */
+const T = (en, bn) => lang === "bn" ? bn : en;
+const VEH = { pickup:["Pickup","পিকআপ"], van:["Van","ভ্যান"], small_truck:["Small truck","ছোট ট্রাক"], big_truck:["Big truck","বড় ট্রাক"], trailer:["Trailer","ট্রেইলার"], refrigerated:["Refrigerated truck","ফ্রিজার ট্রাক"] };
+const STATUS = { pending:["Waiting","অপেক্ষমাণ"], active:["Approved","অনুমোদিত"], rejected:["Rejected","বাতিল"] };
+
+async function loadUsers(){
+  try {
+    const snap = await getDocs(query(collection(db, "users"), orderBy("createdAt", "desc"), limit(300)));
+    users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e){ console.error(e); users = []; }
+  renderUsers();
+}
+function details(u){
+  if (u.role === "driver"){
+    const v = VEH[u.vehicleType]; const vn = v ? T(v[0], v[1]) : (u.vehicleType || "");
+    return `${esc(vn)} · ${esc(u.plateNumber)} · ${esc(u.capacityTon)} ${T("ton","টন")}<br><span class="small">${T("License","লাইসেন্স")}: ${esc(u.licenseNumber)}${u.city ? " · " + esc(u.city) : ""}</span>`;
+  }
+  return `${esc(u.company || "-")}<br><span class="small">${esc(u.email || "")}${u.city ? " · " + esc(u.city) : ""}</span>`;
+}
+function renderUsers(){
+  const q = $("uSearch").value.trim().toLowerCase();
+  const st = $("uStatus").value, rl = $("uRole").value;
+  const list = users.filter(u =>
+    (!st || u.status === st) && (!rl || u.role === rl) &&
+    (!q || [u.name, u.phone, u.plateNumber, u.company, u.email].join(" ").toLowerCase().includes(q)));
+  const pend = users.filter(u => u.status === "pending").length;
+  $("pendBadge").textContent = pend; $("pendBadge").classList.toggle("hidden", !pend);
+  $("uCount").textContent = T(`Showing ${list.length}`, `মোট ${list.length} জন দেখানো হচ্ছে`);
+  $("uRows").innerHTML = list.length ? list.map(u => {
+    const s = STATUS[u.status] || [u.status, u.status];
+    const btns =
+      (u.status !== "active"   ? `<button class="act ok" data-id="${u.id}" data-to="active">✓ ${T("Approve","অনুমোদন")}</button>` : "") +
+      (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "");
+    return `<tr><td>${esc(u.name)}</td><td>${u.role === "driver" ? T("Driver","ড্রাইভার") : T("Customer","কাস্টমার")}</td>
+      <td>${esc(u.phone)}</td><td>${details(u)}</td>
+      <td><span class="st ${esc(u.status)}">${T(s[0], s[1])}</span></td><td>${btns}</td></tr>`;
+  }).join("") : `<tr><td colspan="6" class="empty">${T("No users here","এখানে কোনো ইউজার নেই")}</td></tr>`;
+}
+$("uRows").onclick = async e => {
+  const b = e.target.closest("button[data-id]"); if (!b) return;
+  const u = users.find(x => x.id === b.dataset.id); const to = b.dataset.to;
+  const ask = to === "active" ? T(`Approve ${u.name}?`, `${u.name}-কে অনুমোদন দেবেন?`) : T(`Reject ${u.name}?`, `${u.name}-কে বাতিল করবেন?`);
+  if (!confirm(ask)) return;
+  b.disabled = true; hush("userMsg");
+  try {
+    await updateDoc(doc(db, "users", u.id), { status: to, reviewedBy: auth.currentUser.uid, reviewedAt: serverTimestamp() });
+    u.status = to;
+    say("userMsg", "ok", to === "active" ? "Approved ✓" : "Rejected", to === "active" ? "অনুমোদন দেওয়া হয়েছে ✓" : "বাতিল করা হয়েছে");
+    renderUsers();
+  } catch(err){
+    console.error(err); b.disabled = false;
+    say("userMsg", "error", "Could not update. Try again.", "আপডেট হয়নি। আবার চেষ্টা করুন।");
+  }
+};
+$("uSearch").oninput = renderUsers;
+$("uStatus").onchange = renderUsers;
+$("uRole").onchange = renderUsers;
+
+applyLang();
+</script>
+</body>
+</html>
