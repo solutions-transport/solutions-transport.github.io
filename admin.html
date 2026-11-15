@@ -77,6 +77,17 @@
   .act.ok{background:var(--ok);color:#fff}
   .act.no{background:var(--error);color:#fff}
   .act:disabled{opacity:.5;cursor:wait}
+  .modal{position:fixed;inset:0;background:rgba(11,46,89,.45);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:50}
+  .mbox{background:#fff;border-radius:14px;max-width:520px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .mhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .mhead h3{flex:1;color:var(--blue);font-size:19px}
+  .x{background:#e6ebf2;border:none;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer}
+  .dl{display:grid;grid-template-columns:150px 1fr;border-top:1px solid var(--border)}
+  .dl div{padding:9px 4px;border-bottom:1px solid var(--border);font-size:14px;word-break:break-word}
+  .dl .k{color:var(--muted);font-weight:600}
+  .msec{font-weight:700;color:var(--blue);font-size:13px;margin:16px 0 6px}
+  .mact{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .act.view{background:#e8eefb;color:var(--blue2)}
   .ufilters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:12px;align-items:end}
   .ufilters label{font-size:12px;color:var(--muted);margin-bottom:3px}
   @media(max-width:700px){.ufilters{grid-template-columns:1fr 1fr}.ufilters .wide{grid-column:1/-1}}
@@ -106,12 +117,12 @@
           <option value="+880">🇧🇩 +880</option>
           <option value="+971">🇦🇪 +971</option>
         </select>
-        <input type="tel" id="lphone" placeholder="5XXXXXXXX">
+        <input type="tel" id="lphone" placeholder="5XXXXXXXX" autocomplete="username">
       </div>
     </div>
     <div class="field">
       <label data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</label>
-      <div class="pw"><input type="password" id="lpass"><button type="button" class="eye" data-for="lpass">👁</button></div>
+      <div class="pw"><input type="password" id="lpass" autocomplete="current-password"><button type="button" class="eye" data-for="lpass">👁</button></div>
     </div>
     <button class="btn full" id="loginBtn" data-en="Login" data-bn="লগইন">লগইন</button>
   </div>
@@ -120,15 +131,15 @@
 <!-- ===== ক্লায়েন্ট ফর্ম ===== -->
 <div class="wrap hidden" id="adminBox">
   <div class="tabs">
-    <button class="tab active" data-tab="usersPanel"><span data-en="User approval" data-bn="ইউজার অনুমোদন">ইউজার অনুমোদন</span><span class="badge hidden" id="pendBadge">0</span></button>
+    <button class="tab active" data-tab="usersPanel"><span data-en="Customers &amp; Drivers" data-bn="কাস্টমার ও ড্রাইভার">কাস্টমার ও ড্রাইভার</span><span class="badge hidden" id="pendBadge">0</span></button>
     <button class="tab" data-tab="clientsPanel"><span data-en="Clients" data-bn="ক্লায়েন্ট">ক্লায়েন্ট</span></button>
   </div>
 
   <!-- ===== ইউজার অনুমোদন ===== -->
   <div id="usersPanel">
   <div class="card">
-    <h2 data-en="User approval" data-bn="ইউজার অনুমোদন">ইউজার অনুমোদন</h2>
-    <p class="sub" data-en="New sign-ups wait here. Approve or reject them." data-bn="নতুন সাইন আপ এখানে অপেক্ষা করে। অনুমোদন বা বাতিল করুন।">নতুন সাইন আপ এখানে অপেক্ষা করে। অনুমোদন বা বাতিল করুন।</p>
+    <h2 data-en="Customers &amp; Drivers" data-bn="কাস্টমার ও ড্রাইভার">কাস্টমার ও ড্রাইভার</h2>
+    <p class="sub" data-en="Everyone who signed up. Press &quot;View&quot; to see full details, and approve or reject." data-bn="যারা সাইন আপ করেছে সবাই এখানে। পুরো তথ্য দেখতে &quot;দেখুন&quot; চাপুন, আর অনুমোদন বা বাতিল করুন।">যারা সাইন আপ করেছে সবাই এখানে। পুরো তথ্য দেখতে "দেখুন" চাপুন, আর অনুমোদন বা বাতিল করুন।</p>
     <div id="userMsg" class="msg"></div>
     <div class="ufilters">
       <div class="wide">
@@ -138,10 +149,10 @@
       <div>
         <label data-en="Status" data-bn="অবস্থা">অবস্থা</label>
         <select id="uStatus">
+          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
           <option value="pending" data-en="Waiting" data-bn="অপেক্ষমাণ">অপেক্ষমাণ</option>
           <option value="active" data-en="Approved" data-bn="অনুমোদিত">অনুমোদিত</option>
           <option value="rejected" data-en="Rejected" data-bn="বাতিল">বাতিল</option>
-          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
         </select>
       </div>
       <div>
@@ -317,6 +328,15 @@
   </div>
 </div>
 
+<!-- ===== ইউজারের পুরো তথ্য ===== -->
+<div class="modal hidden" id="uModal">
+  <div class="mbox">
+    <div class="mhead"><h3 id="mTitle"></h3><button class="x" id="mClose">✕</button></div>
+    <div id="mBody"></div>
+    <div class="mact" id="mAct"></div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -344,7 +364,7 @@ function applyLang(){
   document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
   document.querySelectorAll("[data-ph-en]").forEach(el => el.placeholder = lang === "bn" ? el.dataset.phBn : el.dataset.phEn);
   $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
-  renderRows(); renderUsers(); if (editId) setEdit(editId);
+  renderRows(); renderUsers(); if (editId) setEdit(editId); if (viewId) openUser(viewId);
 }
 $("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
 
@@ -567,7 +587,7 @@ function renderUsers(){
   $("uCount").textContent = T(`Showing ${list.length}`, `মোট ${list.length} জন দেখানো হচ্ছে`);
   $("uRows").innerHTML = list.length ? list.map(u => {
     const s = STATUS[u.status] || [u.status, u.status];
-    const btns =
+    const btns = `<button class="act view" data-view="${u.id}">👁 ${T("View","দেখুন")}</button>` +
       (u.status !== "active"   ? `<button class="act ok" data-id="${u.id}" data-to="active">✓ ${T("Approve","অনুমোদন")}</button>` : "") +
       (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "");
     return `<tr><td>${esc(u.name)}</td><td>${u.role === "driver" ? T("Driver","ড্রাইভার") : T("Customer","কাস্টমার")}</td>
@@ -575,7 +595,50 @@ function renderUsers(){
       <td><span class="st ${esc(u.status)}">${T(s[0], s[1])}</span></td><td>${btns}</td></tr>`;
   }).join("") : `<tr><td colspan="6" class="empty">${T("No users here","এখানে কোনো ইউজার নেই")}</td></tr>`;
 }
-$("uRows").onclick = async e => {
+const fmtDate = ts => ts && ts.toDate ? ts.toDate().toLocaleString(lang === "bn" ? "bn-BD" : "en-GB", { dateStyle: "medium", timeStyle: "short" }) : "-";
+let viewId = null;
+function openUser(id){
+  const u = users.find(x => x.id === id); if (!u) return;
+  viewId = id;
+  const row = (k, v) => `<div class="k">${k}</div><div>${v === "" || v == null ? "-" : v}</div>`;
+  const s = STATUS[u.status] || [u.status, u.status];
+  let h = `<div class="msec">${T("Basic information","সাধারণ তথ্য")}</div><div class="dl">` +
+    row(T("Name","নাম"), esc(u.name)) +
+    row(T("Type","ধরন"), u.role === "driver" ? T("🚚 Driver","🚚 ড্রাইভার") : T("📦 Customer","📦 কাস্টমার")) +
+    row(T("Mobile","মোবাইল"), `<a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> · <a href="https://wa.me/${esc((u.phone||"").replace("+",""))}" target="_blank">WhatsApp</a>`) +
+    row(T("Email","ইমেইল"), esc(u.email)) +
+    row(T("City","শহর"), esc(u.city)) +
+    (u.role === "customer" ? row(T("Company","কোম্পানি"), esc(u.company)) : "") + `</div>`;
+  if (u.role === "driver"){
+    const v = VEH[u.vehicleType];
+    h += `<div class="msec">${T("Vehicle information","গাড়ির তথ্য")}</div><div class="dl">` +
+      row(T("Vehicle type","গাড়ির ধরন"), esc(v ? T(v[0], v[1]) : u.vehicleType)) +
+      row(T("Plate number","নম্বর প্লেট"), esc(u.plateNumber)) +
+      row(T("Capacity","ধারণক্ষমতা"), esc(u.capacityTon) + " " + T("ton","টন")) +
+      row(T("License number","লাইসেন্স নম্বর"), esc(u.licenseNumber)) + `</div>`;
+  }
+  h += `<div class="msec">${T("Account","অ্যাকাউন্ট")}</div><div class="dl">` +
+    row(T("Status","অবস্থা"), `<span class="st ${esc(u.status)}">${T(s[0], s[1])}</span>`) +
+    row(T("Signed up","সাইন আপের সময়"), fmtDate(u.createdAt)) +
+    row(T("Last reviewed","শেষ পর্যালোচনা"), fmtDate(u.reviewedAt)) + `</div>`;
+  $("mTitle").textContent = u.name || "-";
+  $("mBody").innerHTML = h;
+  $("mAct").innerHTML =
+    (u.status !== "active"   ? `<button class="act ok" data-id="${u.id}" data-to="active">✓ ${T("Approve","অনুমোদন")}</button>` : "") +
+    (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "");
+  $("uModal").classList.remove("hidden");
+}
+function closeUser(){ viewId = null; $("uModal").classList.add("hidden"); }
+$("mClose").onclick = closeUser;
+$("uModal").onclick = e => { if (e.target.id === "uModal") closeUser(); else statusClick(e); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeUser(); });
+
+$("uRows").onclick = e => {
+  const v = e.target.closest("button[data-view]");
+  if (v) return openUser(v.dataset.view);
+  statusClick(e);
+};
+async function statusClick(e){
   const b = e.target.closest("button[data-id]"); if (!b) return;
   const u = users.find(x => x.id === b.dataset.id); const to = b.dataset.to;
   const ask = to === "active" ? T(`Approve ${u.name}?`, `${u.name}-কে অনুমোদন দেবেন?`) : T(`Reject ${u.name}?`, `${u.name}-কে বাতিল করবেন?`);
@@ -586,11 +649,12 @@ $("uRows").onclick = async e => {
     u.status = to;
     say("userMsg", "ok", to === "active" ? "Approved ✓" : "Rejected", to === "active" ? "অনুমোদন দেওয়া হয়েছে ✓" : "বাতিল করা হয়েছে");
     renderUsers();
+    if (viewId === u.id) openUser(u.id);
   } catch(err){
     console.error(err); b.disabled = false;
     say("userMsg", "error", "Could not update. Try again.", "আপডেট হয়নি। আবার চেষ্টা করুন।");
   }
-};
+}
 $("uSearch").oninput = renderUsers;
 $("uStatus").onchange = renderUsers;
 $("uRole").onchange = renderUsers;

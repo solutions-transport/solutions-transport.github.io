@@ -71,7 +71,7 @@
     <div id="msg" class="msg"></div>
 
     <!-- ===== STEP 1: FORM ===== -->
-    <form id="step1" novalidate>
+    <form id="step1" novalidate autocomplete="off">
       <div class="roles">
         <div class="role active" data-role="customer"><span class="ic">📦</span><span data-en="Customer" data-bn="কাস্টমার">কাস্টমার</span></div>
         <div class="role" data-role="driver"><span class="ic">🚚</span><span data-en="Driver" data-bn="ড্রাইভার">ড্রাইভার</span></div>
@@ -81,7 +81,7 @@
 
       <div class="field" id="f-name">
         <label><span data-en="Full name" data-bn="পুরো নাম">পুরো নাম</span> <span class="req">*</span></label>
-        <input type="text" id="name">
+        <input type="text" id="name" autocomplete="off">
         <div class="err" data-en="Please write your name" data-bn="নাম লিখুন">নাম লিখুন</div>
       </div>
 
@@ -103,26 +103,26 @@
             <option value="+1">🇺🇸 +1</option>
             <option value="+44">🇬🇧 +44</option>
           </select>
-          <input type="tel" id="phone" placeholder="5XXXXXXXX">
+          <input type="tel" id="phone" placeholder="5XXXXXXXX" autocomplete="off">
         </div>
         <div class="err" data-en="Enter a valid mobile number" data-bn="সঠিক মোবাইল নম্বর দিন">সঠিক মোবাইল নম্বর দিন</div>
       </div>
 
       <div class="field">
         <label><span data-en="Email" data-bn="ইমেইল">ইমেইল</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
-        <input type="email" id="email">
+        <input type="email" id="email" autocomplete="off">
       </div>
 
       <div class="field" id="f-city">
         <label><span data-en="City" data-bn="শহর">শহর</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
-        <input type="text" id="city">
+        <input type="text" id="city" autocomplete="off">
       </div>
 
       <!-- Customer only -->
       <div id="customerBox">
         <div class="field">
           <label><span data-en="Company name" data-bn="কোম্পানির নাম">কোম্পানির নাম</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></label>
-          <input type="text" id="company">
+          <input type="text" id="company" autocomplete="off">
         </div>
       </div>
 
@@ -164,12 +164,12 @@
       <div class="section-title" data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</div>
       <div class="field" id="f-pass">
         <label><span data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</span> <span class="req">*</span></label>
-        <div class="pw"><input type="password" id="pass"><button type="button" class="eye" data-for="pass" aria-label="Show password">👁</button></div>
+        <div class="pw"><input type="password" id="pass" autocomplete="new-password"><button type="button" class="eye" data-for="pass" aria-label="Show password">👁</button></div>
         <div class="err" data-en="At least 6 characters" data-bn="কমপক্ষে ৬ অক্ষর">কমপক্ষে ৬ অক্ষর</div>
       </div>
       <div class="field" id="f-pass2">
         <label><span data-en="Confirm password" data-bn="পাসওয়ার্ড আবার লিখুন">পাসওয়ার্ড আবার লিখুন</span> <span class="req">*</span></label>
-        <div class="pw"><input type="password" id="pass2"><button type="button" class="eye" data-for="pass2" aria-label="Show password">👁</button></div>
+        <div class="pw"><input type="password" id="pass2" autocomplete="new-password"><button type="button" class="eye" data-for="pass2" aria-label="Show password">👁</button></div>
         <div class="err" data-en="Passwords do not match" data-bn="পাসওয়ার্ড মেলেনি">পাসওয়ার্ড মেলেনি</div>
       </div>
 
@@ -317,6 +317,11 @@ $("step1").onsubmit = async e => {
   }
   $("sendBtn").disabled = false;
 };
+
+/* ---------- ব্রাউজারের অটো-ফিল মুছে ফেলা ---------- */
+window.addEventListener("load", () => setTimeout(() => {
+  ["name","phone","email","city","company","pass","pass2"].forEach(id => { $(id).value = ""; });
+}, 300));
 
 applyLang();
 </script>
