@@ -19,7 +19,8 @@
   .tag{background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px}
   .top .sp{flex:1}
   .tbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit}
-  .wrap{max-width:820px;margin:24px auto;padding:0 16px}
+  .wrap{max-width:1180px;margin:24px auto;padding:0 16px}
+  #clientsPanel{max-width:860px;margin:0 auto}
   .card{background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.10);padding:24px;margin-bottom:20px}
   h2{color:var(--blue);font-size:20px;margin-bottom:4px}
   .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
@@ -88,6 +89,12 @@
   .msec{font-weight:700;color:var(--blue);font-size:13px;margin:16px 0 6px}
   .mact{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
   .act.view{background:#e8eefb;color:var(--blue2)}
+  .act.del{background:#fff;color:var(--error);border:1px solid var(--error)}
+  .mform .field{margin-bottom:12px}
+  .mform .two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+  @media(max-width:520px){.mform .two{grid-template-columns:1fr}}
+  .ro{background:#f2f5f9 !important;color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
   .ufilters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:12px;align-items:end}
   .ufilters label{font-size:12px;color:var(--muted);margin-bottom:3px}
   @media(max-width:700px){.ufilters{grid-template-columns:1fr 1fr}.ufilters .wide{grid-column:1/-1}}
@@ -149,10 +156,11 @@
       <div>
         <label data-en="Status" data-bn="অবস্থা">অবস্থা</label>
         <select id="uStatus">
-          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
+          <option value="live" data-en="Waiting + Approved" data-bn="অপেক্ষমাণ + অনুমোদিত">অপেক্ষমাণ + অনুমোদিত</option>
           <option value="pending" data-en="Waiting" data-bn="অপেক্ষমাণ">অপেক্ষমাণ</option>
           <option value="active" data-en="Approved" data-bn="অনুমোদিত">অনুমোদিত</option>
           <option value="rejected" data-en="Rejected" data-bn="বাতিল">বাতিল</option>
+          <option value="" data-en="-- All (with rejected) --" data-bn="-- সব (বাতিলসহ) --">-- সব (বাতিলসহ) --</option>
         </select>
       </div>
       <div>
@@ -364,7 +372,7 @@ function applyLang(){
   document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
   document.querySelectorAll("[data-ph-en]").forEach(el => el.placeholder = lang === "bn" ? el.dataset.phBn : el.dataset.phEn);
   $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
-  renderRows(); renderUsers(); if (editId) setEdit(editId); if (viewId) openUser(viewId);
+  renderRows(); renderUsers(); if (editId) setEdit(editId); if (viewId) (editMode ? editUser(viewId) : openUser(viewId));
 }
 $("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
 
@@ -580,7 +588,7 @@ function renderUsers(){
   const q = $("uSearch").value.trim().toLowerCase();
   const st = $("uStatus").value, rl = $("uRole").value;
   const list = users.filter(u =>
-    (!st || u.status === st) && (!rl || u.role === rl) &&
+    (!st || (st === "live" ? u.status !== "rejected" : u.status === st)) && (!rl || u.role === rl) &&
     (!q || [u.name, u.phone, u.plateNumber, u.company, u.email].join(" ").toLowerCase().includes(q)));
   const pend = users.filter(u => u.status === "pending").length;
   $("pendBadge").textContent = pend; $("pendBadge").classList.toggle("hidden", !pend);
@@ -588,6 +596,8 @@ function renderUsers(){
   $("uRows").innerHTML = list.length ? list.map(u => {
     const s = STATUS[u.status] || [u.status, u.status];
     const btns = `<button class="act view" data-view="${u.id}">👁 ${T("View","দেখুন")}</button>` +
+      `<button class="act ed" data-uedit="${u.id}">✏️ ${T("Edit","এডিট")}</button>` +
+      `<button class="act del" data-udel="${u.id}">🗑 ${T("Delete","মুছুন")}</button>` +
       (u.status !== "active"   ? `<button class="act ok" data-id="${u.id}" data-to="active">✓ ${T("Approve","অনুমোদন")}</button>` : "") +
       (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "");
     return `<tr><td>${esc(u.name)}</td><td>${u.role === "driver" ? T("Driver","ড্রাইভার") : T("Customer","কাস্টমার")}</td>
@@ -625,17 +635,124 @@ function openUser(id){
   $("mBody").innerHTML = h;
   $("mAct").innerHTML =
     (u.status !== "active"   ? `<button class="act ok" data-id="${u.id}" data-to="active">✓ ${T("Approve","অনুমোদন")}</button>` : "") +
-    (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "");
+    (u.status !== "rejected" ? `<button class="act no" data-id="${u.id}" data-to="rejected">✗ ${T("Reject","বাতিল")}</button>` : "") +
+    `<button class="act ed" data-uedit="${u.id}">✏️ ${T("Edit","এডিট")}</button>` +
+    `<button class="act del" data-udel="${u.id}">🗑 ${T("Delete","মুছুন")}</button>`;
+  editMode = false;
   $("uModal").classList.remove("hidden");
+}
+
+/* ---------- ইউজার এডিট ---------- */
+let editMode = false;
+function editUser(id){
+  const u = users.find(x => x.id === id); if (!u) return;
+  viewId = id; editMode = true;
+  const opt = (val, en, bn, cur) => `<option value="${val}" ${val === cur ? "selected" : ""}>${T(en, bn)}</option>`;
+  const vehOpts = `<option value="">${T("-- Select --","-- বেছে নিন --")}</option>` +
+    Object.entries(VEH).map(([k, v]) => opt(k, v[0], v[1], u.vehicleType)).join("");
+  $("mTitle").textContent = T("Edit: ", "এডিট: ") + (u.name || "");
+  $("mBody").innerHTML = `<div class="mform">
+    <div class="msec">${T("Basic information","সাধারণ তথ্য")}</div>
+    <div class="field" id="ef-name"><label>${T("Name","নাম")} <span class="req">*</span></label><input id="e-name" value="${esc(u.name)}">
+      <div class="err">${T("Write the name","নাম লিখুন")}</div></div>
+    <div class="two">
+      <div class="field"><label>${T("Type","ধরন")}</label><select id="e-role">${opt("customer","Customer","কাস্টমার",u.role)}${opt("driver","Driver","ড্রাইভার",u.role)}</select></div>
+      <div class="field"><label>${T("Mobile","মোবাইল")}</label><input class="ro" value="${esc(u.phone)}" readonly>
+        <div class="hint">${T("Can't change: it is the login ID.","বদলানো যাবে না: এটাই লগইন আইডি।")}</div></div>
+    </div>
+    <div class="two">
+      <div class="field" id="ef-email"><label>${T("Email","ইমেইল")}</label><input id="e-email" value="${esc(u.email)}">
+        <div class="err">${T("Email is not correct","ইমেইল সঠিক নয়")}</div></div>
+      <div class="field"><label>${T("City","শহর")}</label><input id="e-city" value="${esc(u.city)}"></div>
+    </div>
+    <div id="e-cust"><div class="field"><label>${T("Company","কোম্পানি")}</label><input id="e-company" value="${esc(u.company)}"></div></div>
+    <div id="e-drv">
+      <div class="msec">${T("Vehicle information","গাড়ির তথ্য")}</div>
+      <div class="two">
+        <div class="field" id="ef-vtype"><label>${T("Vehicle type","গাড়ির ধরন")} <span class="req">*</span></label><select id="e-vtype">${vehOpts}</select>
+          <div class="err">${T("Select vehicle type","গাড়ির ধরন বেছে নিন")}</div></div>
+        <div class="field" id="ef-plate"><label>${T("Plate number","নম্বর প্লেট")} <span class="req">*</span></label><input id="e-plate" value="${esc(u.plateNumber)}">
+          <div class="err">${T("Required","লিখুন")}</div></div>
+      </div>
+      <div class="two">
+        <div class="field" id="ef-cap"><label>${T("Capacity (ton)","ধারণক্ষমতা (টন)")} <span class="req">*</span></label><input id="e-cap" type="number" min="0" step="0.5" value="${esc(u.capacityTon || "")}">
+          <div class="err">${T("Required","লিখুন")}</div></div>
+        <div class="field" id="ef-license"><label>${T("License number","লাইসেন্স নম্বর")} <span class="req">*</span></label><input id="e-license" value="${esc(u.licenseNumber)}">
+          <div class="err">${T("Required","লিখুন")}</div></div>
+      </div>
+    </div></div>`;
+  const syncRole = () => { const d = $("e-role").value === "driver"; $("e-drv").classList.toggle("hidden", !d); $("e-cust").classList.toggle("hidden", d); };
+  $("e-role").onchange = syncRole; syncRole();
+  $("mAct").innerHTML = `<button class="btn" id="eSave">${T("Save changes","পরিবর্তন সেভ করুন")}</button>
+    <button class="btn gray" id="eCancel">${T("Cancel","বাতিল")}</button>`;
+  $("eCancel").onclick = () => openUser(id);
+  $("eSave").onclick = () => saveUser(u);
+  $("uModal").classList.remove("hidden");
+}
+async function saveUser(u){
+  const role = $("e-role").value, em = $("e-email").value.trim();
+  let ok = true;
+  ok &= mark("ef-name", !$("e-name").value.trim());
+  ok &= mark("ef-email", em !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em));
+  if (role === "driver"){
+    ok &= mark("ef-vtype", !$("e-vtype").value);
+    ok &= mark("ef-plate", !$("e-plate").value.trim());
+    ok &= mark("ef-cap", !($("e-cap").value > 0));
+    ok &= mark("ef-license", !$("e-license").value.trim());
+  }
+  if (!ok) return;
+  const d = role === "driver";
+  const data = {
+    name: $("e-name").value.trim(), role, email: em, city: $("e-city").value.trim(),
+    company: d ? "" : $("e-company").value.trim(),
+    vehicleType: d ? $("e-vtype").value : "", plateNumber: d ? $("e-plate").value.trim() : "",
+    capacityTon: d ? Number($("e-cap").value) : 0, licenseNumber: d ? $("e-license").value.trim() : ""
+  };
+  $("eSave").disabled = true;
+  try {
+    await updateDoc(doc(db, "users", u.id), { ...data, updatedBy: auth.currentUser.uid, updatedAt: serverTimestamp() });
+    Object.assign(u, data);
+    say("userMsg", "ok", "Changes saved ✓", "পরিবর্তন সেভ হয়েছে ✓");
+    renderUsers(); openUser(u.id);
+  } catch(err){
+    console.error(err); $("eSave").disabled = false;
+    alert(T("Could not save. Try again.", "সেভ হয়নি। আবার চেষ্টা করুন।"));
+  }
+}
+
+/* ---------- ইউজার ডিলিট ---------- */
+async function deleteUser(id, btn){
+  const u = users.find(x => x.id === id); if (!u) return;
+  if (!confirm(T(`Delete "${u.name}"? All information will be removed and cannot be brought back.`,
+                 `"${u.name}"-কে মুছে ফেলবেন? সব তথ্য মুছে যাবে, আর ফেরত আনা যাবে না।`))) return;
+  if (btn) btn.disabled = true;
+  try {
+    await deleteDoc(doc(db, "users", id));
+    users = users.filter(x => x.id !== id);
+    if (viewId === id) closeUser();
+    say("userMsg", "ok", "Deleted", "মুছে ফেলা হয়েছে");
+    renderUsers();
+  } catch(err){
+    console.error(err); if (btn) btn.disabled = false;
+    say("userMsg", "error", "Could not delete. Check the Firestore Rules.", "মোছা যায়নি। Firestore-এর Rules ঠিক আছে কিনা দেখুন।");
+    if (viewId === id) closeUser();
+  }
 }
 function closeUser(){ viewId = null; $("uModal").classList.add("hidden"); }
 $("mClose").onclick = closeUser;
-$("uModal").onclick = e => { if (e.target.id === "uModal") closeUser(); else statusClick(e); };
+$("uModal").onclick = e => {
+  if (e.target.id === "uModal") return closeUser();
+  const ed = e.target.closest("button[data-uedit]"); if (ed) return editUser(ed.dataset.uedit);
+  const dl = e.target.closest("button[data-udel]"); if (dl) return deleteUser(dl.dataset.udel, dl);
+  statusClick(e);
+};
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeUser(); });
 
 $("uRows").onclick = e => {
   const v = e.target.closest("button[data-view]");
   if (v) return openUser(v.dataset.view);
+  const ed = e.target.closest("button[data-uedit]"); if (ed) return editUser(ed.dataset.uedit);
+  const dl = e.target.closest("button[data-udel]"); if (dl) return deleteUser(dl.dataset.udel, dl);
   statusClick(e);
 };
 async function statusClick(e){
@@ -647,7 +764,7 @@ async function statusClick(e){
   try {
     await updateDoc(doc(db, "users", u.id), { status: to, reviewedBy: auth.currentUser.uid, reviewedAt: serverTimestamp() });
     u.status = to;
-    say("userMsg", "ok", to === "active" ? "Approved ✓" : "Rejected", to === "active" ? "অনুমোদন দেওয়া হয়েছে ✓" : "বাতিল করা হয়েছে");
+    say("userMsg", "ok", to === "active" ? "Approved ✓" : "Rejected. To see rejected users, choose \"Rejected\" in the Status filter.", to === "active" ? "অনুমোদন দেওয়া হয়েছে ✓" : "বাতিল করা হয়েছে। বাতিল করা ইউজার দেখতে \"অবস্থা\" ফিল্টারে \"বাতিল\" বেছে নিন।");
     renderUsers();
     if (viewId === u.id) openUser(u.id);
   } catch(err){
