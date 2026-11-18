@@ -44,10 +44,20 @@
   .btn:disabled{opacity:.6;cursor:wait}
   .link{text-align:center;margin-top:14px;font-size:14px;color:var(--muted)}
   .link a{color:var(--blue2);font-weight:600}
-  .hidden{display:none}
+  .hidden{display:none !important}
   .pw{position:relative}
   .pw input{padding-right:46px}
   .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px;padding:4px;line-height:1}
+  .photo{text-align:center;margin-bottom:16px}
+  .photo .circle{width:110px;height:110px;border-radius:50%;margin:0 auto 10px;background:#eef2f7;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:42px;color:var(--muted);overflow:hidden}
+  .photo .circle img{width:100%;height:100%;object-fit:cover}
+  .photo .pbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .pbtn{background:#eef2f7;border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--blue)}
+  .pbtn.rm{color:var(--error)}
+  .camwrap{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:99;padding:16px}
+  .camwrap video{width:100%;max-width:420px;aspect-ratio:1/1;object-fit:cover;border-radius:50%;transform:scaleX(-1);background:#000}
+  .camwrap .row2{display:flex;gap:10px}
+  .camwrap .btn{width:auto;padding:12px 22px}
   .otp-box{text-align:center}
   .otp-box input{text-align:center;font-size:24px;letter-spacing:10px;max-width:240px;margin:14px auto}
   .note{background:#fff7ea;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px;border-radius:6px;margin-bottom:14px}
@@ -78,6 +88,19 @@
       </div>
 
       <div class="section-title" data-en="Basic information" data-bn="সাধারণ তথ্য">সাধারণ তথ্য</div>
+
+      <!-- প্রোফাইল ছবি -->
+      <div class="photo">
+        <div class="circle" id="pCircle">👤</div>
+        <div class="small" style="font-size:13px;color:var(--muted);margin-bottom:8px"><span data-en="Profile photo" data-bn="প্রোফাইল ছবি">প্রোফাইল ছবি</span> <span data-en="(optional)" data-bn="(ঐচ্ছিক)">(ঐচ্ছিক)</span></div>
+        <div class="pbtns">
+          <button type="button" class="pbtn" id="pCam" data-en="📷 Take selfie" data-bn="📷 সেলফি তুলুন">📷 সেলফি তুলুন</button>
+          <button type="button" class="pbtn" id="pUp" data-en="🖼 Upload photo" data-bn="🖼 ছবি আপলোড">🖼 ছবি আপলোড</button>
+          <button type="button" class="pbtn rm hidden" id="pRm" data-en="✕ Remove" data-bn="✕ মুছুন">✕ মুছুন</button>
+        </div>
+        <input type="file" id="pFile" accept="image/*" class="hidden">
+        <input type="file" id="pCamFile" accept="image/*" capture="user" class="hidden">
+      </div>
 
       <div class="field" id="f-name">
         <label><span data-en="Full name" data-bn="পুরো নাম">পুরো নাম</span> <span class="req">*</span></label>
@@ -192,6 +215,15 @@
   </div>
 </div>
 
+<!-- ===== সেলফি ক্যামেরা ===== -->
+<div class="camwrap hidden" id="camBox">
+  <video id="camVideo" autoplay playsinline muted></video>
+  <div class="row2">
+    <button type="button" class="btn" id="camSnap" data-en="📸 Capture" data-bn="📸 ছবি তুলুন">📸 ছবি তুলুন</button>
+    <button type="button" class="btn" style="background:#6b7686" id="camClose" data-en="Cancel" data-bn="বাতিল">বাতিল</button>
+  </div>
+</div>
+
 <script type="module">
 /* =========================================================
    ধাপ ১: এখানে তোমার Firebase-এর তথ্য বসাও।
@@ -209,7 +241,7 @@ const firebaseConfig = {
 
 const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
 const $ = id => document.getElementById(id);
-let lang = "bn", role = "customer", fb = null, fullPhone = "";
+let lang = "bn", role = "customer", fb = null, fullPhone = "", photo = "", camStream = null;
 
 if (DEMO) $("demoNote").classList.remove("hidden");
 
@@ -237,6 +269,51 @@ document.querySelectorAll(".eye").forEach(b => b.onclick = () => {
   inp.type = show ? "text" : "password";
   b.textContent = show ? "🙈" : "👁";
 });
+
+/* ---------- প্রোফাইল ছবি ---------- */
+// ছবি ৩২০×৩২০ করে ছোট করা হয়, যাতে ফ্রি ডাটাবেসেই রাখা যায়
+function squareFrom(src, w, h, mirror){
+  const side = Math.min(w, h), out = 320, c = document.createElement("canvas");
+  c.width = c.height = out; const g = c.getContext("2d");
+  if (mirror){ g.translate(out, 0); g.scale(-1, 1); }
+  g.drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, out, out);
+  return c.toDataURL("image/jpeg", 0.8);
+}
+function setPhoto(d){
+  photo = d || "";
+  $("pCircle").innerHTML = photo ? `<img src="${photo}" alt="">` : "👤";
+  $("pRm").classList.toggle("hidden", !photo);
+}
+function fromFile(f){
+  if (!f) return;
+  const url = URL.createObjectURL(f), img = new Image();
+  img.onload = () => { setPhoto(squareFrom(img, img.width, img.height, false)); URL.revokeObjectURL(url); };
+  img.onerror = () => { showError("This image could not be opened.", "এই ছবিটা খোলা যায়নি।"); URL.revokeObjectURL(url); };
+  img.src = url;
+}
+$("pUp").onclick = () => $("pFile").click();
+$("pFile").onchange = e => { fromFile(e.target.files[0]); e.target.value = ""; };
+$("pCamFile").onchange = e => { fromFile(e.target.files[0]); e.target.value = ""; };
+$("pRm").onclick = () => setPhoto("");
+function stopCam(){ if (camStream) camStream.getTracks().forEach(t => t.stop()); camStream = null; $("camBox").classList.add("hidden"); }
+$("pCam").onclick = async () => {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return $("pCamFile").click();
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+    $("camVideo").srcObject = camStream;
+    $("camBox").classList.remove("hidden");
+  } catch(err){
+    console.error(err);
+    showError("Camera not allowed. Allow the camera, or use \"Upload photo\".", "ক্যামেরার অনুমতি পাওয়া যায়নি। ক্যামেরা চালুর অনুমতি দিন, অথবা \"ছবি আপলোড\" ব্যবহার করুন।");
+  }
+};
+$("camSnap").onclick = () => {
+  const v = $("camVideo");
+  if (!v.videoWidth) return;
+  setPhoto(squareFrom(v, v.videoWidth, v.videoHeight, true));
+  stopCam();
+};
+$("camClose").onclick = stopCam;
 
 /* ---------- মেসেজ ---------- */
 function showError(en, bn){ const m=$("msg"); m.className="msg error"; m.textContent = lang==="bn"?bn:en; }
@@ -290,6 +367,7 @@ $("step1").onsubmit = async e => {
     plateNumber: role === "driver" ? $("plate").value.trim() : "",
     capacityTon: role === "driver" ? Number($("cap").value) : 0,
     licenseNumber: role === "driver" ? $("license").value.trim() : "",
+    photo,
     phoneVerified: false,
     status: "pending"   // অ্যাডমিন অনুমোদন দিলে "active" হবে
   };
@@ -321,6 +399,7 @@ $("step1").onsubmit = async e => {
 /* ---------- ব্রাউজারের অটো-ফিল মুছে ফেলা ---------- */
 window.addEventListener("load", () => setTimeout(() => {
   ["name","phone","email","city","company","pass","pass2"].forEach(id => { $(id).value = ""; });
+  setPhoto("");
 }, 300));
 
 applyLang();
