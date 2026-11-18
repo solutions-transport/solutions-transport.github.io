@@ -11,8 +11,15 @@
     --blue:#0b2e59; --blue2:#123f78; --orange:#f39c12; --bg:#f2f5f9;
     --text:#1d2633; --muted:#6b7686; --border:#d5dce6; --error:#d63031; --ok:#1e9e5a;
   }
+  /* Windows কম্পিউটারেও দেশের পতাকা দেখানোর জন্য (শুধু পতাকার জন্য ব্যবহার হয়) */
+  @font-face{
+    font-family:"Twemoji Country Flags";
+    unicode-range:U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");
+    font-display:swap;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 16px}
+  body{font-family:'Twemoji Country Flags','Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 16px}
   .card{background:#fff;width:100%;max-width:520px;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.12);overflow:hidden}
   .head{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:22px 24px;position:relative}
   .logo{font-size:26px;font-weight:700;letter-spacing:.5px}
@@ -34,7 +41,7 @@
   .row{display:flex;gap:10px}
   .row > *{flex:1}
   .phone{display:flex;gap:8px}
-  .phone select{width:120px;flex:none}
+  .phone select{width:118px;flex:none;font-weight:600;color:var(--blue)}
   .err{color:var(--error);font-size:12px;margin-top:4px;display:none}
   .field.bad input,.field.bad select{border-color:var(--error)}
   .field.bad .err{display:block}
@@ -112,19 +119,19 @@
         <label><span data-en="Mobile number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</span> <span class="req">*</span></label>
         <div class="phone">
           <select id="cc">
-            <option value="+966">🇸🇦 +966</option>
-            <option value="+880">🇧🇩 +880</option>
-            <option value="+971">🇦🇪 +971</option>
-            <option value="+974">🇶🇦 +974</option>
-            <option value="+965">🇰🇼 +965</option>
-            <option value="+968">🇴🇲 +968</option>
-            <option value="+973">🇧🇭 +973</option>
-            <option value="+91">🇮🇳 +91</option>
-            <option value="+92">🇵🇰 +92</option>
-            <option value="+977">🇳🇵 +977</option>
-            <option value="+20">🇪🇬 +20</option>
-            <option value="+1">🇺🇸 +1</option>
-            <option value="+44">🇬🇧 +44</option>
+            <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
+            <option value="+880" data-short="🇧🇩 +880" data-full="🇧🇩 Bangladesh (+880)">🇧🇩 +880</option>
+            <option value="+971" data-short="🇦🇪 +971" data-full="🇦🇪 United Arab Emirates (+971)">🇦🇪 +971</option>
+            <option value="+974" data-short="🇶🇦 +974" data-full="🇶🇦 Qatar (+974)">🇶🇦 +974</option>
+            <option value="+965" data-short="🇰🇼 +965" data-full="🇰🇼 Kuwait (+965)">🇰🇼 +965</option>
+            <option value="+968" data-short="🇴🇲 +968" data-full="🇴🇲 Oman (+968)">🇴🇲 +968</option>
+            <option value="+973" data-short="🇧🇭 +973" data-full="🇧🇭 Bahrain (+973)">🇧🇭 +973</option>
+            <option value="+91" data-short="🇮🇳 +91" data-full="🇮🇳 India (+91)">🇮🇳 +91</option>
+            <option value="+92" data-short="🇵🇰 +92" data-full="🇵🇰 Pakistan (+92)">🇵🇰 +92</option>
+            <option value="+977" data-short="🇳🇵 +977" data-full="🇳🇵 Nepal (+977)">🇳🇵 +977</option>
+            <option value="+20" data-short="🇪🇬 +20" data-full="🇪🇬 Egypt (+20)">🇪🇬 +20</option>
+            <option value="+1" data-short="🇺🇸 +1" data-full="🇺🇸 United States (+1)">🇺🇸 +1</option>
+            <option value="+44" data-short="🇬🇧 +44" data-full="🇬🇧 United Kingdom (+44)">🇬🇧 +44</option>
           </select>
           <input type="tel" id="phone" placeholder="5XXXXXXXX" autocomplete="off">
         </div>
@@ -314,6 +321,20 @@ $("camSnap").onclick = () => {
   stopCam();
 };
 $("camClose").onclick = stopCam;
+
+/* ---------- দেশের কোড: বন্ধ অবস্থায় ছোট (SA +966), খুললে পুরো নাম ---------- */
+function ccSetup(sel){
+  if (!sel) return;
+  const full = () => [...sel.options].forEach(o => o.textContent = o.dataset.full);
+  const short = () => [...sel.options].forEach(o => o.textContent = o.dataset.short);
+  sel.addEventListener("mousedown", full);
+  sel.addEventListener("touchstart", full, { passive: true });
+  sel.addEventListener("keydown", full);
+  sel.addEventListener("change", () => { short(); sel.blur(); });
+  sel.addEventListener("blur", short);
+  short();
+}
+ccSetup($("cc"));
 
 /* ---------- মেসেজ ---------- */
 function showError(en, bn){ const m=$("msg"); m.className="msg error"; m.textContent = lang==="bn"?bn:en; }
