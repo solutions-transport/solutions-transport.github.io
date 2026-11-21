@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUTION – Transportation & Logistics | Feni, Bangladesh</title>
+<meta name="description" content="SOLUTION – transportation and logistics from Mahipal, Feni. Covered vans, open-body trucks, dump trucks and heavy-duty vehicles for businesses all over Bangladesh. 35 vehicles, 8–10 years of experience.">
+<meta property="og:title" content="SOLUTION – Transportation & Logistics">
+<meta property="og:description" content="Your trusted partner in transportation and logistics. Trucks for businesses all over Bangladesh.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1E272C;      /* রাস্তার পিচ */
+    --asphalt-2:#2A353B;
+    --sign:#0B5D3B;         /* হাইওয়ে সাইনবোর্ডের সবুজ */
+    --sign-dark:#08462C;
+    --line:#F2B705;         /* রাস্তার হলুদ দাগ */
+    --paper:#F5F7F6;
+    --ink:#1A2125;
+    --muted:#5D6A70;
+    --rule:#D6DDDA;
+    --white:#FFFFFF;
+    --display:'Barlow Condensed','Hind Siliguri',sans-serif;
+    --body:'Barlow','Hind Siliguri',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{font-family:var(--body);font-size:17px;line-height:1.6;color:var(--ink);background:var(--paper)}
+  html[lang="bn"] body{font-size:16.5px;line-height:1.75}
+  a{color:inherit}
+  img{max-width:100%}
+  :focus-visible{outline:3px solid var(--line);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+
+  /* ---------- হেডার ---------- */
+  header{position:sticky;top:0;z-index:20;background:var(--asphalt);color:var(--white);border-bottom:3px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:22px;height:66px}
+  .brand{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+  .brand b{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:.06em}
+  .brand small{font-size:11.5px;color:#B9C4C9;letter-spacing:.04em;margin-top:3px}
+  nav{margin-left:auto;display:flex;align-items:center;gap:22px}
+  nav a{text-decoration:none;font-weight:500;font-size:15.5px;color:#DCE3E6}
+  nav a:hover{color:var(--line)}
+  .lang{background:none;border:1px solid #56656C;color:var(--white);border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+  .btn{display:inline-block;text-decoration:none;font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.02em;padding:11px 22px;border-radius:4px;border:2px solid transparent;cursor:pointer;line-height:1.2}
+  .btn.yellow{background:var(--line);color:var(--asphalt)}
+  .btn.yellow:hover{background:#FFC929}
+  .btn.ghost{border-color:#7E8D93;color:var(--white)}
+  .btn.ghost:hover{border-color:var(--white)}
+  .btn.small{font-size:16px;padding:7px 14px}
+  .menu{display:none;margin-left:auto;background:none;border:0;color:var(--white);font-size:26px;cursor:pointer}
+
+  /* ---------- হিরো ---------- */
+  /* সন্ধ্যার হাইওয়ে: আকাশ থেকে দিগন্ত, নিচে রাস্তা */
+  .hero{color:var(--white);position:relative;overflow:hidden;
+    background:linear-gradient(180deg,#141B1F 0%,#1E272C 46%,#33393A 66%,#4A4436 72%,#1E272C 72.2%,#1E272C 100%)}
+  /* রাস্তার শেষ বিন্দু সবসময় সাইনবোর্ডের ঠিক নিচে থাকে */
+  .hero .road{position:absolute;bottom:0;width:3000px;height:28%;min-height:170px;
+    left:calc(50% + (min(100vw,1160px) - 40px)/2 - (min(100vw,1160px) - 96px)*.2125 - 1500px)}
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:end;padding-top:84px;padding-bottom:150px}
+  .hero .stars{position:absolute;inset:0 0 30% 0;background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 34% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 61% 22%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 82% 12%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 92% 30%,#fff6 50%,transparent 51%),radial-gradient(1px 1px at 47% 31%,#fff4 50%,transparent 51%)}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,6.4vw,84px);line-height:.98;letter-spacing:.005em}
+  html[lang="bn"] .hero h1{line-height:1.2;font-size:clamp(38px,5vw,64px)}
+  .hero p.lead{margin-top:22px;max-width:34em;color:#C9D3D7;font-size:18.5px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+
+  /* সিগনেচার: হাইওয়ে সাইনবোর্ড */
+  .sign{background:var(--sign);border-radius:14px;padding:10px;box-shadow:0 22px 50px rgba(0,0,0,.45);transform:rotate(-1.2deg);animation:rise .9s cubic-bezier(.2,.7,.2,1) .15s both}
+  @keyframes rise{from{opacity:0;transform:translateY(26px) rotate(-1.2deg)}to{opacity:1;transform:rotate(-1.2deg)}}
+  .sign-in{position:relative}
+  .sign-in::before{content:"";position:absolute;inset:0;border-radius:6px;background:linear-gradient(115deg,rgba(255,255,255,.10),transparent 38%);pointer-events:none}
+  .sign-in{border:3px solid var(--white);border-radius:9px;padding:22px 24px 20px}
+  .dest{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:700;font-size:31px;line-height:1.1}
+  .dest + .dest{margin-top:8px}
+  .dest svg{flex:none}
+  .sign hr{border:0;border-top:2px solid rgba(255,255,255,.55);margin:18px 0 16px}
+  .sign-facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+  .sign-facts div{font-size:14.5px;color:#D7EADF;line-height:1.3}
+  .sign-facts strong{display:block;font-family:var(--display);font-size:38px;font-weight:700;color:var(--white);line-height:1}
+  .posts{display:flex;justify-content:space-around;padding:0 22%}
+  .posts span{width:12px;height:70px;background:linear-gradient(90deg,#7C898E,#A9B4B8 45%,#6C787D)}
+
+  /* ---------- সেকশন ---------- */
+  section{padding:88px 0}
+  h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,4vw,48px);line-height:1.05;color:var(--asphalt)}
+  html[lang="bn"] h2{line-height:1.3}
+  .intro{max-width:40em;color:var(--muted);margin-top:12px;font-size:18px}
+
+  /* এক নজরে */
+  .glance{background:var(--white);border-bottom:1px solid var(--rule)}
+  .glance table{width:100%;border-collapse:collapse;margin-top:34px}
+  .glance td{padding:16px 0;border-top:1px solid var(--rule);vertical-align:baseline}
+  .glance tr:last-child td{border-bottom:1px solid var(--rule)}
+  .glance td:first-child{color:var(--muted);width:52%}
+  .glance td:last-child{font-family:var(--display);font-weight:700;font-size:26px;color:var(--asphalt);text-align:right}
+  .glance .two{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+  .board{margin-top:34px;background:var(--asphalt);border-radius:10px;padding:22px 22px 18px}
+  .board .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px 8px}
+  .board svg{width:100%;height:auto;display:block}
+  .board .own{color:var(--line)}
+  .board .mng{color:#6E8088}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;font-size:14.5px;color:#C9D3D7}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+
+  /* বহর */
+  .fleet-list{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);border-top:4px solid var(--asphalt)}
+  .truck{padding:24px 20px 6px 0}
+  .truck + .truck{padding-left:20px;border-left:1px solid var(--rule)}
+  .truck svg{height:60px;width:auto;color:var(--sign)}
+  .truck h3{font-family:var(--display);font-size:25px;font-weight:700;margin:14px 0 6px;color:var(--asphalt)}
+  .truck p{font-size:15.5px;color:var(--muted)}
+  .fleet-note{margin-top:30px;background:var(--asphalt);color:var(--white);border-radius:6px;padding:18px 22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .fleet-note strong{font-family:var(--display);font-size:30px;color:var(--line)}
+
+  /* কীভাবে বুক করবেন */
+  .steps{background:var(--white);border-top:1px solid var(--rule)}
+  .steps ol{list-style:none;margin-top:38px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s}
+  .steps li{position:relative;padding:0 28px 0 0}
+  .steps li + li{padding-left:28px}
+  .steps li::before{counter-increment:s;content:counter(s);display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:var(--line);color:var(--asphalt);font-family:var(--display);font-weight:800;font-size:24px;position:relative;z-index:1}
+  .steps li:not(:last-child)::after{content:"";position:absolute;top:22px;left:46px;right:0;border-top:3px dashed var(--rule)}
+  .steps li + li:not(:last-child)::after{left:74px}
+  .steps h3{font-family:var(--display);font-size:25px;color:var(--asphalt);margin:16px 0 6px}
+  .steps p{color:var(--muted);font-size:15.5px;max-width:24em}
+  html[lang="bn"] .steps li::before{content:counter(s, bengali)}
+
+  /* ক্লায়েন্ট */
+  .clients{background:var(--sign);color:var(--white)}
+  .clients h2{color:var(--white)}
+  .clients .intro{color:#CFE4D8}
+  .names{list-style:none;margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.3)}
+  .names li{font-family:var(--display);font-weight:600;font-size:27px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.3)}
+
+  /* প্রতিষ্ঠাতা */
+  .founder .two{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
+  .founder blockquote{font-family:var(--display);font-weight:600;font-size:clamp(28px,3vw,38px);line-height:1.15;color:var(--asphalt);border-left:6px solid var(--line);padding-left:22px;margin-top:26px}
+  html[lang="bn"] .founder blockquote{line-height:1.4}
+  .founder .text p + p{margin-top:16px}
+  .founder .text p{max-width:38em}
+  .values{list-style:none;margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .values li{border:1.5px solid var(--sign);color:var(--sign-dark);border-radius:30px;padding:6px 16px;font-weight:600;font-size:15px}
+
+  /* যোগাযোগ */
+  .contact{background:var(--asphalt);color:var(--white)}
+  .contact h2{color:var(--white)}
+  .contact .intro{color:#C2CDD1}
+  .contact .two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .contact dl{margin-top:8px}
+  .contact dt{color:#9FB0B6;font-size:14.5px;margin-top:20px}
+  .contact dd{font-size:21px;font-weight:500}
+  .contact dd a{color:var(--line);text-decoration-thickness:1px;text-underline-offset:4px}
+  .contact .card{background:var(--asphalt-2);border:1px solid #3D4A50;border-radius:8px;padding:28px}
+  .contact .card h3{font-family:var(--display);font-size:28px;margin-bottom:8px}
+  .contact .card p{color:#C2CDD1;margin-bottom:20px}
+
+  footer{background:#161D21;color:#93A2A8;font-size:14.5px;padding:40px 0 26px}
+  footer .top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:28px;border-bottom:1px solid #2C373C}
+  footer b{color:var(--white);font-family:var(--display);letter-spacing:.06em;font-size:24px}
+  footer h4{color:var(--white);font-size:15px;margin-bottom:10px;font-weight:600}
+  footer ul{list-style:none}
+  footer li{margin:6px 0}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--line)}
+  footer .bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:18px}
+  @media (max-width:640px){footer .top{grid-template-columns:1fr}}
+
+  /* ---------- মোবাইল ---------- */
+  @media (max-width:900px){
+    .hero .wrap,.glance .two,.founder .two,.contact .two{grid-template-columns:1fr;gap:40px}
+    .fleet-list{grid-template-columns:1fr 1fr}
+    .truck:nth-child(3){padding-left:0;border-left:0}
+    .names{grid-template-columns:1fr 1fr}
+    .sign{transform:none;max-width:460px;animation:none}
+    .steps ol{grid-template-columns:1fr;gap:28px}
+    .steps li,.steps li + li{padding:0}
+    .steps li::after{display:none}
+    .hero .wrap{padding-bottom:180px}
+    .hero .road{left:calc(50% - 1500px)}
+  }
+  @media (max-width:760px){
+    .menu{display:block}
+    nav{display:none;position:absolute;top:66px;left:0;right:0;background:var(--asphalt);flex-direction:column;align-items:flex-start;padding:16px 20px 22px;gap:16px;border-bottom:3px solid var(--line)}
+    nav.open{display:flex}
+    section{padding:64px 0}
+  }
+  @media (max-width:520px){
+    .fleet-list,.names{grid-template-columns:1fr}
+    .truck + .truck{padding-left:0;border-left:0;border-top:1px solid var(--rule)}
+    .glance td:last-child{font-size:22px}
+    .dest{font-size:26px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="SOLUTION home">
+      <b>SOLUTION</b>
+      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small>
+    </a>
+    <button class="menu" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+    <nav id="nav">
+      <a href="#about" data-en="About" data-bn="আমাদের কথা">About</a>
+      <a href="#fleet" data-en="Fleet" data-bn="গাড়ির বহর">Fleet</a>
+      <a href="#clients" data-en="Clients" data-bn="ক্লায়েন্ট">Clients</a>
+      <a href="#contact" data-en="Contact" data-bn="যোগাযোগ">Contact</a>
+      <button class="lang" id="langBtn">বাংলা</button>
+      <a class="btn yellow small" href="signup.html" data-en="Sign up" data-bn="সাইন আপ">Sign up</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===== হিরো ===== -->
+  <section class="hero">
+    <div class="stars" aria-hidden="true"></div>
+    <svg class="road" viewBox="0 0 3000 300" preserveAspectRatio="none" aria-hidden="true">
+        <polygon points="1490,0 1510,0 2260,300 740,300" fill="#2B363C"/>
+        <polygon points="1490,0 1491.5,0 764,300 746,300" fill="#D9E0E3" opacity=".55"/>
+        <polygon points="1508.5,0 1510,0 2254,300 2236,300" fill="#D9E0E3" opacity=".55"/>
+        <g fill="#F2B705"><polygon points="1499.3,9.0 1500.7,9.0 1501.0,21.9 1499.0,21.9"/><polygon points="1498.7,33.5 1501.3,33.5 1501.7,48.9 1498.3,48.9"/><polygon points="1497.9,62.7 1502.1,62.7 1502.5,80.9 1497.5,80.9"/><polygon points="1497.1,97.4 1502.9,97.4 1503.5,119.1 1496.5,119.1"/><polygon points="1496.0,138.7 1504.0,138.7 1504.6,164.6 1495.4,164.6"/><polygon points="1494.8,187.8 1505.2,187.8 1506.0,218.6 1494.0,218.6"/><polygon points="1493.3,246.3 1506.7,246.3 1507.6,283.0 1492.4,283.0"/></g>
+      </svg>
+    <div class="wrap">
+      <div>
+        <h1 data-en="Your trusted partner in transportation & logistics" data-bn="পরিবহন ও লজিস্টিকসে আপনার বিশ্বস্ত সঙ্গী">Your trusted partner in transportation & logistics</h1>
+        <p class="lead" data-en="Covered vans, open-body trucks, dump trucks and heavy-duty vehicles for factories and businesses — from Feni to anywhere in Bangladesh." data-bn="কারখানা ও ব্যবসার জন্য কাভার্ড ভ্যান, খোলা ট্রাক, ডাম্প ট্রাক ও ভারী গাড়ি — ফেনী থেকে বাংলাদেশের যেকোনো জায়গায়।">Covered vans, open-body trucks, dump trucks and heavy-duty vehicles for factories and businesses — from Feni to anywhere in Bangladesh.</p>
+        <div class="cta">
+          <a class="btn yellow" href="mailto:solution2041@gmail.com?subject=Truck%20booking%20request" data-en="Request a truck" data-bn="ট্রাক বুক করুন">Request a truck</a>
+          <a class="btn ghost" href="#fleet" data-en="See our fleet" data-bn="গাড়ির বহর দেখুন">See our fleet</a>
+        </div>
+      </div>
+
+      <div aria-label="Business at a glance">
+        <div class="sign">
+          <div class="sign-in">
+            <div class="dest">
+              <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 3 L27 15 L19 15 L19 27 L11 27 L11 15 L3 15 Z" fill="#fff"/></svg>
+              <span data-en="Mahipal, Feni" data-bn="মহিপাল, ফেনী">Mahipal, Feni</span>
+            </div>
+            <div class="dest">
+              <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 11 L15 11 L15 3 L27 15 L15 27 L15 19 L3 19 Z" fill="#fff"/></svg>
+              <span data-en="All over Bangladesh" data-bn="সারা বাংলাদেশ">All over Bangladesh</span>
+            </div>
+            <hr>
+            <div class="sign-facts">
+              <div><strong data-en="~35" data-bn="~৩৫">~35</strong><span data-en="vehicles in our fleet" data-bn="গাড়ি আমাদের বহরে">vehicles in our fleet</span></div>
+              <div><strong data-en="8–10" data-bn="৮–১০">8–10</strong><span data-en="years in transport" data-bn="বছর পরিবহন ব্যবসায়">years in transport</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="posts" aria-hidden="true"><span></span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== এক নজরে ===== -->
+  <section class="glance" id="about">
+    <div class="wrap two">
+      <div>
+        <h2 data-en="Business at a glance" data-bn="এক নজরে আমাদের ব্যবসা">Business at a glance</h2>
+        <p class="intro" data-en="Years on Bangladesh's roads and a fleet we know vehicle by vehicle. This is what you get when you book with us." data-bn="বাংলাদেশের রাস্তায় বহু বছরের অভিজ্ঞতা, আর প্রতিটা গাড়ি আমাদের চেনা। আমাদের সাথে বুক করলে আপনি এটাই পান।">Years on Bangladesh's roads and a fleet we know vehicle by vehicle. This is what you get when you book with us.</p>
+        <div class="board" role="img" aria-label="35 vehicles: 5 company-owned and about 30 managed">
+          <div class="grid"><svg viewBox="0 0 44 24" class="own"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="own"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="own"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="own"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="own"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg><svg viewBox="0 0 44 24" class="mng"><rect x="1" y="3" width="26" height="14" rx="1.5" fill="currentColor"/><path d="M29 7h7l6 6v4H29z" fill="currentColor"/><circle cx="9" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/><circle cx="35" cy="19" r="3.4" fill="#1E272C" stroke="currentColor" stroke-width="1.4"/></svg></div>
+          <div class="legend">
+            <span><i style="background:var(--line)"></i><span data-en="5 company-owned" data-bn="৫টি নিজস্ব">5 company-owned</span></span>
+            <span><i style="background:#6E8088"></i><span data-en="About 30 managed" data-bn="প্রায় ৩০টি ব্যবস্থাপনায়">About 30 managed</span></span>
+          </div>
+        </div>
+      </div>
+      <table>
+        <tr><td data-en="Industry experience" data-bn="এই খাতে অভিজ্ঞতা">Industry experience</td><td data-en="8–10 years" data-bn="৮–১০ বছর">8–10 years</td></tr>
+        <tr><td data-en="Corporate business experience" data-bn="কর্পোরেট ব্যবসার অভিজ্ঞতা">Corporate business experience</td><td data-en="About 7 years" data-bn="প্রায় ৭ বছর">About 7 years</td></tr>
+        <tr><td data-en="Company-owned vehicles" data-bn="নিজস্ব গাড়ি">Company-owned vehicles</td><td data-en="5" data-bn="৫টি">5</td></tr>
+        <tr><td data-en="Additional managed vehicles" data-bn="আমাদের ব্যবস্থাপনায় আরও গাড়ি">Additional managed vehicles</td><td data-en="About 30" data-bn="প্রায় ৩০টি">About 30</td></tr>
+        <tr><td data-en="Total managed fleet" data-bn="মোট গাড়ির বহর">Total managed fleet</td><td data-en="About 35 vehicles" data-bn="প্রায় ৩৫টি গাড়ি">About 35 vehicles</td></tr>
+        <tr><td data-en="Service coverage" data-bn="সেবার এলাকা">Service coverage</td><td data-en="All over Bangladesh" data-bn="সারা বাংলাদেশ">All over Bangladesh</td></tr>
+        <tr><td data-en="Business location" data-bn="ব্যবসার ঠিকানা">Business location</td><td data-en="Mahipal, Feni" data-bn="মহিপাল, ফেনী">Mahipal, Feni</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== গাড়ির বহর ===== -->
+  <section id="fleet">
+    <div class="wrap">
+      <h2 data-en="The right truck for the load" data-bn="মালের ধরন বুঝে সঠিক গাড়ি">The right truck for the load</h2>
+      <p class="intro" data-en="Vehicles of different load capacities, so feed, oil, building material or heavy goods each travel the way they should." data-bn="বিভিন্ন ধারণক্ষমতার গাড়ি, যাতে ফিড, তেল, নির্মাণসামগ্রী বা ভারী মাল — প্রতিটা ঠিকভাবে পৌঁছায়।">Vehicles of different load capacities, so feed, oil, building material or heavy goods each travel the way they should.</p>
+
+      <div class="fleet-list">
+        <div class="truck">
+          <svg viewBox="0 0 100 52" aria-hidden="true"><rect x="2" y="6" width="61" height="32" rx="3" fill="currentColor"/><path d="M8 12h49" stroke="#fff" stroke-opacity=".25" stroke-width="2"/><path d="M66 14h15c2 0 3.4.8 4.4 2.2l7 10c.4.6.6 1.3.6 2V38H66z" fill="currentColor"/><path d="M71 18h9l5.5 8H71z" fill="#DDEBE3"/><rect x="0" y="48" width="100" height="2" rx="1" fill="#C9D3D7"/><circle cx="18" cy="40" r="7.5" fill="#1E272C"/><circle cx="18" cy="40" r="3" fill="#C9D3D7"/><circle cx="80" cy="40" r="7.5" fill="#1E272C"/><circle cx="80" cy="40" r="3" fill="#C9D3D7"/></svg>
+          <h3 data-en="Covered vans" data-bn="কাভার্ড ভ্যান">Covered vans</h3>
+          <p data-en="Closed body that keeps feed, packaged goods and lubricants dry and safe." data-bn="বন্ধ বডি — ফিড, প্যাকেটজাত পণ্য ও লুব্রিক্যান্ট শুকনো ও নিরাপদ থাকে।">Closed body that keeps feed, packaged goods and lubricants dry and safe.</p>
+        </div>
+        <div class="truck">
+          <svg viewBox="0 0 100 52" aria-hidden="true"><path d="M2 24h61v14H2z" fill="currentColor"/><path d="M4 24V13M18 24V13M33 24V13M48 24V13M62 24V13M4 14h58" stroke="currentColor" stroke-width="3" fill="none"/><path d="M66 14h15c2 0 3.4.8 4.4 2.2l7 10c.4.6.6 1.3.6 2V38H66z" fill="currentColor"/><path d="M71 18h9l5.5 8H71z" fill="#DDEBE3"/><rect x="0" y="48" width="100" height="2" rx="1" fill="#C9D3D7"/><circle cx="18" cy="40" r="7.5" fill="#1E272C"/><circle cx="18" cy="40" r="3" fill="#C9D3D7"/><circle cx="80" cy="40" r="7.5" fill="#1E272C"/><circle cx="80" cy="40" r="3" fill="#C9D3D7"/></svg>
+          <h3 data-en="Open-body trucks" data-bn="খোলা ট্রাক">Open-body trucks</h3>
+          <p data-en="Easy loading from the top and sides for bulky and mixed cargo." data-bn="উপর ও পাশ থেকে সহজে লোড — বড় ও মিশ্র মালের জন্য।">Easy loading from the top and sides for bulky and mixed cargo.</p>
+        </div>
+        <div class="truck">
+          <svg viewBox="0 0 100 52" aria-hidden="true"><path d="M3 33 L9 9 Q10 6 13 6 L59 5 Q62 5 62 8 L63 33 Z" fill="currentColor"/><path d="M12 14h44" stroke="#fff" stroke-opacity=".25" stroke-width="2"/><rect x="2" y="33" width="62" height="5" fill="currentColor"/><path d="M66 14h15c2 0 3.4.8 4.4 2.2l7 10c.4.6.6 1.3.6 2V38H66z" fill="currentColor"/><path d="M71 18h9l5.5 8H71z" fill="#DDEBE3"/><rect x="0" y="48" width="100" height="2" rx="1" fill="#C9D3D7"/><circle cx="18" cy="40" r="7.5" fill="#1E272C"/><circle cx="18" cy="40" r="3" fill="#C9D3D7"/><circle cx="80" cy="40" r="7.5" fill="#1E272C"/><circle cx="80" cy="40" r="3" fill="#C9D3D7"/></svg>
+          <h3 data-en="Dump trucks" data-bn="ডাম্প ট্রাক">Dump trucks</h3>
+          <p data-en="Sand, stone, soil and construction material, unloaded in seconds." data-bn="বালু, পাথর, মাটি ও নির্মাণসামগ্রী — মুহূর্তেই আনলোড।">Sand, stone, soil and construction material, unloaded in seconds.</p>
+        </div>
+        <div class="truck">
+          <svg viewBox="0 0 100 52" aria-hidden="true"><rect x="2" y="3" width="61" height="35" rx="3" fill="currentColor"/><path d="M8 10h49M8 16h49" stroke="#fff" stroke-opacity=".2" stroke-width="2"/><path d="M66 14h15c2 0 3.4.8 4.4 2.2l7 10c.4.6.6 1.3.6 2V38H66z" fill="currentColor"/><path d="M71 18h9l5.5 8H71z" fill="#DDEBE3"/><rect x="0" y="48" width="100" height="2" rx="1" fill="#C9D3D7"/><circle cx="14" cy="40" r="7.5" fill="#1E272C"/><circle cx="14" cy="40" r="3" fill="#C9D3D7"/><circle cx="32" cy="40" r="7.5" fill="#1E272C"/><circle cx="32" cy="40" r="3" fill="#C9D3D7"/><circle cx="80" cy="40" r="7.5" fill="#1E272C"/><circle cx="80" cy="40" r="3" fill="#C9D3D7"/></svg>
+          <h3 data-en="Heavy-duty vehicles" data-bn="ভারী গাড়ি">Heavy-duty vehicles</h3>
+          <p data-en="Higher load capacity for large industrial consignments." data-bn="বড় শিল্প চালানের জন্য বেশি ধারণক্ষমতা।">Higher load capacity for large industrial consignments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== কীভাবে বুক করবেন ===== -->
+  <section class="steps">
+    <div class="wrap">
+      <h2 data-en="Booking a truck is simple" data-bn="ট্রাক বুক করা সহজ">Booking a truck is simple</h2>
+      <ol>
+        <li>
+          <h3 data-en="Tell us the load" data-bn="মালের তথ্য জানান">Tell us the load</h3>
+          <p data-en="What you're sending, how much, and from where to where." data-bn="কী পাঠাবেন, কতটুকু, আর কোথা থেকে কোথায়।">What you're sending, how much, and from where to where.</p>
+        </li>
+        <li>
+          <h3 data-en="We match the truck" data-bn="আমরা গাড়ি ঠিক করি">We match the truck</h3>
+          <p data-en="You get the right vehicle for the load and a clear price." data-bn="মালের জন্য সঠিক গাড়ি আর পরিষ্কার ভাড়া জানিয়ে দিই।">You get the right vehicle for the load and a clear price.</p>
+        </li>
+        <li>
+          <h3 data-en="Delivered on time" data-bn="সময়মতো পৌঁছে দিই">Delivered on time</h3>
+          <p data-en="Your goods reach their destination anywhere in Bangladesh." data-bn="বাংলাদেশের যেকোনো জায়গায় আপনার মাল পৌঁছে যায়।">Your goods reach their destination anywhere in Bangladesh.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== ক্লায়েন্ট ===== -->
+  <section class="clients" id="clients">
+    <div class="wrap">
+      <h2 data-en="Companies we've worked with" data-bn="যাদের সাথে আমরা কাজ করেছি">Companies we've worked with</h2>
+      <p class="intro" data-en="About seven years of transport for well-known feed mills and lubricant companies." data-bn="নামকরা ফিড মিল ও লুব্রিক্যান্ট কোম্পানির সাথে প্রায় সাত বছরের পরিবহন কাজ।">About seven years of transport for well-known feed mills and lubricant companies.</p>
+      <ul class="names">
+        <li>Nahar Agro Group</li>
+        <li>Faragon Feed Mill</li>
+        <li>CFB Bangladesh Feed Mill</li>
+        <li>Jawan Mobil</li>
+        <li>Gulf Oil</li>
+        <li>RFL Lubricants</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== প্রতিষ্ঠাতা ===== -->
+  <section class="founder">
+    <div class="wrap two">
+      <div>
+        <h2 data-en="About the founder" data-bn="প্রতিষ্ঠাতা সম্পর্কে">About the founder</h2>
+        <blockquote data-en="Honesty, reliability and keeping our word to every business partner." data-bn="সততা, নির্ভরযোগ্যতা, আর প্রতিটি ব্যবসায়িক সঙ্গীকে দেওয়া কথা রাখা।">Honesty, reliability and keeping our word to every business partner.</blockquote>
+      </div>
+      <div class="text">
+        <p data-en="Behind SOLUTION is an experienced entrepreneur with about 8–10 years in Bangladesh's transportation and logistics industry." data-bn="SOLUTION-এর পেছনে আছেন একজন অভিজ্ঞ উদ্যোক্তা, যার বাংলাদেশের পরিবহন ও লজিস্টিকস খাতে প্রায় ৮–১০ বছরের অভিজ্ঞতা।">Behind SOLUTION is an experienced entrepreneur with about 8–10 years in Bangladesh's transportation and logistics industry.</p>
+        <p data-en="Through years of dedication and careful business management, he has built a strong network and long-term relationships with well-known industrial and corporate organizations — including about seven years with companies such as Nahar Agro Group, Faragon Feed Mill, CFB Bangladesh Feed Mill, Jawan Mobil, Gulf Oil and RFL Lubricants." data-bn="বছরের পর বছর নিষ্ঠা ও যত্নশীল ব্যবসা পরিচালনার মাধ্যমে তিনি একটি শক্তিশালী নেটওয়ার্ক এবং নামকরা শিল্প ও কর্পোরেট প্রতিষ্ঠানের সাথে দীর্ঘমেয়াদি সম্পর্ক গড়ে তুলেছেন — যার মধ্যে নাহার এগ্রো গ্রুপ, ফারাগন ফিড মিল, সিএফবি বাংলাদেশ ফিড মিল, জাওয়ান মবিল, গালফ অয়েল ও আরএফএল লুব্রিক্যান্টসের মতো কোম্পানির সাথে প্রায় সাত বছরের কাজ।">Through years of dedication and careful business management, he has built a strong network and long-term relationships with well-known industrial and corporate organizations — including about seven years with companies such as Nahar Agro Group, Faragon Feed Mill, CFB Bangladesh Feed Mill, Jawan Mobil, Gulf Oil and RFL Lubricants.</p>
+        <p data-en="Under his leadership, SOLUTION has grown to five company-owned vehicles and about 30 more under management. His aim is to keep growing while holding the highest standards of reliability, professionalism and customer satisfaction." data-bn="তার নেতৃত্বে SOLUTION-এর এখন ৫টি নিজস্ব গাড়ি এবং ব্যবস্থাপনায় আরও প্রায় ৩০টি গাড়ি। তার লক্ষ্য — নির্ভরযোগ্যতা, পেশাদারিত্ব ও গ্রাহক সন্তুষ্টির সর্বোচ্চ মান ধরে রেখে ব্যবসা আরও বড় করা।">Under his leadership, SOLUTION has grown to five company-owned vehicles and about 30 more under management. His aim is to keep growing while holding the highest standards of reliability, professionalism and customer satisfaction.</p>
+        <ul class="values">
+          <li data-en="Honesty" data-bn="সততা">Honesty</li>
+          <li data-en="Reliability" data-bn="নির্ভরযোগ্যতা">Reliability</li>
+          <li data-en="Professional commitment" data-bn="পেশাদার প্রতিশ্রুতি">Professional commitment</li>
+          <li data-en="Long-term relationships" data-bn="দীর্ঘমেয়াদি সম্পর্ক">Long-term relationships</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== যোগাযোগ ===== -->
+  <section class="contact" id="contact">
+    <div class="wrap two">
+      <div>
+        <h2 data-en="Need a truck? Let's talk." data-bn="গাড়ি লাগবে? যোগাযোগ করুন।">Need a truck? Let's talk.</h2>
+        <p class="intro" data-en="Tell us what you're moving, from where and to where. We'll reply with the right vehicle and a price." data-bn="কী মাল, কোথা থেকে কোথায় যাবে — জানান। আমরা সঠিক গাড়ি আর ভাড়া জানিয়ে দেব।">Tell us what you're moving, from where and to where. We'll reply with the right vehicle and a price.</p>
+        <dl>
+          <dt data-en="Email" data-bn="ইমেইল">Email</dt>
+          <dd><a href="mailto:solution2041@gmail.com">solution2041@gmail.com</a></dd>
+          <dt data-en="Business address" data-bn="ব্যবসার ঠিকানা">Business address</dt>
+          <dd data-en="Mahipal, Feni, Bangladesh" data-bn="মহিপাল, ফেনী, বাংলাদেশ">Mahipal, Feni, Bangladesh</dd>
+          <dt data-en="Founder & Proprietor" data-bn="প্রতিষ্ঠাতা ও স্বত্বাধিকারী">Founder & Proprietor</dt>
+          <dd>SOLUTION</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h3 data-en="Work with us regularly" data-bn="নিয়মিত কাজ করতে চান?">Work with us regularly</h3>
+        <p data-en="Create a free account as a customer or as a driver. Our team reviews every new account." data-bn="কাস্টমার বা ড্রাইভার হিসেবে বিনামূল্যে অ্যাকাউন্ট খুলুন। প্রতিটা নতুন অ্যাকাউন্ট আমাদের টিম যাচাই করে।">Create a free account as a customer or as a driver. Our team reviews every new account.</p>
+        <div class="cta" style="margin-top:0">
+          <a class="btn yellow" href="signup.html" data-en="Create an account" data-bn="অ্যাকাউন্ট খুলুন">Create an account</a>
+          <a class="btn ghost" href="mailto:solution2041@gmail.com?subject=Truck%20booking%20request" data-en="Email us" data-bn="ইমেইল করুন">Email us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <b>SOLUTION</b>
+        <p style="margin-top:8px;max-width:26em" data-en="Moving businesses forward — trucks for factories and businesses all over Bangladesh." data-bn="ব্যবসাকে এগিয়ে নিয়ে যাই — সারা বাংলাদেশে কারখানা ও ব্যবসার জন্য ট্রাক।">Moving businesses forward — trucks for factories and businesses all over Bangladesh.</p>
+      </div>
+      <div>
+        <h4 data-en="Pages" data-bn="পেজ">Pages</h4>
+        <ul>
+          <li><a href="#about" data-en="About" data-bn="আমাদের কথা">About</a></li>
+          <li><a href="#fleet" data-en="Fleet" data-bn="গাড়ির বহর">Fleet</a></li>
+          <li><a href="#clients" data-en="Clients" data-bn="ক্লায়েন্ট">Clients</a></li>
+          <li><a href="signup.html" data-en="Create an account" data-bn="অ্যাকাউন্ট খুলুন">Create an account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-en="Contact" data-bn="যোগাযোগ">Contact</h4>
+        <ul>
+          <li><a href="mailto:solution2041@gmail.com">solution2041@gmail.com</a></li>
+          <li data-en="Mahipal, Feni, Bangladesh" data-bn="মহিপাল, ফেনী, বাংলাদেশ">Mahipal, Feni, Bangladesh</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© <span id="yr"></span> SOLUTION</span>
+      <span data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ভাষা বদল (ইংরেজি ↔ বাংলা), পছন্দ মনে রাখা হয়
+  var lang = "en";
+  try { lang = localStorage.getItem("sol-lang") || "en"; } catch (e) {}
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-en]").forEach(function(el){ el.textContent = el.dataset[lang]; });
+    document.getElementById("langBtn").textContent = lang === "en" ? "বাংলা" : "English";
+  }
+  document.getElementById("langBtn").onclick = function(){
+    lang = lang === "en" ? "bn" : "en";
+    try { localStorage.setItem("sol-lang", lang); } catch (e) {}
+    applyLang();
+  };
+  // মোবাইল মেনু
+  var nav = document.getElementById("nav"), mb = document.getElementById("menuBtn");
+  mb.onclick = function(){ var o = nav.classList.toggle("open"); mb.setAttribute("aria-expanded", o); };
+  nav.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ nav.classList.remove("open"); }); });
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  applyLang();
+</script>
+</body>
+</html>
