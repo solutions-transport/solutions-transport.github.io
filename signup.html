@@ -120,6 +120,11 @@
   .success h3{font-family:var(--display);font-size:32px;color:var(--asphalt)}
   .camwrap .btn{width:auto}
 
+  /* দেশের কোডের ঘর */
+  .ccwrap{position:relative;flex:none;width:124px;display:block}
+  .ccwrap select{width:100% !important;color:transparent !important;cursor:pointer}
+  .ccwrap select option{color:#1A2125;font-weight:500}
+  .ccwrap .cc-lab{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;font-weight:600;color:#1E272C;white-space:nowrap;font-size:16px}
 </style>
 </head>
 <body>
@@ -401,15 +406,17 @@ $("camClose").onclick = stopCam;
 
 /* ---------- দেশের কোড: বন্ধ অবস্থায় ছোট (SA +966), খুললে পুরো নাম ---------- */
 function ccSetup(sel){
-  if (!sel) return;
-  const full = () => [...sel.options].forEach(o => o.textContent = o.dataset.full);
-  const short = () => [...sel.options].forEach(o => o.textContent = o.dataset.short);
-  sel.addEventListener("mousedown", full);
-  sel.addEventListener("touchstart", full, { passive: true });
-  sel.addEventListener("keydown", full);
-  sel.addEventListener("change", () => { short(); sel.blur(); });
-  sel.addEventListener("blur", short);
-  short();
+  /* দেশের কোড: তালিকায় সবসময় পুরো নাম, আর বন্ধ ঘরে শুধু পতাকা + কোড
+     (বন্ধ ঘরের লেখাটা আলাদা লেবেল, তাই কখনো এলোমেলো হয় না) */
+  if (!sel || sel.dataset.cc) return; sel.dataset.cc = "1";
+  [].forEach.call(sel.options, function(o){ o.textContent = o.dataset.full; });
+  var wrap = document.createElement("span"); wrap.className = "ccwrap";
+  sel.parentNode.insertBefore(wrap, sel); wrap.appendChild(sel);
+  var lab = document.createElement("span"); lab.className = "cc-lab"; lab.setAttribute("aria-hidden", "true"); wrap.appendChild(lab);
+  var sync = function(){ var o = sel.options[sel.selectedIndex]; lab.textContent = o ? o.dataset.short : ""; };
+  sel.addEventListener("change", sync);
+  if (sel.form) sel.form.addEventListener("reset", function(){ setTimeout(sync, 0); });
+  sel.ccSync = sync; sync();
 }
 ccSetup($("cc"));
 

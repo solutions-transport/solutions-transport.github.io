@@ -23,7 +23,7 @@
     --rule:#D6DDDA;
     --white:#FFFFFF;
     --display:'Barlow Condensed','Hind Siliguri',sans-serif;
-    --body:'Barlow','Hind Siliguri',sans-serif;
+    --body:'Twemoji Country Flags','Barlow','Hind Siliguri',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -252,6 +252,13 @@
     .glance td:last-child{font-size:22px}
     .dest{font-size:26px}
   }
+  @font-face{font-family:"Twemoji Country Flags";unicode-range:U+1F1E6-1F1FF,U+1F3F4,U+E0062-E0063,U+E0065,U+E0067,U+E006C,U+E006E,U+E0073-E0074,U+E0077,U+E007F;
+    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");font-display:swap}
+  /* দেশের কোডের ঘর */
+  .ccwrap{position:relative;flex:none;width:124px;display:block}
+  .ccwrap select{width:100% !important;color:transparent !important;cursor:pointer}
+  .ccwrap select option{color:#1A2125;font-weight:500}
+  .ccwrap .cc-lab{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;font-weight:600;color:#1E272C;white-space:nowrap;font-size:16px}
 </style>
 </head>
 <body>
@@ -646,13 +653,20 @@
     if (navigator.clipboard) navigator.clipboard.writeText("solution2041@gmail.com").then(done, done); else done();
   };
 
-  // দেশের কোড: বন্ধ অবস্থায় ছোট, খুললে পুরো নাম
-  (function(sel){
-    var full = function(){ [].forEach.call(sel.options, function(o){ o.textContent = o.dataset.full; }); };
-    var short = function(){ [].forEach.call(sel.options, function(o){ o.textContent = o.dataset.short; }); };
-    sel.addEventListener("mousedown", full); sel.addEventListener("touchstart", full, { passive: true }); sel.addEventListener("keydown", full);
-    sel.addEventListener("change", function(){ short(); sel.blur(); }); sel.addEventListener("blur", short);
-  })(document.getElementById("bCc"));
+  function ccSetup(sel){
+    /* দেশের কোড: তালিকায় সবসময় পুরো নাম, আর বন্ধ ঘরে শুধু পতাকা + কোড
+       (বন্ধ ঘরের লেখাটা আলাদা লেবেল, তাই কখনো এলোমেলো হয় না) */
+    if (!sel || sel.dataset.cc) return; sel.dataset.cc = "1";
+    [].forEach.call(sel.options, function(o){ o.textContent = o.dataset.full; });
+    var wrap = document.createElement("span"); wrap.className = "ccwrap";
+    sel.parentNode.insertBefore(wrap, sel); wrap.appendChild(sel);
+    var lab = document.createElement("span"); lab.className = "cc-lab"; lab.setAttribute("aria-hidden", "true"); wrap.appendChild(lab);
+    var sync = function(){ var o = sel.options[sel.selectedIndex]; lab.textContent = o ? o.dataset.short : ""; };
+    sel.addEventListener("change", sync);
+    if (sel.form) sel.form.addEventListener("reset", function(){ setTimeout(sync, 0); });
+    sel.ccSync = sync; sync();
+  }
+  ccSetup(document.getElementById("bCc"));
 
   // বুকিং ফর্ম খোলা / বন্ধ
   var bk = document.getElementById("bk"), lastBtn = null;
