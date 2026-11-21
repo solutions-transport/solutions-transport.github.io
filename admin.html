@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Admin - SOLUTION</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blue:#0b2e59; --blue2:#123f78; --orange:#f39c12; --bg:#f2f5f9;
-    --text:#1d2633; --muted:#6b7686; --border:#d5dce6; --error:#d63031; --ok:#1e9e5a;
+    --asphalt:#1E272C; --asphalt-2:#2A353B; --sign:#0B5D3B; --line:#F2B705;
+    --blue:#1E272C; --blue2:#0B5D3B; --orange:#F2B705; --bg:#F2F5F4;
+    --text:#1A2125; --muted:#5D6A70; --border:#D6DDDA; --error:#C0392B; --ok:#1E8E57;
+    --display:'Barlow Condensed','Hind Siliguri',sans-serif;
   }
   /* Windows কম্পিউটারেও দেশের পতাকা দেখানোর জন্য (শুধু পতাকার জন্য ব্যবহার হয়) */
   @font-face{
@@ -19,17 +23,21 @@
     font-display:swap;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Twemoji Country Flags','Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-  .top{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .logo{font-size:22px;font-weight:700}
-  .logo span{color:var(--orange)}
-  .tag{background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px}
+  body{font-family:'Twemoji Country Flags','Barlow','Hind Siliguri',sans-serif;font-size:15.5px;background:var(--bg);color:var(--text);min-height:100vh}
+  .top{background:var(--asphalt);color:#fff;padding:0 20px;height:62px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--line)}
+  .logo{font-family:var(--display);font-size:26px;font-weight:800;letter-spacing:.06em;text-decoration:none;color:#fff}
+  .logo span{color:inherit}
+  .tag{background:var(--line);color:var(--asphalt);font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:.04em}
   .top .sp{flex:1}
-  .tbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit}
+  .tbtn{background:none;border:1px solid #56656C;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:14px;font-family:inherit}
+  .tbtn:hover{border-color:var(--line)}
+  .top .home{color:#DCE3E6;text-decoration:none;font-size:14.5px}
+  .top .home:hover{color:var(--line)}
+  @media (max-width:520px){.top{gap:8px;padding:0 12px}.top .home{display:none}.logo{font-size:22px}.tbtn{padding:5px 9px}}
   .wrap{max-width:1180px;margin:24px auto;padding:0 16px}
   #clientsPanel{max-width:860px;margin:0 auto}
   .card{background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.10);padding:24px;margin-bottom:20px}
-  h2{color:var(--blue);font-size:20px;margin-bottom:4px}
+  h2{color:var(--asphalt);font-family:var(--display);font-weight:700;font-size:28px;line-height:1.1;margin-bottom:4px}
   .sub{color:var(--muted);font-size:14px;margin-bottom:16px}
   .section-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--blue);margin:22px 0 12px;border-bottom:2px solid var(--border);padding-bottom:6px}
   .num{background:var(--blue);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
@@ -50,7 +58,8 @@
   .pw{position:relative}
   .pw input{padding-right:46px}
   .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px}
-  .btn{background:var(--orange);color:#fff;border:none;padding:13px 22px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit}
+  .btn{background:var(--line);color:var(--asphalt);border:none;padding:12px 22px;font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.02em;border-radius:6px;cursor:pointer}
+  .btn:hover{background:#FFC929}
   .btn.full{width:100%}
   .btn.gray{background:#e6ebf2;color:var(--text)}
   .btn:disabled{opacity:.6;cursor:wait}
@@ -59,7 +68,12 @@
   .msg.error{display:block;background:#fdecec;color:var(--error)}
   .msg.ok{display:block;background:#e6f6ee;color:var(--ok)}
   .hidden{display:none !important}
-  .login{max-width:420px;margin:40px auto}
+  .login{max-width:440px;margin:44px auto}
+  .login .card{padding:0;overflow:hidden}
+  .login .lhead{background:var(--asphalt);color:#fff;padding:22px 26px;border-bottom:4px solid var(--line)}
+  .login .lhead h2{color:#fff;font-size:32px}
+  .login .lhead p{color:#B9C4C9;margin-top:4px;font-size:14.5px}
+  .login .lbody{padding:24px 26px 26px}
   .filters{display:grid;grid-template-columns:1.5fr 1.2fr 1fr 1fr auto;gap:10px;margin-bottom:12px;align-items:end}
   .filters label{font-size:12px;color:var(--muted);margin-bottom:3px}
   @media(max-width:700px){.filters{grid-template-columns:1fr 1fr}.filters .wide{grid-column:1/-1}}
@@ -74,7 +88,8 @@
   .empty{color:var(--muted);text-align:center;padding:20px}
   .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
   .tab{flex:1;min-width:160px;background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:15px;color:var(--text)}
-  .tab.active{border-color:var(--orange);background:#fff7ea;color:var(--blue)}
+  .tab.active{border-color:var(--line);background:#FFF8E1;color:var(--asphalt)}
+  .tab{font-family:var(--display);font-size:19px;letter-spacing:.01em}
   .badge{display:inline-block;min-width:22px;padding:1px 7px;border-radius:11px;background:var(--error);color:#fff;font-size:12px;margin-left:6px}
   .st{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700}
   .st.pending{background:#fff3d6;color:#a86b00}
@@ -106,6 +121,14 @@
   .avbig{width:120px;height:120px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 6px;background:#e6ebf2;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:zoom-in}
   .avnone{width:120px;height:120px;border-radius:50%;margin:0 auto 6px;background:#e6ebf2;display:flex;align-items:center;justify-content:center;font-size:44px;color:var(--muted)}
   .phbtns{display:flex;gap:8px;justify-content:center;margin-bottom:6px;flex-wrap:wrap}
+  .route b{font-weight:600}
+  .route .to{color:var(--sign);margin:0 4px}
+  .bnote{white-space:normal;max-width:260px;font-size:13px;color:var(--muted)}
+  select.bst{width:auto;padding:6px 8px;font-size:13.5px;font-weight:600;border-radius:6px}
+  select.bst.new{background:#FFF3D6;color:#7A5600;border-color:#F2D27A}
+  select.bst.contacted{background:#E8EEFB;color:#1F3F86;border-color:#B9CAF0}
+  select.bst.done{background:#E6F4EC;color:#14613C;border-color:#A9D8BD}
+  select.bst.cancelled{background:#F1F1F1;color:#6B6B6B}
   .ufilters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:12px;align-items:end}
   .ufilters label{font-size:12px;color:var(--muted);margin-bottom:3px}
   @media(max-width:700px){.ufilters{grid-template-columns:1fr 1fr}.ufilters .wide{grid-column:1/-1}}
@@ -114,9 +137,10 @@
 <body>
 
 <div class="top">
-  <div class="logo">SOLU<span>TION</span></div>
+  <a class="logo" href="index.html">SOLU<span>TION</span></a>
   <span class="tag">ADMIN</span>
   <div class="sp"></div>
+  <a class="home" href="index.html" data-en="View website" data-bn="ওয়েবসাইট দেখুন">ওয়েবসাইট দেখুন</a>
   <button class="tbtn" id="langBtn">English</button>
   <button class="tbtn hidden" id="logoutBtn" data-en="Logout" data-bn="লগআউট">লগআউট</button>
 </div>
@@ -124,15 +148,18 @@
 <!-- ===== অ্যাডমিন লগইন ===== -->
 <div class="wrap login" id="loginBox">
   <div class="card">
-    <h2 data-en="Admin Login" data-bn="অ্যাডমিন লগইন">অ্যাডমিন লগইন</h2>
-    <p class="sub" data-en="Only admins can enter." data-bn="শুধু অ্যাডমিন ঢুকতে পারবে।">শুধু অ্যাডমিন ঢুকতে পারবে।</p>
+    <div class="lhead">
+      <h2 data-en="Admin login" data-bn="অ্যাডমিন লগইন">অ্যাডমিন লগইন</h2>
+      <p data-en="Only SOLUTION admins can enter." data-bn="শুধু SOLUTION-এর অ্যাডমিন ঢুকতে পারবে।">শুধু SOLUTION-এর অ্যাডমিন ঢুকতে পারবে।</p>
+    </div>
+    <div class="lbody">
     <div id="loginMsg" class="msg"></div>
     <div class="field">
       <label data-en="Mobile number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</label>
       <div class="phone">
         <select id="lcc">
-          <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
           <option value="+880" data-short="🇧🇩 +880" data-full="🇧🇩 Bangladesh (+880)">🇧🇩 +880</option>
+          <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
           <option value="+971" data-short="🇦🇪 +971" data-full="🇦🇪 United Arab Emirates (+971)">🇦🇪 +971</option>
           <option value="+974" data-short="🇶🇦 +974" data-full="🇶🇦 Qatar (+974)">🇶🇦 +974</option>
           <option value="+965" data-short="🇰🇼 +965" data-full="🇰🇼 Kuwait (+965)">🇰🇼 +965</option>
@@ -145,26 +172,80 @@
           <option value="+1" data-short="🇺🇸 +1" data-full="🇺🇸 United States (+1)">🇺🇸 +1</option>
           <option value="+44" data-short="🇬🇧 +44" data-full="🇬🇧 United Kingdom (+44)">🇬🇧 +44</option>
         </select>
-        <input type="tel" id="lphone" placeholder="5XXXXXXXX" autocomplete="username">
+        <input type="tel" id="lphone" placeholder="1XXXXXXXXX" autocomplete="username">
       </div>
     </div>
     <div class="field">
       <label data-en="Password" data-bn="পাসওয়ার্ড">পাসওয়ার্ড</label>
       <div class="pw"><input type="password" id="lpass" autocomplete="current-password"><button type="button" class="eye" data-for="lpass">👁</button></div>
     </div>
-    <button class="btn full" id="loginBtn" data-en="Login" data-bn="লগইন">লগইন</button>
+    <button class="btn full" id="loginBtn" data-en="Log in" data-bn="লগইন">লগইন</button>
+    </div>
   </div>
 </div>
 
 <!-- ===== ক্লায়েন্ট ফর্ম ===== -->
 <div class="wrap hidden" id="adminBox">
   <div class="tabs">
-    <button class="tab active" data-tab="usersPanel"><span data-en="Customers &amp; Drivers" data-bn="কাস্টমার ও ড্রাইভার">কাস্টমার ও ড্রাইভার</span><span class="badge hidden" id="pendBadge">0</span></button>
+    <button class="tab active" data-tab="bookingsPanel"><span data-en="Truck bookings" data-bn="ট্রাক বুকিং">ট্রাক বুকিং</span><span class="badge hidden" id="newBadge">0</span></button>
+    <button class="tab" data-tab="usersPanel"><span data-en="Customers &amp; Drivers" data-bn="কাস্টমার ও ড্রাইভার">কাস্টমার ও ড্রাইভার</span><span class="badge hidden" id="pendBadge">0</span></button>
     <button class="tab" data-tab="clientsPanel"><span data-en="Clients" data-bn="ক্লায়েন্ট">ক্লায়েন্ট</span></button>
   </div>
 
+  <!-- ===== ট্রাক বুকিং ===== -->
+  <div id="bookingsPanel">
+  <div class="card">
+    <h2 data-en="Truck bookings" data-bn="ট্রাক বুকিং">ট্রাক বুকিং</h2>
+    <p class="sub" data-en="Requests sent from the website's &quot;Request a truck&quot; form. Call the customer, then update the status." data-bn="ওয়েবসাইটের &quot;ট্রাক বুক করুন&quot; ফর্ম থেকে আসা অনুরোধ। কাস্টমারকে ফোন করে অবস্থা বদলে দিন।">ওয়েবসাইটের "ট্রাক বুক করুন" ফর্ম থেকে আসা অনুরোধ। কাস্টমারকে ফোন করে অবস্থা বদলে দিন।</p>
+    <div id="bkMsg" class="msg"></div>
+    <div class="ufilters">
+      <div class="wide">
+        <label data-en="Search" data-bn="খুঁজুন">খুঁজুন</label>
+        <input type="text" id="bSearch" data-ph-en="Name, phone, place..." data-ph-bn="নাম, ফোন, জায়গা..." placeholder="নাম, ফোন, জায়গা...">
+      </div>
+      <div>
+        <label data-en="Status" data-bn="অবস্থা">অবস্থা</label>
+        <select id="bStatus">
+          <option value="open" data-en="New + In progress" data-bn="নতুন + চলমান">নতুন + চলমান</option>
+          <option value="new" data-en="New" data-bn="নতুন">নতুন</option>
+          <option value="contacted" data-en="In progress" data-bn="চলমান">চলমান</option>
+          <option value="done" data-en="Completed" data-bn="সম্পন্ন">সম্পন্ন</option>
+          <option value="cancelled" data-en="Cancelled" data-bn="বাতিল">বাতিল</option>
+          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
+        </select>
+      </div>
+      <div>
+        <label data-en="Vehicle" data-bn="গাড়ি">গাড়ি</label>
+        <select id="bVehF">
+          <option value="" data-en="-- All --" data-bn="-- সব --">-- সব --</option>
+          <option value="any" data-en="Not sure" data-bn="নিশ্চিত না">নিশ্চিত না</option>
+          <option value="covered_van" data-en="Covered van" data-bn="কাভার্ড ভ্যান">কাভার্ড ভ্যান</option>
+          <option value="open_truck" data-en="Open-body truck" data-bn="খোলা ট্রাক">খোলা ট্রাক</option>
+          <option value="dump_truck" data-en="Dump truck" data-bn="ডাম্প ট্রাক">ডাম্প ট্রাক</option>
+          <option value="heavy" data-en="Heavy-duty" data-bn="ভারী গাড়ি">ভারী গাড়ি</option>
+        </select>
+      </div>
+    </div>
+    <div class="count" id="bCount"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th data-en="Received" data-bn="এসেছে">এসেছে</th>
+          <th data-en="Customer" data-bn="কাস্টমার">কাস্টমার</th>
+          <th data-en="Route" data-bn="রুট">রুট</th>
+          <th data-en="Load" data-bn="মাল ও গাড়ি">মাল ও গাড়ি</th>
+          <th data-en="Date needed" data-bn="কবে লাগবে">কবে লাগবে</th>
+          <th data-en="Status" data-bn="অবস্থা">অবস্থা</th>
+          <th data-en="Action" data-bn="কাজ">কাজ</th>
+        </tr></thead>
+        <tbody id="bRows"><tr><td colspan="7" class="empty">…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
   <!-- ===== ইউজার অনুমোদন ===== -->
-  <div id="usersPanel">
+  <div id="usersPanel" class="hidden">
   <div class="card">
     <h2 data-en="Customers &amp; Drivers" data-bn="কাস্টমার ও ড্রাইভার">কাস্টমার ও ড্রাইভার</h2>
     <p class="sub" data-en="Everyone who signed up. Press &quot;View&quot; to see full details, and approve or reject." data-bn="যারা সাইন আপ করেছে সবাই এখানে। পুরো তথ্য দেখতে &quot;দেখুন&quot; চাপুন, আর অনুমোদন বা বাতিল করুন।">যারা সাইন আপ করেছে সবাই এখানে। পুরো তথ্য দেখতে "দেখুন" চাপুন, আর অনুমোদন বা বাতিল করুন।</p>
@@ -262,8 +343,8 @@
           <label><span data-en="Phone number" data-bn="ফোন নম্বর">ফোন নম্বর</span> <span class="req">*</span></label>
           <div class="phone">
             <select id="cc">
-              <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
               <option value="+880" data-short="🇧🇩 +880" data-full="🇧🇩 Bangladesh (+880)">🇧🇩 +880</option>
+              <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
               <option value="+971" data-short="🇦🇪 +971" data-full="🇦🇪 United Arab Emirates (+971)">🇦🇪 +971</option>
               <option value="+974" data-short="🇶🇦 +974" data-full="🇶🇦 Qatar (+974)">🇶🇦 +974</option>
               <option value="+965" data-short="🇰🇼 +965" data-full="🇰🇼 Kuwait (+965)">🇰🇼 +965</option>
@@ -276,7 +357,7 @@
               <option value="+1" data-short="🇺🇸 +1" data-full="🇺🇸 United States (+1)">🇺🇸 +1</option>
               <option value="+44" data-short="🇬🇧 +44" data-full="🇬🇧 United Kingdom (+44)">🇬🇧 +44</option>
             </select>
-            <input type="tel" id="phone" placeholder="5XXXXXXXX">
+            <input type="tel" id="phone" placeholder="1XXXXXXXXX">
           </div>
           <div class="err" data-en="Enter a valid phone number" data-bn="সঠিক ফোন নম্বর দিন">সঠিক ফোন নম্বর দিন</div>
         </div>
@@ -402,7 +483,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const $ = id => document.getElementById(id);
-let lang = "bn", clients = [], users = [], editId = null;
+let lang = "bn", clients = [], users = [], bookings = [], editId = null;
 
 /* ---------- ভাষা ---------- */
 const typeName = v => { const o = document.querySelector(`#ctype option[value="${v}"]`); return o ? o.dataset[lang] : v; };
@@ -411,7 +492,7 @@ function applyLang(){
   document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
   document.querySelectorAll("[data-ph-en]").forEach(el => el.placeholder = lang === "bn" ? el.dataset.phBn : el.dataset.phEn);
   $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
-  renderRows(); renderUsers(); if (editId) setEdit(editId); if (viewId) (editMode ? editUser(viewId) : openUser(viewId));
+  renderRows(); renderUsers(); renderBookings(); if (editId) setEdit(editId); if (viewId) (editMode ? editUser(viewId) : openUser(viewId));
 }
 $("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
 
@@ -486,7 +567,7 @@ onAuthStateChanged(auth, async user => {
   $("loginBox").classList.add("hidden");
   $("adminBox").classList.remove("hidden");
   $("logoutBtn").classList.remove("hidden");
-  loadClients(); loadUsers();
+  loadClients(); loadUsers(); loadBookings();
 });
 
 /* ---------- ফর্ম চেক ---------- */
@@ -629,7 +710,7 @@ $("search").oninput = renderRows;
 document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
   document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
   t.classList.add("active");
-  ["usersPanel", "clientsPanel"].forEach(id => $(id).classList.toggle("hidden", id !== t.dataset.tab));
+  ["bookingsPanel", "usersPanel", "clientsPanel"].forEach(id => $(id).classList.toggle("hidden", id !== t.dataset.tab));
 });
 
 /* ---------- ইউজার অনুমোদন ---------- */
@@ -879,6 +960,65 @@ async function statusClick(e){
 $("uSearch").oninput = renderUsers;
 $("uStatus").onchange = renderUsers;
 $("uRole").onchange = renderUsers;
+
+/* ---------- ট্রাক বুকিং ---------- */
+const BVEH = { any:["Not sure","নিশ্চিত না"], covered_van:["Covered van","কাভার্ড ভ্যান"], open_truck:["Open-body truck","খোলা ট্রাক"], dump_truck:["Dump truck","ডাম্প ট্রাক"], heavy:["Heavy-duty","ভারী গাড়ি"] };
+const BST = { new:["New","নতুন"], contacted:["In progress","চলমান"], done:["Completed","সম্পন্ন"], cancelled:["Cancelled","বাতিল"] };
+async function loadBookings(){
+  try {
+    const snap = await getDocs(query(collection(db, "bookings"), orderBy("createdAt", "desc"), limit(300)));
+    bookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e){ console.error(e); bookings = [];
+    say("bkMsg", "error", "Could not load bookings. Check that the new Firestore Rules are published.", "বুকিং আনা যায়নি। Firestore-এ নতুন Rules Publish করা হয়েছে কিনা দেখুন।"); }
+  renderBookings();
+}
+function renderBookings(){
+  const q = $("bSearch").value.trim().toLowerCase(), st = $("bStatus").value, vf = $("bVehF").value;
+  const list = bookings.filter(b =>
+    (!st || (st === "open" ? (b.status === "new" || b.status === "contacted") : b.status === st)) &&
+    (!vf || b.vehicleType === vf) &&
+    (!q || [b.name, b.phone, b.pickup, b.drop, b.goods].join(" ").toLowerCase().includes(q)));
+  const nw = bookings.filter(b => b.status === "new").length;
+  $("newBadge").textContent = nw; $("newBadge").classList.toggle("hidden", !nw);
+  $("bCount").textContent = T(`Showing ${list.length}`, `মোট ${list.length}টি দেখানো হচ্ছে`);
+  $("bRows").innerHTML = list.length ? list.map(b => {
+    const v = BVEH[b.vehicleType]; const wa = (b.phone || "").replace("+", "");
+    const opts = Object.entries(BST).map(([k, l]) => `<option value="${k}" ${k === b.status ? "selected" : ""}>${T(l[0], l[1])}</option>`).join("");
+    return `<tr>
+      <td>${fmtDate(b.createdAt)}</td>
+      <td><b>${esc(b.name)}</b><br><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a> · <a href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WhatsApp</a></td>
+      <td class="route"><b>${esc(b.pickup)}</b><span class="to">→</span><b>${esc(b.drop)}</b></td>
+      <td>${esc(v ? T(v[0], v[1]) : b.vehicleType)}${b.goods ? `<div class="bnote">${esc(b.goods)}</div>` : ""}${b.notes ? `<div class="bnote">📝 ${esc(b.notes)}</div>` : ""}</td>
+      <td>${esc(b.date || "-")}</td>
+      <td><select class="bst ${esc(b.status)}" data-bid="${b.id}">${opts}</select></td>
+      <td><button class="act del" data-bdel="${b.id}">🗑 ${T("Delete","মুছুন")}</button></td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="7" class="empty">${T("No bookings here yet","এখানে এখনো কোনো বুকিং নেই")}</td></tr>`;
+}
+$("bRows").addEventListener("change", async e => {
+  const sel = e.target.closest("select[data-bid]"); if (!sel) return;
+  const b = bookings.find(x => x.id === sel.dataset.bid); const old = b.status;
+  sel.disabled = true; hush("bkMsg");
+  try {
+    await updateDoc(doc(db, "bookings", b.id), { status: sel.value, updatedBy: auth.currentUser.uid, updatedAt: serverTimestamp() });
+    b.status = sel.value;
+    say("bkMsg", "ok", "Status updated ✓", "অবস্থা বদলানো হয়েছে ✓");
+  } catch(err){ console.error(err); b.status = old;
+    say("bkMsg", "error", "Could not update. Try again.", "আপডেট হয়নি। আবার চেষ্টা করুন।"); }
+  renderBookings();
+});
+$("bRows").addEventListener("click", async e => {
+  const d = e.target.closest("button[data-bdel]"); if (!d) return;
+  const b = bookings.find(x => x.id === d.dataset.bdel);
+  if (!await ask(T(`Delete the booking from "${b.name}"?`, `"${b.name}"-এর বুকিং মুছে ফেলবেন?`))) return;
+  d.disabled = true;
+  try { await deleteDoc(doc(db, "bookings", b.id)); bookings = bookings.filter(x => x.id !== b.id);
+    say("bkMsg", "ok", "Booking deleted", "বুকিং মুছে ফেলা হয়েছে"); renderBookings();
+  } catch(err){ console.error(err); d.disabled = false; say("bkMsg", "error", "Could not delete. Try again.", "মোছা যায়নি। আবার চেষ্টা করুন।"); }
+});
+$("bSearch").oninput = renderBookings;
+$("bStatus").onchange = renderBookings;
+$("bVehF").onchange = renderBookings;
 
 applyLang();
 </script>

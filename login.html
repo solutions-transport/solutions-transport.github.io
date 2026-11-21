@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in - SOLUTION Transportation & Logistics</title>
+<meta name="description" content="Log in to your SOLUTION customer or driver account.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Windows-এও পতাকা দেখানোর ফন্ট */
+  @font-face{font-family:"Twemoji Country Flags";unicode-range:U+1F1E6-1F1FF,U+1F3F4,U+E0062-E0063,U+E0065,U+E0067,U+E006C,U+E006E,U+E0073-E0074,U+E0077,U+E007F;
+    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");font-display:swap}
+  :root{
+    --asphalt:#1E272C; --asphalt-2:#2A353B; --sign:#0B5D3B; --sign-dark:#08462C; --line:#F2B705;
+    --paper:#F2F5F4; --ink:#1A2125; --muted:#5D6A70; --rule:#D6DDDA; --white:#fff;
+    --error:#C0392B; --ok:#1E8E57;
+    --display:'Barlow Condensed','Hind Siliguri',sans-serif;
+    --body:'Twemoji Country Flags','Barlow','Hind Siliguri',sans-serif;
+    /* পুরনো নামগুলো নতুন রঙে */
+    --blue:var(--asphalt); --blue2:var(--sign); --orange:var(--line); --bg:var(--paper); --text:var(--ink); --border:var(--rule);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);background:var(--paper);min-height:100vh}
+  :focus-visible{outline:3px solid var(--line);outline-offset:2px}
+  a{color:inherit}
+  .hidden{display:none !important}
+
+  /* হেডার — হোম পেজের মতো */
+  .site-h{background:var(--asphalt);color:#fff;border-bottom:3px solid var(--line)}
+  .site-h .in{max-width:1160px;margin:0 auto;padding:0 20px;height:62px;display:flex;align-items:center;gap:20px}
+  .brand{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+  .brand b{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.06em}
+  .brand small{font-size:11px;color:#B9C4C9;letter-spacing:.04em;margin-top:3px}
+  .site-h nav{margin-left:auto;display:flex;align-items:center;gap:18px}
+  .site-h nav a{text-decoration:none;color:#DCE3E6;font-size:15px;font-weight:500}
+  .site-h nav a:hover{color:var(--line)}
+  .site-h nav a.cur{color:var(--line)}
+  .lang{background:none;border:1px solid #56656C;color:#fff;border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+  @media (max-width:560px){.site-h nav a.hide-sm{display:none}.site-h nav{gap:12px}}
+
+  /* দুই ভাগের লেআউট */
+  .auth{max-width:1080px;margin:34px auto 50px;padding:0 20px}
+  .auth-in{display:grid;grid-template-columns:.85fr 1.15fr;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(20,30,35,.14)}
+  .auth-side{background:var(--asphalt);color:#fff;padding:40px 34px 150px;position:relative;overflow:hidden}
+  .auth-side h1{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.02}
+  html[lang="bn"] .auth-side h1{line-height:1.25;font-size:34px}
+  .auth-side p{color:#C2CDD1;margin-top:12px}
+  .auth-side ul{list-style:none;margin-top:26px}
+  .auth-side li{position:relative;padding-left:30px;margin:12px 0;color:#E3E9EB}
+  .auth-side li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--line);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10'/%3E%3C/svg%3E")}
+  .auth-side li::after{content:"";position:absolute;left:6px;top:8px;width:5px;height:8px;border:solid var(--asphalt);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .auth-side .mini-road{position:absolute;left:0;right:0;bottom:0;height:120px;width:100%}
+  .auth-main{padding:34px 38px 36px}
+  .auth-main h2{font-family:var(--display);font-weight:700;font-size:34px;color:var(--asphalt);line-height:1.1}
+  .auth-main .sub{color:var(--muted);margin:4px 0 20px}
+  @media (max-width:860px){
+    .auth{margin-top:0;padding:0}
+    .auth-in{grid-template-columns:1fr;border-radius:0;box-shadow:none}
+    .auth-side{padding:24px 20px 26px}.auth-side h1{font-size:30px}.auth-side ul,.auth-side .mini-road{display:none}
+    .auth-main{padding:24px 18px 30px}
+  }
+
+  /* ফর্মের সাধারণ স্টাইল */
+  label{display:block;font-size:14.5px;font-weight:600;margin-bottom:5px;color:var(--asphalt)}
+  label .req,.req{color:var(--error)}
+  label .opt,.opt{color:var(--muted);font-weight:400;font-size:12.5px}
+  input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--rule);border-radius:6px;font:inherit;font-size:16px;background:#fff;color:var(--ink);outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--sign);box-shadow:0 0 0 3px rgba(11,93,59,.14)}
+  .field{margin-bottom:14px}
+  .phone{display:flex;gap:8px}
+  .phone select{width:122px;flex:none;font-weight:600;color:var(--asphalt)}
+  .err{color:var(--error);font-size:13px;margin-top:4px;display:none}
+  .field.bad input,.field.bad select{border-color:var(--error)}
+  .field.bad .err{display:block}
+  .pw{position:relative}
+  .pw input{padding-right:46px}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:19px;padding:4px;line-height:1}
+  .btn{display:inline-block;width:100%;text-align:center;text-decoration:none;background:var(--line);color:var(--asphalt);border:none;padding:13px 20px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.02em;border-radius:6px;cursor:pointer;line-height:1.2}
+  .btn:hover{background:#FFC929}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.dark{background:var(--asphalt);color:#fff}
+  .btn.dark:hover{background:var(--asphalt-2)}
+  .link{text-align:center;margin-top:16px;font-size:15px;color:var(--muted)}
+  .link a{color:var(--sign);font-weight:600}
+  .msg{padding:11px 13px;border-radius:6px;font-size:14.5px;margin-bottom:14px;display:none}
+  .msg.error{display:block;background:#FDECEC;color:#B3261E}
+  .msg.ok{display:block;background:#E6F4EC;color:var(--ok)}
+
+  /* ---- এই পেজের নিজস্ব ---- */
+  .acct{text-align:center}
+  .acct .pic{width:104px;height:104px;border-radius:50%;object-fit:cover;margin:4px auto 10px;display:flex;align-items:center;justify-content:center;background:#EEF2F1;font-size:42px;color:var(--muted);border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.12)}
+  .acct h2{margin-bottom:2px}
+  .acct .who{color:var(--muted)}
+  .state{display:flex;gap:14px;text-align:left;border-radius:8px;padding:16px 18px;margin:20px 0}
+  .state b{display:block;font-size:17px;margin-bottom:2px}
+  .state .ic{flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700}
+  .state.pending{background:#FFF6DB;color:#7A5600} .state.pending .ic{background:var(--line);color:var(--asphalt)}
+  .state.active{background:#E6F4EC;color:#14613C} .state.active .ic{background:var(--sign);color:#fff}
+  .state.rejected{background:#FDECEC;color:#8E1F17} .state.rejected .ic{background:var(--error);color:#fff}
+  .info{text-align:left;border-top:1px solid var(--rule);margin-bottom:20px}
+  .info div{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid var(--rule);font-size:15px}
+  .info span:first-child{color:var(--muted)}
+  .acts{display:grid;gap:10px}
+  .forgot{font-size:14px;color:var(--muted);margin-top:-4px;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<header class="site-h">
+  <div class="in">
+    <a class="brand" href="index.html" aria-label="SOLUTION home">
+      <b>SOLUTION</b>
+      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small>
+    </a>
+    <nav>
+      <a href="index.html" class="hide-sm" data-en="Home" data-bn="হোম">Home</a>
+      <a href="login.html" class=" cur" data-en="Log in" data-bn="লগইন">Log in</a>
+      <a href="signup.html" class="" data-en="Sign up" data-bn="সাইন আপ">Sign up</a>
+      <button class="lang" id="langBtn" type="button">বাংলা</button>
+    </nav>
+  </div>
+</header>
+
+<main class="auth">
+  <div class="auth-in">
+    <div class="auth-side">
+      <h1 data-en="Welcome back" data-bn="আবার স্বাগতম">Welcome back</h1>
+      <p data-en="Log in with the mobile number and password you used to sign up." data-bn="সাইন আপের সময় দেওয়া মোবাইল নম্বর আর পাসওয়ার্ড দিয়ে লগইন করুন।">Log in with the mobile number and password you used to sign up.</p>
+      <ul>
+        <li data-en="See if your account is approved" data-bn="অ্যাকাউন্ট অনুমোদন হয়েছে কিনা দেখুন">See if your account is approved</li>
+        <li data-en="Request trucks in a minute" data-bn="এক মিনিটে ট্রাক বুকিংয়ের অনুরোধ">Request trucks in a minute</li>
+        <li data-en="Your details, always up to date" data-bn="আপনার তথ্য সবসময় হালনাগাদ">Your details, always up to date</li>
+      </ul>
+      <svg class="mini-road" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+        <polygon points="196,0 204,0 330,120 70,120" fill="#2B363C"/>
+        <polygon points="196,0 197,0 80,120 74,120" fill="#D9E0E3" opacity=".5"/>
+        <polygon points="203,0 204,0 326,120 320,120" fill="#D9E0E3" opacity=".5"/>
+        <g fill="#F2B705"><polygon points="199.6,8 200.4,8 200.6,18 199.4,18"/><polygon points="199.2,30 200.8,30 201.2,46 198.8,46"/><polygon points="198.6,62 201.4,62 202,84 198,84"/><polygon points="197.8,100 202.2,100 202.6,120 197.4,120"/></g>
+      </svg>
+    </div>
+
+    <div class="auth-main">
+      <!-- ===== লগইন ফর্ম ===== -->
+      <form id="loginForm" novalidate>
+        <h2 data-en="Log in" data-bn="লগইন">Log in</h2>
+        <p class="sub" data-en="Customer or driver account" data-bn="কাস্টমার বা ড্রাইভার অ্যাকাউন্ট">Customer or driver account</p>
+        <div id="msg" class="msg"></div>
+        <div class="field" id="f-phone">
+          <label data-en="Mobile number" data-bn="মোবাইল নম্বর">Mobile number</label>
+          <div class="phone">
+            <select id="cc">
+              <option value="+880" data-short="🇧🇩 +880" data-full="🇧🇩 Bangladesh (+880)">🇧🇩 +880</option>
+              <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
+              <option value="+971" data-short="🇦🇪 +971" data-full="🇦🇪 United Arab Emirates (+971)">🇦🇪 +971</option>
+              <option value="+974" data-short="🇶🇦 +974" data-full="🇶🇦 Qatar (+974)">🇶🇦 +974</option>
+              <option value="+965" data-short="🇰🇼 +965" data-full="🇰🇼 Kuwait (+965)">🇰🇼 +965</option>
+              <option value="+968" data-short="🇴🇲 +968" data-full="🇴🇲 Oman (+968)">🇴🇲 +968</option>
+              <option value="+973" data-short="🇧🇭 +973" data-full="🇧🇭 Bahrain (+973)">🇧🇭 +973</option>
+              <option value="+91" data-short="🇮🇳 +91" data-full="🇮🇳 India (+91)">🇮🇳 +91</option>
+              <option value="+92" data-short="🇵🇰 +92" data-full="🇵🇰 Pakistan (+92)">🇵🇰 +92</option>
+              <option value="+977" data-short="🇳🇵 +977" data-full="🇳🇵 Nepal (+977)">🇳🇵 +977</option>
+              <option value="+20" data-short="🇪🇬 +20" data-full="🇪🇬 Egypt (+20)">🇪🇬 +20</option>
+              <option value="+1" data-short="🇺🇸 +1" data-full="🇺🇸 United States (+1)">🇺🇸 +1</option>
+              <option value="+44" data-short="🇬🇧 +44" data-full="🇬🇧 United Kingdom (+44)">🇬🇧 +44</option>
+            </select>
+            <input type="tel" id="phone" inputmode="tel" placeholder="1XXXXXXXXX" autocomplete="username">
+          </div>
+          <div class="err" data-en="Enter a valid mobile number" data-bn="সঠিক মোবাইল নম্বর দিন">Enter a valid mobile number</div>
+        </div>
+        <div class="field" id="f-pass">
+          <label data-en="Password" data-bn="পাসওয়ার্ড">Password</label>
+          <div class="pw"><input type="password" id="pass" autocomplete="current-password"><button type="button" class="eye" data-for="pass" aria-label="Show password">👁</button></div>
+          <div class="err" data-en="Write your password" data-bn="পাসওয়ার্ড লিখুন">Write your password</div>
+        </div>
+        <p class="forgot" data-en="Forgot your password? Write to solution2041@gmail.com and we'll help you get back in." data-bn="পাসওয়ার্ড ভুলে গেছেন? solution2041@gmail.com-এ লিখুন, আমরা আবার ঢুকতে সাহায্য করব।">Forgot your password? Write to solution2041@gmail.com and we'll help you get back in.</p>
+        <button type="submit" class="btn" id="loginBtn" data-en="Log in" data-bn="লগইন">Log in</button>
+        <div class="link"><span data-en="New to SOLUTION?" data-bn="নতুন?">New to SOLUTION?</span> <a href="signup.html" data-en="Create an account" data-bn="অ্যাকাউন্ট খুলুন">Create an account</a></div>
+      </form>
+
+      <!-- ===== লগইনের পর: আমার অ্যাকাউন্ট ===== -->
+      <div id="acct" class="acct hidden">
+        <div id="aPic" class="pic">👤</div>
+        <h2 id="aName"></h2>
+        <div class="who" id="aWho"></div>
+        <div class="state" id="aState"><div class="ic" id="aIc"></div><div><b id="aStTitle"></b><span id="aStText"></span></div></div>
+        <div class="info" id="aInfo"></div>
+        <div class="acts">
+          <a class="btn" id="aBook" href="index.html#book" data-en="Request a truck" data-bn="ট্রাক বুক করুন">Request a truck</a>
+          <button type="button" class="btn dark" id="logoutBtn" data-en="Log out" data-bn="লগআউট">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDdYRVY6tnAd1ovEmq_7nvqtmMcFoHN9wA",
+  authDomain: "solutions-transport.firebaseapp.com",
+  projectId: "solutions-transport",
+  storageBucket: "solutions-transport.firebasestorage.app",
+  messagingSenderId: "166077237931",
+  appId: "1:166077237931:web:23d45ede46e66bf45e85ee"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app), db = getFirestore(app);
+const $ = id => document.getElementById(id);
+let lang = (() => { try { return localStorage.getItem("sol-lang") || "en"; } catch(e) { return "en"; } })();
+let me = null;
+const T = (en, bn) => lang === "bn" ? bn : en;
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
+  $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
+  if (me) showAcct(me);
+}
+$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; try { localStorage.setItem("sol-lang", lang); } catch(e) {} applyLang(); };
+
+/* পাসওয়ার্ড দেখা */
+document.querySelectorAll(".eye").forEach(b => b.onclick = () => {
+  const i = $(b.dataset.for), s = i.type === "password";
+  i.type = s ? "text" : "password"; b.textContent = s ? "🙈" : "👁";
+});
+/* দেশের কোড */
+(sel => {
+  const full = () => [...sel.options].forEach(o => o.textContent = o.dataset.full);
+  const short = () => [...sel.options].forEach(o => o.textContent = o.dataset.short);
+  sel.addEventListener("mousedown", full); sel.addEventListener("touchstart", full, { passive: true }); sel.addEventListener("keydown", full);
+  sel.addEventListener("change", () => { short(); sel.blur(); }); sel.addEventListener("blur", short);
+})($("cc"));
+
+const say = (en, bn) => { const m = $("msg"); m.className = "msg error"; m.textContent = T(en, bn); };
+const mark = (id, bad) => { $(id).classList.toggle("bad", bad); return !bad; };
+
+$("loginForm").onsubmit = async e => {
+  e.preventDefault(); $("msg").className = "msg";
+  const num = $("phone").value.replace(/\D/g, "").replace(/^0+/, "");
+  let ok = mark("f-phone", !/^\d{7,12}$/.test(num));
+  ok = mark("f-pass", !$("pass").value) && ok;
+  if (!ok) return;
+  $("loginBtn").disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, ($("cc").value + num).replace("+", "") + "@solutions-login.app", $("pass").value);
+  } catch(err) {
+    console.error(err);
+    if (err.code === "auth/too-many-requests") say("Too many tries. Wait a few minutes and try again.", "অনেকবার চেষ্টা হয়েছে। কয়েক মিনিট পরে আবার চেষ্টা করুন।");
+    else if (err.code === "auth/network-request-failed") say("No internet connection. Try again.", "ইন্টারনেট সংযোগ নেই। আবার চেষ্টা করুন।");
+    else say("Wrong mobile number or password. Check the country code too.", "মোবাইল নম্বর বা পাসওয়ার্ড ভুল। দেশের কোডও মিলিয়ে দেখুন।");
+  }
+  $("loginBtn").disabled = false;
+};
+$("logoutBtn").onclick = () => signOut(auth);
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const VEH = { pickup:["Pickup","পিকআপ"], van:["Van","ভ্যান"], small_truck:["Small truck","ছোট ট্রাক"], big_truck:["Big truck","বড় ট্রাক"], trailer:["Trailer","ট্রেইলার"], refrigerated:["Refrigerated truck","ফ্রিজার ট্রাক"] };
+function showAcct(u){
+  $("aPic").innerHTML = (typeof u.photo === "string" && u.photo.startsWith("data:image/")) ? `<img src="${u.photo}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : "👤";
+  $("aName").textContent = u.name || T("My account", "আমার অ্যাকাউন্ট");
+  $("aWho").textContent = (u.role === "driver" ? T("Driver", "ড্রাইভার") : T("Customer", "কাস্টমার")) + " · " + (u.phone || "");
+  const st = {
+    pending:  ["⏳", T("Waiting for approval", "অনুমোদনের অপেক্ষায়"), T("Our team is checking your details. This usually doesn't take long.", "আমাদের টিম আপনার তথ্য যাচাই করছে। সাধারণত বেশি সময় লাগে না।")],
+    active:   ["✓", T("Account approved", "অ্যাকাউন্ট অনুমোদিত"), T("You're all set. You can request trucks any time.", "সব ঠিক আছে। যেকোনো সময় ট্রাক বুক করতে পারেন।")],
+    rejected: ["!", T("Not approved", "অনুমোদন হয়নি"), T("Please contact us at solution2041@gmail.com to sort this out.", "সমাধানের জন্য solution2041@gmail.com-এ যোগাযোগ করুন।")]
+  }[u.status] || ["?", u.status || "-", ""];
+  $("aState").className = "state " + (u.status || "");
+  $("aIc").textContent = st[0]; $("aStTitle").textContent = st[1]; $("aStText").textContent = st[2];
+  const rows = [[T("Email", "ইমেইল"), u.email], [T("City", "শহর"), u.city]];
+  if (u.role === "driver"){ const v = VEH[u.vehicleType];
+    rows.push([T("Vehicle", "গাড়ি"), v ? T(v[0], v[1]) : u.vehicleType], [T("Plate number", "নম্বর প্লেট"), u.plateNumber], [T("Capacity", "ধারণক্ষমতা"), u.capacityTon ? u.capacityTon + " " + T("ton", "টন") : ""]); }
+  else rows.push([T("Company", "কোম্পানি"), u.company]);
+  $("aInfo").innerHTML = rows.map(r => `<div><span>${esc(r[0])}</span><span>${esc(r[1]) || "-"}</span></div>`).join("");
+  $("aBook").classList.toggle("hidden", u.role === "driver");
+}
+
+onAuthStateChanged(auth, async user => {
+  if (!user){ me = null; $("acct").classList.add("hidden"); $("loginForm").classList.remove("hidden"); return; }
+  try {
+    const d = await getDoc(doc(db, "users", user.uid));
+    me = d.exists() ? d.data() : { name: "", status: "pending", phone: "" };
+  } catch(e) { console.error(e); me = { name: "", status: "pending" }; }
+  $("loginForm").classList.add("hidden"); $("acct").classList.remove("hidden");
+  showAcct(me);
+});
+
+applyLang();
+</script>
+</body>
+</html>

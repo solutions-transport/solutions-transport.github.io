@@ -1,92 +1,168 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign Up - SOLUTION Transportation & Logistics</title>
 <meta name="description" content="SOLUTION Transportation & Logistics — create a customer or driver account. সলিউশন ট্রান্সপোর্ট ও লজিস্টিকস — কাস্টমার বা ড্রাইভার অ্যাকাউন্ট খুলুন।">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Windows-এও পতাকা দেখানোর ফন্ট */
+  @font-face{font-family:"Twemoji Country Flags";unicode-range:U+1F1E6-1F1FF,U+1F3F4,U+E0062-E0063,U+E0065,U+E0067,U+E006C,U+E006E,U+E0073-E0074,U+E0077,U+E007F;
+    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");font-display:swap}
   :root{
-    --blue:#0b2e59; --blue2:#123f78; --orange:#f39c12; --bg:#f2f5f9;
-    --text:#1d2633; --muted:#6b7686; --border:#d5dce6; --error:#d63031; --ok:#1e9e5a;
-  }
-  /* Windows কম্পিউটারেও দেশের পতাকা দেখানোর জন্য (শুধু পতাকার জন্য ব্যবহার হয়) */
-  @font-face{
-    font-family:"Twemoji Country Flags";
-    unicode-range:U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
-    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");
-    font-display:swap;
+    --asphalt:#1E272C; --asphalt-2:#2A353B; --sign:#0B5D3B; --sign-dark:#08462C; --line:#F2B705;
+    --paper:#F2F5F4; --ink:#1A2125; --muted:#5D6A70; --rule:#D6DDDA; --white:#fff;
+    --error:#C0392B; --ok:#1E8E57;
+    --display:'Barlow Condensed','Hind Siliguri',sans-serif;
+    --body:'Twemoji Country Flags','Barlow','Hind Siliguri',sans-serif;
+    /* পুরনো নামগুলো নতুন রঙে */
+    --blue:var(--asphalt); --blue2:var(--sign); --orange:var(--line); --bg:var(--paper); --text:var(--ink); --border:var(--rule);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Twemoji Country Flags','Poppins','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 16px}
-  .card{background:#fff;width:100%;max-width:520px;border-radius:14px;box-shadow:0 8px 30px rgba(11,46,89,.12);overflow:hidden}
-  .head{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:22px 24px;position:relative}
-  .logo{font-size:26px;font-weight:700;letter-spacing:.5px}
-  .logo span{color:var(--orange)}
-  .head p{opacity:.85;font-size:14px;margin-top:4px}
-  .lang{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px}
-  .body{padding:24px}
-  .roles{display:flex;gap:10px;margin-bottom:20px}
-  .role{flex:1;border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-weight:600;transition:.2s}
-  .role .ic{font-size:26px;display:block;margin-bottom:4px}
-  .role.active{border-color:var(--orange);background:#fff7ea;color:var(--blue)}
-  .section-title{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;margin:18px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px}
-  label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
-  label .req{color:var(--error)}
-  label .opt{color:var(--muted);font-weight:400;font-size:12px}
-  input,select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;outline:none}
-  input:focus,select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(18,63,120,.12)}
+  body{font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);background:var(--paper);min-height:100vh}
+  :focus-visible{outline:3px solid var(--line);outline-offset:2px}
+  a{color:inherit}
+  .hidden{display:none !important}
+
+  /* হেডার — হোম পেজের মতো */
+  .site-h{background:var(--asphalt);color:#fff;border-bottom:3px solid var(--line)}
+  .site-h .in{max-width:1160px;margin:0 auto;padding:0 20px;height:62px;display:flex;align-items:center;gap:20px}
+  .brand{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+  .brand b{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.06em}
+  .brand small{font-size:11px;color:#B9C4C9;letter-spacing:.04em;margin-top:3px}
+  .site-h nav{margin-left:auto;display:flex;align-items:center;gap:18px}
+  .site-h nav a{text-decoration:none;color:#DCE3E6;font-size:15px;font-weight:500}
+  .site-h nav a:hover{color:var(--line)}
+  .site-h nav a.cur{color:var(--line)}
+  .lang{background:none;border:1px solid #56656C;color:#fff;border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+  @media (max-width:560px){.site-h nav a.hide-sm{display:none}.site-h nav{gap:12px}}
+
+  /* দুই ভাগের লেআউট */
+  .auth{max-width:1080px;margin:34px auto 50px;padding:0 20px}
+  .auth-in{display:grid;grid-template-columns:.85fr 1.15fr;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(20,30,35,.14)}
+  .auth-side{background:var(--asphalt);color:#fff;padding:40px 34px 150px;position:relative;overflow:hidden}
+  .auth-side h1{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.02}
+  html[lang="bn"] .auth-side h1{line-height:1.25;font-size:34px}
+  .auth-side p{color:#C2CDD1;margin-top:12px}
+  .auth-side ul{list-style:none;margin-top:26px}
+  .auth-side li{position:relative;padding-left:30px;margin:12px 0;color:#E3E9EB}
+  .auth-side li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--line);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10'/%3E%3C/svg%3E")}
+  .auth-side li::after{content:"";position:absolute;left:6px;top:8px;width:5px;height:8px;border:solid var(--asphalt);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .auth-side .mini-road{position:absolute;left:0;right:0;bottom:0;height:120px;width:100%}
+  .auth-main{padding:34px 38px 36px}
+  .auth-main h2{font-family:var(--display);font-weight:700;font-size:34px;color:var(--asphalt);line-height:1.1}
+  .auth-main .sub{color:var(--muted);margin:4px 0 20px}
+  @media (max-width:860px){
+    .auth{margin-top:0;padding:0}
+    .auth-in{grid-template-columns:1fr;border-radius:0;box-shadow:none}
+    .auth-side{padding:24px 20px 26px}.auth-side h1{font-size:30px}.auth-side ul,.auth-side .mini-road{display:none}
+    .auth-main{padding:24px 18px 30px}
+  }
+
+  /* ফর্মের সাধারণ স্টাইল */
+  label{display:block;font-size:14.5px;font-weight:600;margin-bottom:5px;color:var(--asphalt)}
+  label .req,.req{color:var(--error)}
+  label .opt,.opt{color:var(--muted);font-weight:400;font-size:12.5px}
+  input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--rule);border-radius:6px;font:inherit;font-size:16px;background:#fff;color:var(--ink);outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--sign);box-shadow:0 0 0 3px rgba(11,93,59,.14)}
   .field{margin-bottom:14px}
-  .row{display:flex;gap:10px}
-  .row > *{flex:1}
   .phone{display:flex;gap:8px}
-  .phone select{width:118px;flex:none;font-weight:600;color:var(--blue)}
-  .err{color:var(--error);font-size:12px;margin-top:4px;display:none}
+  .phone select{width:122px;flex:none;font-weight:600;color:var(--asphalt)}
+  .err{color:var(--error);font-size:13px;margin-top:4px;display:none}
   .field.bad input,.field.bad select{border-color:var(--error)}
   .field.bad .err{display:block}
-  .check{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:6px 0 14px}
-  .check input{width:auto;margin-top:3px}
-  .btn{width:100%;background:var(--orange);color:#fff;border:none;padding:13px;font-size:16px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit}
-  .btn:disabled{opacity:.6;cursor:wait}
-  .link{text-align:center;margin-top:14px;font-size:14px;color:var(--muted)}
-  .link a{color:var(--blue2);font-weight:600}
-  .hidden{display:none !important}
   .pw{position:relative}
   .pw input{padding-right:46px}
-  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px;padding:4px;line-height:1}
-  .photo{text-align:center;margin-bottom:16px}
-  .photo .circle{width:110px;height:110px;border-radius:50%;margin:0 auto 10px;background:#eef2f7;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:42px;color:var(--muted);overflow:hidden}
-  .photo .circle img{width:100%;height:100%;object-fit:cover}
-  .photo .pbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-  .pbtn{background:#eef2f7;border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--blue)}
-  .pbtn.rm{color:var(--error)}
-  .camwrap{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:99;padding:16px}
-  .camwrap video{width:100%;max-width:420px;aspect-ratio:1/1;object-fit:cover;border-radius:50%;transform:scaleX(-1);background:#000}
-  .camwrap .row2{display:flex;gap:10px}
-  .camwrap .btn{width:auto;padding:12px 22px}
-  .otp-box{text-align:center}
-  .otp-box input{text-align:center;font-size:24px;letter-spacing:10px;max-width:240px;margin:14px auto}
-  .note{background:#fff7ea;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px;border-radius:6px;margin-bottom:14px}
-  .msg{padding:10px;border-radius:8px;font-size:14px;margin-bottom:12px;display:none}
-  .msg.error{display:block;background:#fdecec;color:var(--error)}
-  .success{text-align:center;padding:20px 0}
-  .success .big{font-size:60px;color:var(--ok)}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:19px;padding:4px;line-height:1}
+  .btn{display:inline-block;width:100%;text-align:center;text-decoration:none;background:var(--line);color:var(--asphalt);border:none;padding:13px 20px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.02em;border-radius:6px;cursor:pointer;line-height:1.2}
+  .btn:hover{background:#FFC929}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.dark{background:var(--asphalt);color:#fff}
+  .btn.dark:hover{background:var(--asphalt-2)}
+  .link{text-align:center;margin-top:16px;font-size:15px;color:var(--muted)}
+  .link a{color:var(--sign);font-weight:600}
+  .msg{padding:11px 13px;border-radius:6px;font-size:14.5px;margin-bottom:14px;display:none}
+  .msg.error{display:block;background:#FDECEC;color:#B3261E}
+  .msg.ok{display:block;background:#E6F4EC;color:var(--ok)}
+
+  /* ---- এই পেজের নিজস্ব ---- */
+  .roles{display:flex;gap:10px;margin-bottom:20px}
+.role{flex:1;border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-weight:600;transition:.2s}
+.role .ic{font-size:26px;display:block;margin-bottom:4px}
+.role.active{border-color:var(--orange);background:#fff7ea;color:var(--blue)}
+.row{display:flex;gap:10px}
+.row > *{flex:1}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:6px 0 14px}
+.check input{width:auto;margin-top:3px}
+.photo{text-align:center;margin-bottom:16px}
+.photo .circle{width:110px;height:110px;border-radius:50%;margin:0 auto 10px;background:#eef2f7;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:42px;color:var(--muted);overflow:hidden}
+.photo .circle img{width:100%;height:100%;object-fit:cover}
+.photo .pbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pbtn{background:#eef2f7;border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--blue)}
+.pbtn.rm{color:var(--error)}
+.camwrap{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:99;padding:16px}
+.camwrap video{width:100%;max-width:420px;aspect-ratio:1/1;object-fit:cover;border-radius:50%;transform:scaleX(-1);background:#000}
+.camwrap .row2{display:flex;gap:10px}
+.camwrap .btn{width:auto;padding:12px 22px}
+.note{background:#fff7ea;border-left:4px solid var(--orange);padding:10px 12px;font-size:13px;border-radius:6px;margin-bottom:14px}
+.success{text-align:center;padding:20px 0}
+.success .big{font-size:60px;color:var(--ok)}
+  .role{border-color:var(--rule);background:#fff}
+  .role.active{border-color:var(--line);background:#FFF8E1;color:var(--asphalt)}
+  .section-title{font-family:var(--display);font-size:19px;font-weight:700;color:var(--sign);margin:20px 0 10px;padding-bottom:6px;border-bottom:1.5px solid var(--rule)}
+  .success{text-align:center;padding:30px 0}
+  .success .big{width:74px;height:74px;border-radius:50%;background:var(--sign);color:#fff;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .success h3{font-family:var(--display);font-size:32px;color:var(--asphalt)}
+  .camwrap .btn{width:auto}
+
 </style>
 </head>
 <body>
 
-<div class="card">
-  <div class="head">
-    <div class="logo">SOLU<span>TION</span></div>
-    <p data-en="Transport & Logistics" data-bn="ট্রান্সপোর্ট ও লজিস্টিকস">ট্রান্সপোর্ট ও লজিস্টিকস</p>
-    <button class="lang" id="langBtn">English</button>
+<header class="site-h">
+  <div class="in">
+    <a class="brand" href="index.html" aria-label="SOLUTION home">
+      <b>SOLUTION</b>
+      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small>
+    </a>
+    <nav>
+      <a href="index.html" class="hide-sm" data-en="Home" data-bn="হোম">Home</a>
+      <a href="login.html" class="" data-en="Log in" data-bn="লগইন">Log in</a>
+      <a href="signup.html" class=" cur" data-en="Sign up" data-bn="সাইন আপ">Sign up</a>
+      <button class="lang" id="langBtn" type="button">বাংলা</button>
+    </nav>
   </div>
+</header>
 
-  <div class="body">
+<main class="auth">
+  <div class="auth-in">
+    <div class="auth-side">
+      <h1 data-en="Move goods with a team you can trust" data-bn="বিশ্বস্ত টিমের সাথে মাল পাঠান">Move goods with a team you can trust</h1>
+      <p data-en="One account for booking trucks or driving with SOLUTION." data-bn="ট্রাক বুকিং বা SOLUTION-এ গাড়ি চালানো — একটাই অ্যাকাউন্ট।">One account for booking trucks or driving with SOLUTION.</p>
+      <ul>
+        <li data-en="Book trucks from Feni to anywhere in Bangladesh" data-bn="ফেনী থেকে বাংলাদেশের যেকোনো জায়গায় ট্রাক বুক">Book trucks from Feni to anywhere in Bangladesh</li>
+        <li data-en="About 35 vehicles: covered vans, open, dump and heavy trucks" data-bn="প্রায় ৩৫টি গাড়ি: কাভার্ড ভ্যান, খোলা, ডাম্প ও ভারী ট্রাক">About 35 vehicles: covered vans, open, dump and heavy trucks</li>
+        <li data-en="Drivers: get loads from trusted corporate clients" data-bn="ড্রাইভার: বিশ্বস্ত কর্পোরেট ক্লায়েন্টের কাজ পান">Drivers: get loads from trusted corporate clients</li>
+        <li data-en="Every account is checked by our team" data-bn="প্রতিটা অ্যাকাউন্ট আমাদের টিম যাচাই করে">Every account is checked by our team</li>
+      </ul>
+      <svg class="mini-road" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+        <polygon points="196,0 204,0 330,120 70,120" fill="#2B363C"/>
+        <polygon points="196,0 197,0 80,120 74,120" fill="#D9E0E3" opacity=".5"/>
+        <polygon points="203,0 204,0 326,120 320,120" fill="#D9E0E3" opacity=".5"/>
+        <g fill="#F2B705"><polygon points="199.6,8 200.4,8 200.6,18 199.4,18"/><polygon points="199.2,30 200.8,30 201.2,46 198.8,46"/><polygon points="198.6,62 201.4,62 202,84 198,84"/><polygon points="197.8,100 202.2,100 202.6,120 197.4,120"/></g>
+      </svg>
+    </div>
+  <div class="auth-main">
     <div id="demoNote" class="note hidden" data-en="Demo mode: Firebase is not connected yet. Nothing is saved." data-bn="ডেমো মোড: Firebase এখনো যুক্ত হয়নি। কোনো তথ্য সেভ হবে না।">ডেমো মোড: Firebase এখনো যুক্ত হয়নি। কোনো তথ্য সেভ হবে না।</div>
     <div id="msg" class="msg"></div>
 
+    <h2 data-en="Create your account" data-bn="অ্যাকাউন্ট খুলুন">Create your account</h2>
+    <p class="sub" data-en="Choose customer or driver. It's free." data-bn="কাস্টমার নাকি ড্রাইভার — বেছে নিন। এটা বিনামূল্যে।">Choose customer or driver. It's free.</p>
     <!-- ===== STEP 1: FORM ===== -->
     <form id="step1" novalidate autocomplete="off">
       <div class="roles">
@@ -119,8 +195,8 @@
         <label><span data-en="Mobile number" data-bn="মোবাইল নম্বর">মোবাইল নম্বর</span> <span class="req">*</span></label>
         <div class="phone">
           <select id="cc">
-            <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
             <option value="+880" data-short="🇧🇩 +880" data-full="🇧🇩 Bangladesh (+880)">🇧🇩 +880</option>
+            <option value="+966" data-short="🇸🇦 +966" data-full="🇸🇦 Saudi Arabia (+966)">🇸🇦 +966</option>
             <option value="+971" data-short="🇦🇪 +971" data-full="🇦🇪 United Arab Emirates (+971)">🇦🇪 +971</option>
             <option value="+974" data-short="🇶🇦 +974" data-full="🇶🇦 Qatar (+974)">🇶🇦 +974</option>
             <option value="+965" data-short="🇰🇼 +965" data-full="🇰🇼 Kuwait (+965)">🇰🇼 +965</option>
@@ -133,7 +209,7 @@
             <option value="+1" data-short="🇺🇸 +1" data-full="🇺🇸 United States (+1)">🇺🇸 +1</option>
             <option value="+44" data-short="🇬🇧 +44" data-full="🇬🇧 United Kingdom (+44)">🇬🇧 +44</option>
           </select>
-          <input type="tel" id="phone" placeholder="5XXXXXXXX" autocomplete="off">
+          <input type="tel" id="phone" placeholder="1XXXXXXXXX" autocomplete="off">
         </div>
         <div class="err" data-en="Enter a valid mobile number" data-bn="সঠিক মোবাইল নম্বর দিন">সঠিক মোবাইল নম্বর দিন</div>
       </div>
@@ -220,7 +296,8 @@
       <a href="index.html" class="btn" style="display:block;text-decoration:none" data-en="Go to Home" data-bn="হোম পেজে যান">হোম পেজে যান</a>
     </div>
   </div>
-</div>
+  </div>
+</main>
 
 <!-- ===== সেলফি ক্যামেরা ===== -->
 <div class="camwrap hidden" id="camBox">
@@ -248,7 +325,7 @@ const firebaseConfig = {
 
 const DEMO = firebaseConfig.apiKey === "YOUR_API_KEY";
 const $ = id => document.getElementById(id);
-let lang = "bn", role = "customer", fb = null, fullPhone = "", photo = "", camStream = null;
+let lang = (() => { try { return localStorage.getItem("sol-lang") || "en"; } catch(e) { return "en"; } })(), role = "customer", fb = null, fullPhone = "", photo = "", camStream = null;
 
 if (DEMO) $("demoNote").classList.remove("hidden");
 
@@ -258,7 +335,7 @@ function applyLang(){
   document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
   $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
 }
-$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; applyLang(); };
+$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; try { localStorage.setItem("sol-lang", lang); } catch(e) {} applyLang(); };
 
 /* ---------- কাস্টমার / ড্রাইভার ---------- */
 document.querySelectorAll(".role").forEach(r => r.onclick = () => {
