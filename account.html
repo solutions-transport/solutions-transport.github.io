@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23F28C28'/><rect x='6' y='22' width='9' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='3' y='29' width='12' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='7' y='36' width='8' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='18' y='18' width='24' height='22' rx='3' fill='%230B2545'/><path d='M43 25h8.5c1 0 1.9.5 2.4 1.3l3.6 5.6c.3.5.5 1 .5 1.6V40H43z' fill='%230B2545'/><path d='M46 28h5l2.8 4.5H46z' fill='%23F28C28'/><circle cx='26' cy='43' r='5' fill='%23fff' stroke='%230B2545' stroke-width='3'/><circle cx='49' cy='43' r='5' fill='%23fff' stroke='%230B2545' stroke-width='3'/><path d='M35 23.5h-6.5a3 3 0 0 0 0 6h3a3 3 0 0 1 0 6H25' fill='none' stroke='%23F28C28' stroke-width='3' stroke-linecap='round'/></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My account - SOLUTION Transportation & Logistics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Windows-এও পতাকা দেখানোর ফন্ট */
+  @font-face{font-family:"Twemoji Country Flags";unicode-range:U+1F1E6-1F1FF,U+1F3F4,U+E0062-E0063,U+E0065,U+E0067,U+E006C,U+E006E,U+E0073-E0074,U+E0077,U+E007F;
+    src:url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2");font-display:swap}
+  :root{
+    --asphalt:#1E272C; --asphalt-2:#2A353B; --sign:#0B5D3B; --sign-dark:#08462C; --line:#F2B705;
+    --paper:#F2F5F4; --ink:#1A2125; --muted:#5D6A70; --rule:#D6DDDA; --white:#fff;
+    --error:#C0392B; --ok:#1E8E57;
+    --display:'Barlow Condensed','Hind Siliguri',sans-serif;
+    --body:'Twemoji Country Flags','Barlow','Hind Siliguri',sans-serif;
+    /* পুরনো নামগুলো নতুন রঙে */
+    --blue:var(--asphalt); --blue2:var(--sign); --orange:var(--line); --bg:var(--paper); --text:var(--ink); --border:var(--rule);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);background:var(--paper);min-height:100vh}
+  :focus-visible{outline:3px solid var(--line);outline-offset:2px}
+  a{color:inherit}
+  .hidden{display:none !important}
+
+  /* হেডার — হোম পেজের মতো */
+  .site-h{background:var(--asphalt);color:#fff;border-bottom:3px solid var(--line)}
+  .site-h .in{max-width:1160px;margin:0 auto;padding:0 20px;height:62px;display:flex;align-items:center;gap:20px}
+  .brand{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+  .brand b{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.06em}
+  .brand small{font-size:11px;color:#B9C4C9;letter-spacing:.04em;margin-top:3px}
+  .site-h nav{margin-left:auto;display:flex;align-items:center;gap:18px}
+  .site-h nav a{text-decoration:none;color:#DCE3E6;font-size:15px;font-weight:500}
+  .site-h nav a:hover{color:var(--line)}
+  .site-h nav a.cur{color:var(--line)}
+  .lang{background:none;border:1px solid #56656C;color:#fff;border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+  @media (max-width:560px){.site-h nav a.hide-sm{display:none}.site-h nav{gap:12px}}
+
+  /* দুই ভাগের লেআউট */
+  .auth{max-width:1080px;margin:34px auto 50px;padding:0 20px}
+  .auth-in{display:grid;grid-template-columns:.85fr 1.15fr;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(20,30,35,.14)}
+  .auth-side{background:var(--asphalt);color:#fff;padding:40px 34px 150px;position:relative;overflow:hidden}
+  .auth-side h1{font-family:var(--display);font-weight:800;font-size:40px;line-height:1.02}
+  html[lang="bn"] .auth-side h1{line-height:1.25;font-size:34px}
+  .auth-side p{color:#C2CDD1;margin-top:12px}
+  .auth-side ul{list-style:none;margin-top:26px}
+  .auth-side li{position:relative;padding-left:30px;margin:12px 0;color:#E3E9EB}
+  .auth-side li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--line);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10'/%3E%3C/svg%3E")}
+  .auth-side li::after{content:"";position:absolute;left:6px;top:8px;width:5px;height:8px;border:solid var(--asphalt);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .auth-side .mini-road{position:absolute;left:0;right:0;bottom:0;height:120px;width:100%}
+  .auth-main{padding:34px 38px 36px}
+  .auth-main h2{font-family:var(--display);font-weight:700;font-size:34px;color:var(--asphalt);line-height:1.1}
+  .auth-main .sub{color:var(--muted);margin:4px 0 20px}
+  @media (max-width:860px){
+    .auth{margin-top:0;padding:0}
+    .auth-in{grid-template-columns:1fr;border-radius:0;box-shadow:none}
+    .auth-side{padding:24px 20px 26px}.auth-side h1{font-size:30px}.auth-side ul,.auth-side .mini-road{display:none}
+    .auth-main{padding:24px 18px 30px}
+  }
+
+  /* ফর্মের সাধারণ স্টাইল */
+  label{display:block;font-size:14.5px;font-weight:600;margin-bottom:5px;color:var(--asphalt)}
+  label .req,.req{color:var(--error)}
+  label .opt,.opt{color:var(--muted);font-weight:400;font-size:12.5px}
+  input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--rule);border-radius:6px;font:inherit;font-size:16px;background:#fff;color:var(--ink);outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--sign);box-shadow:0 0 0 3px rgba(11,93,59,.14)}
+  .field{margin-bottom:14px}
+  .phone{display:flex;gap:8px}
+  .phone select{width:122px;flex:none;font-weight:600;color:var(--asphalt)}
+  .err{color:var(--error);font-size:13px;margin-top:4px;display:none}
+  .field.bad input,.field.bad select{border-color:var(--error)}
+  .field.bad .err{display:block}
+  .pw{position:relative}
+  .pw input{padding-right:46px}
+  .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:19px;padding:4px;line-height:1}
+  .btn{display:inline-block;width:100%;text-align:center;text-decoration:none;background:var(--line);color:var(--asphalt);border:none;padding:13px 20px;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.02em;border-radius:6px;cursor:pointer;line-height:1.2}
+  .btn:hover{background:#FFC929}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.dark{background:var(--asphalt);color:#fff}
+  .btn.dark:hover{background:var(--asphalt-2)}
+  .link{text-align:center;margin-top:16px;font-size:15px;color:var(--muted)}
+  .link a{color:var(--sign);font-weight:600}
+  .msg{padding:11px 13px;border-radius:6px;font-size:14.5px;margin-bottom:14px;display:none}
+  .msg.error{display:block;background:#FDECEC;color:#B3261E}
+  .msg.ok{display:block;background:#E6F4EC;color:var(--ok)}
+
+  /* ---------- অ্যাকাউন্ট ড্যাশবোর্ড ---------- */
+  .me{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none;font-weight:600;font-size:15px}
+  .me .av{width:32px;height:32px;border-radius:50%;background:var(--line);color:var(--asphalt);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex:none}
+  .me .av img{width:100%;height:100%;object-fit:cover}
+  .out{background:none;border:1px solid #56656C;color:#DCE3E6;border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+  .out:hover{border-color:var(--line);color:var(--line)}
+  @media (max-width:560px){.me span.nm{display:none}}
+
+  .band{background:var(--asphalt);color:#fff;border-bottom:1px solid #2F3B41}
+  .band .in{max-width:1160px;margin:0 auto;padding:34px 20px 0}
+  .band .row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .band h1{font-family:var(--display);font-weight:800;font-size:42px;line-height:1.05}
+  html[lang="bn"] .band h1{line-height:1.3;font-size:36px}
+  .band .meta{color:#B9C4C9;margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pill{display:inline-block;border-radius:20px;padding:3px 12px;font-size:13.5px;font-weight:700}
+  .pill.pending,.pill.new{background:#FFF3D6;color:#7A5600}
+  .pill.active,.pill.done{background:#DDF1E6;color:#14613C}
+  .pill.rejected{background:#FDE2E0;color:#8E1F17}
+  .pill.contacted{background:#E1E9FB;color:#1F3F86}
+  .pill.cancelled{background:#ECEEEF;color:#5D6A70}
+  .band .btn{width:auto;padding:11px 22px}
+  .tabs{display:flex;gap:4px;margin-top:26px;overflow-x:auto}
+  .tabs button{background:none;border:0;color:#B9C4C9;font:inherit;font-weight:600;font-size:15.5px;padding:12px 16px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+  .tabs button:hover{color:#fff}
+  .tabs button.on{color:#fff;border-bottom-color:var(--line)}
+
+  .page{max-width:1160px;margin:0 auto;padding:28px 20px 60px}
+  .panel{display:none}
+  .panel.on{display:block}
+  .box{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:24px}
+  .box + .box{margin-top:18px}
+  .box h2{font-family:var(--display);font-weight:700;font-size:26px;color:var(--asphalt);margin-bottom:4px}
+  .box .sub{color:var(--muted);margin-bottom:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+  .stat{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:20px 22px}
+  .stat b{display:block;font-family:var(--display);font-size:40px;line-height:1;color:var(--asphalt)}
+  .stat span{color:var(--muted);font-size:14.5px}
+  .status{display:flex;gap:16px;align-items:flex-start;border-radius:10px;padding:20px 22px;border:1px solid}
+  .status .ic{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
+  .status h3{font-family:var(--display);font-size:24px;line-height:1.1}
+  .status p{margin-top:4px}
+  .status.pending{background:#FFF8E6;border-color:#F2DA94;color:#6B4C00}.status.pending .ic{background:var(--line);color:var(--asphalt)}
+  .status.active{background:#EEF8F2;border-color:#B5DEC6;color:#14613C}.status.active .ic{background:var(--sign);color:#fff}
+  .status.rejected{background:#FDF0EF;border-color:#F2C1BC;color:#8E1F17}.status.rejected .ic{background:var(--error);color:#fff}
+  .vehicle{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin-top:18px;background:#fff}
+  .vehicle div{padding:16px 18px;border-right:1px solid var(--rule)}
+  .vehicle div:last-child{border-right:0}
+  .vehicle span{display:block;color:var(--muted);font-size:13.5px}
+  .vehicle b{font-family:var(--display);font-size:22px;color:var(--asphalt)}
+
+  .blist{width:100%;border-collapse:collapse}
+  .blist th{text-align:left;color:var(--muted);font-size:13px;font-weight:600;padding:10px 10px;border-bottom:1px solid var(--rule)}
+  .blist td{padding:14px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  .blist .rt b{font-weight:600}
+  .blist .rt i{font-style:normal;color:var(--sign);margin:0 6px}
+  .blist .small{color:var(--muted);font-size:13.5px}
+  .tw{overflow-x:auto}
+  .empty{text-align:center;padding:36px 10px;color:var(--muted)}
+  .empty b{display:block;font-family:var(--display);font-size:24px;color:var(--asphalt);margin-bottom:4px}
+  .empty .btn{width:auto;margin-top:16px;padding:10px 22px}
+
+  .pf{display:grid;grid-template-columns:200px 1fr;gap:30px}
+  .pf .pic{text-align:center}
+  .pf .pic .ph{width:132px;height:132px;border-radius:50%;margin:0 auto 12px;background:#EEF2F1;display:flex;align-items:center;justify-content:center;font-size:50px;color:var(--muted);overflow:hidden;border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.12)}
+  .pf .pic .ph img{width:100%;height:100%;object-fit:cover}
+  .pf .pic button{background:#EEF2F1;border:1px solid var(--rule);border-radius:20px;padding:6px 14px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;margin:3px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+  .ro{background:#F4F6F5 !important;color:var(--muted)}
+  .hint{font-size:13px;color:var(--muted);margin-top:4px}
+  .save-row{display:flex;gap:12px;align-items:center;margin-top:6px}
+  .save-row .btn{width:auto;padding:11px 26px}
+
+  /* বুকিং ফর্ম (পপআপ) */
+  .bk{position:fixed;inset:0;z-index:50;background:rgba(14,19,22,.72);display:flex;justify-content:center;align-items:flex-start;padding:28px 16px;overflow-y:auto}
+  .bk[hidden]{display:none}
+  .bk-box{background:#fff;width:100%;max-width:620px;border-radius:12px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+  .bk-head{background:var(--sign);color:#fff;padding:20px 24px;display:flex;gap:12px;border-bottom:4px solid var(--line)}
+  .bk-head h3{font-family:var(--display);font-size:30px;line-height:1.05;flex:1}
+  .bk-head p{color:#CFE4D8;font-size:15px;margin-top:4px}
+  .bk-x{background:rgba(255,255,255,.15);border:0;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;flex:none}
+  .bk form{padding:22px 24px 24px}
+  .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
+  .route .arw{padding-bottom:24px;color:var(--sign);font-size:22px;font-weight:700}
+  textarea{min-height:76px;resize:vertical}
+  .bk-done{text-align:center;padding:34px 24px 30px}
+  .bk-done .ok{width:66px;height:66px;border-radius:50%;background:var(--sign);color:#fff;font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .bk-done h3{font-family:var(--display);font-size:32px;color:var(--asphalt)}
+  .bk-done p{color:var(--muted);margin:8px auto 20px}
+  .bk-done .btn{width:auto;padding:10px 26px}
+
+  .loading{text-align:center;padding:80px 20px;color:var(--muted)}
+  @media (max-width:860px){.grid3{grid-template-columns:1fr 1fr}.vehicle{grid-template-columns:1fr 1fr}.vehicle div:nth-child(2){border-right:0}.vehicle div:nth-child(-n+2){border-bottom:1px solid var(--rule)}.pf{grid-template-columns:1fr}}
+  @media (max-width:560px){.grid3,.two,.route{grid-template-columns:1fr}.route .arw{display:none}.band h1{font-size:34px}.box{padding:18px}}
+
+  /* লোগো */
+  .brand{flex-direction:row !important;align-items:center;gap:10px}
+  .brand .mark{width:38px;height:38px;flex:none}
+  .brand .bt{display:flex;flex-direction:column;line-height:1}
+</style>
+</head>
+<body>
+
+<header class="site-h">
+  <div class="in">
+    <a class="brand" href="index.html" aria-label="SOLUTION home">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#F28C28"/><rect x="6" y="22" width="9" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="3" y="29" width="12" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="7" y="36" width="8" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="18" y="18" width="24" height="22" rx="3" fill="#0B2545"/><path d="M43 25h8.5c1 0 1.9.5 2.4 1.3l3.6 5.6c.3.5.5 1 .5 1.6V40H43z" fill="#0B2545"/><path d="M46 28h5l2.8 4.5H46z" fill="#F28C28"/><circle cx="26" cy="43" r="5" fill="#fff" stroke="#0B2545" stroke-width="3"/><circle cx="49" cy="43" r="5" fill="#fff" stroke="#0B2545" stroke-width="3"/><path d="M35 23.5h-6.5a3 3 0 0 0 0 6h3a3 3 0 0 1 0 6H25" fill="none" stroke="#F28C28" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="bt"><b>SOLUTION</b>
+      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small></span>
+    </a>
+    <nav>
+      <a href="index.html" class="hide-sm" data-en="Home" data-bn="হোম">Home</a>
+      <a class="me" href="account.html"><span class="av" id="hAv"></span><span class="nm" id="hName"></span></a>
+      <button class="lang" id="langBtn" type="button">বাংলা</button>
+      <button class="out" id="logoutBtn" type="button" data-en="Log out" data-bn="লগআউট">Log out</button>
+    </nav>
+  </div>
+</header>
+
+<div class="loading" id="loading" data-en="Loading your account…" data-bn="আপনার অ্যাকাউন্ট খুলছে…">Loading your account…</div>
+
+<div id="app" class="hidden">
+  <section class="band">
+    <div class="in">
+      <div class="row">
+        <div>
+          <h1 id="hello"></h1>
+          <div class="meta"><span id="roleTxt"></span><span>·</span><span id="phoneTxt"></span><span class="pill" id="stPill"></span></div>
+        </div>
+        <button class="btn" id="newBk" type="button" data-en="New booking" data-bn="নতুন বুকিং">New booking</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="on" data-p="pOver" data-en="Overview" data-bn="সারসংক্ষেপ">Overview</button>
+        <button data-p="pBook" id="tabBook" data-en="My bookings" data-bn="আমার বুকিং">My bookings</button>
+        <button data-p="pProf" data-en="Profile" data-bn="প্রোফাইল">Profile</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="page">
+    <!-- ===== সারসংক্ষেপ ===== -->
+    <div class="panel on" id="pOver">
+      <div class="status" id="stBox"><div class="ic" id="stIc"></div><div><h3 id="stTitle"></h3><p id="stText"></p></div></div>
+      <div class="grid3" id="statsC">
+        <div class="stat"><b id="sTotal">0</b><span data-en="Booking requests" data-bn="মোট বুকিং অনুরোধ">Booking requests</span></div>
+        <div class="stat"><b id="sOpen">0</b><span data-en="In progress" data-bn="চলমান">In progress</span></div>
+        <div class="stat"><b id="sDone">0</b><span data-en="Completed" data-bn="সম্পন্ন">Completed</span></div>
+      </div>
+      <div class="vehicle hidden" id="vehBox"></div>
+      <div class="box" id="recentBox" style="margin-top:18px">
+        <h2 data-en="Recent bookings" data-bn="সাম্প্রতিক বুকিং">Recent bookings</h2>
+        <div id="recent"></div>
+      </div>
+    </div>
+
+    <!-- ===== আমার বুকিং ===== -->
+    <div class="panel" id="pBook">
+      <div class="box">
+        <h2 data-en="My bookings" data-bn="আমার বুকিং">My bookings</h2>
+        <p class="sub" data-en="Every truck request you've sent, newest first." data-bn="আপনার পাঠানো সব ট্রাক অনুরোধ, নতুনগুলো আগে।">Every truck request you've sent, newest first.</p>
+        <div id="allB"></div>
+      </div>
+    </div>
+
+    <!-- ===== প্রোফাইল ===== -->
+    <div class="panel" id="pProf">
+      <div class="box">
+        <h2 data-en="Profile" data-bn="প্রোফাইল">Profile</h2>
+        <p class="sub" data-en="Keep your details up to date so we can reach you." data-bn="তথ্য হালনাগাদ রাখুন, যাতে আমরা যোগাযোগ করতে পারি।">Keep your details up to date so we can reach you.</p>
+        <div id="pMsg" class="msg"></div>
+        <form id="pForm" class="pf" novalidate>
+          <div class="pic">
+            <div class="ph" id="pPh">👤</div>
+            <button type="button" id="pUp" data-en="Change photo" data-bn="ছবি বদলান">Change photo</button>
+            <button type="button" id="pRm" data-en="Remove" data-bn="মুছুন">Remove</button>
+            <input type="file" id="pFile" accept="image/*" class="hidden">
+          </div>
+          <div>
+            <div class="field" id="f-name"><label data-en="Full name" data-bn="পুরো নাম">Full name</label><input id="eName">
+              <div class="err" data-en="Write your name" data-bn="নাম লিখুন">Write your name</div></div>
+            <div class="two">
+              <div class="field"><label data-en="Mobile number" data-bn="মোবাইল নম্বর">Mobile number</label><input id="ePhone" class="ro" readonly>
+                <div class="hint" data-en="This is your login ID and can't be changed." data-bn="এটাই লগইন আইডি, বদলানো যায় না।">This is your login ID and can't be changed.</div></div>
+              <div class="field" id="f-email"><label data-en="Email" data-bn="ইমেইল">Email</label><input id="eEmail" type="email">
+                <div class="err" data-en="Email is not correct" data-bn="ইমেইল সঠিক নয়">Email is not correct</div></div>
+            </div>
+            <div class="two">
+              <div class="field"><label data-en="City" data-bn="শহর">City</label><input id="eCity"></div>
+              <div class="field" id="compF"><label data-en="Company name" data-bn="কোম্পানির নাম">Company name</label><input id="eComp"></div>
+            </div>
+            <div id="drvF" class="hidden">
+              <div class="two">
+                <div class="field"><label data-en="Plate number" data-bn="নম্বর প্লেট">Plate number</label><input id="ePlate"></div>
+                <div class="field"><label data-en="Capacity (ton)" data-bn="ধারণক্ষমতা (টন)">Capacity (ton)</label><input id="eCap" type="number" min="0" step="0.5"></div>
+              </div>
+              <div class="field"><label data-en="Driving license number" data-bn="ড্রাইভিং লাইসেন্স নম্বর">Driving license number</label><input id="eLic"></div>
+            </div>
+            <div class="save-row"><button type="submit" class="btn" id="pSave" data-en="Save changes" data-bn="পরিবর্তন সেভ করুন">Save changes</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== নতুন বুকিং ===== -->
+<div class="bk" id="bk" hidden role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+  <div class="bk-box">
+    <div class="bk-head">
+      <div>
+        <h3 id="bkTitle" data-en="New booking" data-bn="নতুন বুকিং">New booking</h3>
+        <p data-en="We'll call you to confirm the vehicle and price." data-bn="গাড়ি ও ভাড়া নিশ্চিত করতে আমরা ফোন করব।">We'll call you to confirm the vehicle and price.</p>
+      </div>
+      <button type="button" class="bk-x" id="bkClose" aria-label="Close">✕</button>
+    </div>
+    <form id="bkForm" novalidate>
+      <div id="bkMsg" class="msg"></div>
+      <div class="route">
+        <div class="field" id="b-from"><label><span data-en="Pickup from" data-bn="কোথা থেকে">Pickup from</span> <span class="req">*</span></label><input id="bFrom">
+          <div class="err" data-en="Required" data-bn="লিখুন">Required</div></div>
+        <div class="arw" aria-hidden="true">→</div>
+        <div class="field" id="b-to"><label><span data-en="Deliver to" data-bn="কোথায় যাবে">Deliver to</span> <span class="req">*</span></label><input id="bTo">
+          <div class="err" data-en="Required" data-bn="লিখুন">Required</div></div>
+      </div>
+      <div class="two">
+        <div class="field"><label data-en="Vehicle type" data-bn="গাড়ির ধরন">Vehicle type</label>
+          <select id="bVeh">
+            <option value="any" data-en="Not sure — suggest one" data-bn="নিশ্চিত না — আপনারা ঠিক করুন">Not sure — suggest one</option>
+            <option value="covered_van" data-en="Covered van" data-bn="কাভার্ড ভ্যান">Covered van</option>
+            <option value="open_truck" data-en="Open-body truck" data-bn="খোলা ট্রাক">Open-body truck</option>
+            <option value="dump_truck" data-en="Dump truck" data-bn="ডাম্প ট্রাক">Dump truck</option>
+            <option value="heavy" data-en="Heavy-duty vehicle" data-bn="ভারী গাড়ি">Heavy-duty vehicle</option>
+          </select></div>
+        <div class="field"><label data-en="Date needed" data-bn="কবে লাগবে">Date needed</label><input id="bDate" type="date"></div>
+      </div>
+      <div class="field"><label><span data-en="What are you sending?" data-bn="কী মাল পাঠাবেন?">What are you sending?</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(optional)</span></label><input id="bGoods"></div>
+      <div class="field"><label><span data-en="Anything else?" data-bn="আর কিছু জানাতে চান?">Anything else?</span> <span class="opt" data-en="(optional)" data-bn="(ঐচ্ছিক)">(optional)</span></label><textarea id="bNotes"></textarea></div>
+      <button type="submit" class="btn" id="bkSend" data-en="Send request" data-bn="অনুরোধ পাঠান">Send request</button>
+    </form>
+    <div class="bk-done" id="bkDone" hidden>
+      <div class="ok">✓</div>
+      <h3 data-en="Request sent" data-bn="অনুরোধ পাঠানো হয়েছে">Request sent</h3>
+      <p data-en="You can follow it under My bookings." data-bn="&quot;আমার বুকিং&quot;-এ এর অবস্থা দেখতে পারবেন।">You can follow it under My bookings.</p>
+      <button type="button" class="btn" id="bkOk" data-en="Done" data-bn="ঠিক আছে">Done</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDdYRVY6tnAd1ovEmq_7nvqtmMcFoHN9wA",
+  authDomain: "solutions-transport.firebaseapp.com",
+  projectId: "solutions-transport",
+  storageBucket: "solutions-transport.firebasestorage.app",
+  messagingSenderId: "166077237931",
+  appId: "1:166077237931:web:23d45ede46e66bf45e85ee"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app), db = getFirestore(app);
+const $ = id => document.getElementById(id);
+let lang = (() => { try { return localStorage.getItem("sol-lang") || "en"; } catch(e) { return "en"; } })();
+const T = (en, bn) => lang === "bn" ? bn : en;
+let uid = null, me = null, myB = [], newPhoto = null;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const isPhoto = v => typeof v === "string" && v.startsWith("data:image/");
+const VEH = { pickup:["Pickup","পিকআপ"], van:["Van","ভ্যান"], small_truck:["Small truck","ছোট ট্রাক"], big_truck:["Big truck","বড় ট্রাক"], trailer:["Trailer","ট্রেইলার"], refrigerated:["Refrigerated truck","ফ্রিজার ট্রাক"] };
+const BVEH = { any:["Not sure","নিশ্চিত না"], covered_van:["Covered van","কাভার্ড ভ্যান"], open_truck:["Open-body truck","খোলা ট্রাক"], dump_truck:["Dump truck","ডাম্প ট্রাক"], heavy:["Heavy-duty","ভারী গাড়ি"] };
+const BST = { new:["Received","গৃহীত"], contacted:["In progress","চলমান"], done:["Completed","সম্পন্ন"], cancelled:["Cancelled","বাতিল"] };
+const UST = { pending:["Waiting for approval","অনুমোদনের অপেক্ষায়"], active:["Approved","অনুমোদিত"], rejected:["Not approved","অনুমোদন হয়নি"] };
+const fmt = ts => ts && ts.toDate ? ts.toDate().toLocaleDateString(lang === "bn" ? "bn-BD" : "en-GB", { day:"numeric", month:"short", year:"numeric" }) : "-";
+const say = (id, type, en, bn) => { const m = $(id); m.className = "msg " + type; m.textContent = T(en, bn); };
+const mark = (id, bad) => { $(id).classList.toggle("bad", bad); return !bad; };
+
+/* ---------- ভাষা ---------- */
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.dataset[lang]);
+  $("langBtn").textContent = lang === "bn" ? "English" : "বাংলা";
+  if (me) render();
+}
+$("langBtn").onclick = () => { lang = lang === "bn" ? "en" : "bn"; try { localStorage.setItem("sol-lang", lang); } catch(e) {} applyLang(); };
+$("logoutBtn").onclick = async () => { await signOut(auth); location.href = "login.html"; };
+
+/* ---------- ট্যাব ---------- */
+function showTab(id){
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.p === id));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("on", p.id === id));
+}
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => showTab(b.dataset.p));
+
+/* ---------- দেখানো ---------- */
+function bookingRows(list, emptyCta){
+  if (!list.length) return `<div class="empty"><b>${T("No bookings yet","এখনো কোনো বুকিং নেই")}</b>${T("When you request a truck, it will show up here.","ট্রাক বুক করলে এখানে দেখা যাবে।")}${emptyCta && canBook() ? `<br><button class="btn" type="button" data-newbk>${T("New booking","নতুন বুকিং")}</button>` : ""}</div>`;
+  return `<div class="tw"><table class="blist"><thead><tr><th>${T("Route","রুট")}</th><th>${T("Vehicle","গাড়ি")}</th><th>${T("Date needed","কবে লাগবে")}</th><th>${T("Sent","পাঠানো")}</th><th>${T("Status","অবস্থা")}</th></tr></thead><tbody>` +
+    list.map(b => { const v = BVEH[b.vehicleType], s = BST[b.status] || [b.status, b.status];
+      return `<tr><td class="rt"><b>${esc(b.pickup)}</b><i>→</i><b>${esc(b.drop)}</b>${b.goods ? `<div class="small">${esc(b.goods)}</div>` : ""}</td>
+        <td>${esc(v ? T(v[0], v[1]) : b.vehicleType)}</td><td>${esc(b.date || "-")}</td><td class="small">${fmt(b.createdAt)}</td>
+        <td><span class="pill ${esc(b.status)}">${T(s[0], s[1])}</span></td></tr>`; }).join("") + `</tbody></table></div>`;
+}
+const canBook = () => me && me.role !== "driver" && me.status === "active";
+function render(){
+  const first = (me.name || "").trim().split(/\s+/)[0] || "";
+  $("hello").textContent = T(`Hello${first ? ", " + first : ""}`, `স্বাগতম${first ? ", " + first : ""}`);
+  $("roleTxt").textContent = me.role === "driver" ? T("Driver","ড্রাইভার") : T("Customer","কাস্টমার");
+  $("phoneTxt").textContent = me.phone || "";
+  const us = UST[me.status] || [me.status, me.status];
+  $("stPill").className = "pill " + (me.status || ""); $("stPill").textContent = T(us[0], us[1]);
+  $("hName").textContent = first;
+  $("hAv").innerHTML = isPhoto(me.photo) ? `<img src="${me.photo}" alt="">` : esc(first.charAt(0).toUpperCase() || "•");
+  $("newBk").classList.toggle("hidden", !canBook());
+
+  const drv = me.role === "driver";
+  const S = {
+    pending: ["⏳", T("Your account is being checked","আপনার অ্যাকাউন্ট যাচাই হচ্ছে"), drv ? T("Our team is reviewing your vehicle and license details. We'll contact you once you're approved.","আমাদের টিম আপনার গাড়ি ও লাইসেন্সের তথ্য দেখছে। অনুমোদন হলে আমরা যোগাযোগ করব।") : T("You can book trucks as soon as our team approves your account. Until then, you can still send a request from the home page.","আমাদের টিম অনুমোদন দিলেই এখান থেকে ট্রাক বুক করতে পারবেন। ততক্ষণ হোম পেজ থেকে অনুরোধ পাঠাতে পারেন।")],
+    active: ["✓", T("Your account is approved","আপনার অ্যাকাউন্ট অনুমোদিত"), drv ? T("You're part of the SOLUTION fleet. We'll call you when there's a load for your vehicle.","আপনি এখন SOLUTION বহরের অংশ। আপনার গাড়ির জন্য কাজ এলে আমরা ফোন করব।") : T("Press \"New booking\" whenever you need a truck. We'll call to confirm.","ট্রাক লাগলে যেকোনো সময় \"নতুন বুকিং\" চাপুন। আমরা ফোন করে নিশ্চিত করব।")],
+    rejected: ["!", T("Your account was not approved","আপনার অ্যাকাউন্ট অনুমোদন হয়নি"), T("Please write to solution2041@gmail.com and we'll help sort it out.","solution2041@gmail.com-এ লিখুন, আমরা সমাধানে সাহায্য করব।")]
+  }[me.status] || ["?", me.status, ""];
+  $("stBox").className = "status " + (me.status || ""); $("stIc").textContent = S[0]; $("stTitle").textContent = S[1]; $("stText").textContent = S[2];
+
+  $("statsC").classList.toggle("hidden", drv); $("recentBox").classList.toggle("hidden", drv); $("tabBook").classList.toggle("hidden", drv);
+  $("vehBox").classList.toggle("hidden", !drv);
+  if (drv){ const v = VEH[me.vehicleType];
+    $("vehBox").innerHTML = [[T("Vehicle","গাড়ি"), v ? T(v[0], v[1]) : me.vehicleType], [T("Plate number","নম্বর প্লেট"), me.plateNumber], [T("Capacity","ধারণক্ষমতা"), (me.capacityTon || "-") + " " + T("ton","টন")], [T("License","লাইসেন্স"), me.licenseNumber]]
+      .map(r => `<div><span>${esc(r[0])}</span><b>${esc(r[1] || "-")}</b></div>`).join(""); }
+  $("sTotal").textContent = myB.length;
+  $("sOpen").textContent = myB.filter(b => b.status === "new" || b.status === "contacted").length;
+  $("sDone").textContent = myB.filter(b => b.status === "done").length;
+  $("recent").innerHTML = bookingRows(myB.slice(0, 3), true);
+  $("allB").innerHTML = bookingRows(myB, true);
+  document.querySelectorAll("[data-newbk]").forEach(b => b.onclick = openBk);
+}
+function fillProfile(){
+  $("eName").value = me.name || ""; $("ePhone").value = me.phone || ""; $("eEmail").value = me.email || ""; $("eCity").value = me.city || "";
+  $("eComp").value = me.company || ""; $("ePlate").value = me.plateNumber || ""; $("eCap").value = me.capacityTon || ""; $("eLic").value = me.licenseNumber || "";
+  const drv = me.role === "driver"; $("drvF").classList.toggle("hidden", !drv); $("compF").classList.toggle("hidden", drv);
+  newPhoto = null; drawPhoto(me.photo);
+}
+function drawPhoto(p){ $("pPh").innerHTML = isPhoto(p) ? `<img src="${p}" alt="">` : "👤"; $("pRm").classList.toggle("hidden", !isPhoto(p)); }
+
+/* ---------- লোড ---------- */
+onAuthStateChanged(auth, async user => {
+  if (!user){ location.replace("login.html"); return; }
+  uid = user.uid;
+  try {
+    const d = await getDoc(doc(db, "users", uid));
+    me = d.exists() ? d.data() : { name: "", status: "pending", role: "customer", phone: "" };
+  } catch(e){ console.error(e); me = { name: "", status: "pending", role: "customer" }; }
+  try {
+    const snap = await getDocs(query(collection(db, "bookings"), where("uid", "==", uid)));
+    myB = snap.docs.map(x => ({ id: x.id, ...x.data() })).sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  } catch(e){ console.error(e); myB = []; }
+  $("loading").classList.add("hidden"); $("app").classList.remove("hidden");
+  fillProfile(); render();
+});
+
+/* ---------- প্রোফাইল সেভ ---------- */
+function shrink(file){ return new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image();
+  im.onload = () => { const s = Math.min(im.width, im.height), c = document.createElement("canvas"); c.width = c.height = 320;
+    c.getContext("2d").drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, 0, 0, 320, 320); URL.revokeObjectURL(u); res(c.toDataURL("image/jpeg", .8)); };
+  im.onerror = () => { URL.revokeObjectURL(u); rej(); }; im.src = u; }); }
+$("pUp").onclick = () => $("pFile").click();
+$("pFile").onchange = async e => { const f = e.target.files[0]; if (!f) return; try { newPhoto = await shrink(f); drawPhoto(newPhoto); } catch(_) { say("pMsg","error","This image could not be opened.","এই ছবিটা খোলা যায়নি।"); } e.target.value = ""; };
+$("pRm").onclick = () => { newPhoto = ""; drawPhoto(""); };
+$("pForm").onsubmit = async e => {
+  e.preventDefault(); $("pMsg").className = "msg";
+  const em = $("eEmail").value.trim();
+  let ok = mark("f-name", $("eName").value.trim().length < 2);
+  ok = mark("f-email", em !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) && ok;
+  if (!ok) return;
+  const data = { name: $("eName").value.trim(), email: em, city: $("eCity").value.trim() };
+  if (me.role === "driver") Object.assign(data, { plateNumber: $("ePlate").value.trim(), capacityTon: Number($("eCap").value) || 0, licenseNumber: $("eLic").value.trim() });
+  else data.company = $("eComp").value.trim();
+  if (newPhoto !== null) data.photo = newPhoto;
+  $("pSave").disabled = true;
+  try { await updateDoc(doc(db, "users", uid), data); Object.assign(me, data); newPhoto = null; render();
+    say("pMsg", "ok", "Your changes are saved ✓", "পরিবর্তন সেভ হয়েছে ✓");
+  } catch(err){ console.error(err); say("pMsg", "error", "Could not save. Try again.", "সেভ হয়নি। আবার চেষ্টা করুন।"); }
+  $("pSave").disabled = false;
+};
+
+/* ---------- নতুন বুকিং ---------- */
+const bk = $("bk");
+function openBk(){ if (!canBook()) return; bk.hidden = false; document.body.style.overflow = "hidden"; $("bkForm").hidden = false; $("bkDone").hidden = true; $("bkMsg").className = "msg"; setTimeout(() => $("bFrom").focus(), 50); }
+function closeBk(){ bk.hidden = true; document.body.style.overflow = ""; }
+$("newBk").onclick = openBk; $("bkClose").onclick = closeBk; $("bkOk").onclick = () => { closeBk(); showTab("pBook"); };
+bk.addEventListener("click", e => { if (e.target === bk) closeBk(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !bk.hidden) closeBk(); });
+$("bkForm").onsubmit = async e => {
+  e.preventDefault();
+  let ok = mark("b-from", !$("bFrom").value.trim()); ok = mark("b-to", !$("bTo").value.trim()) && ok;
+  if (!ok) return;
+  const data = { name: (me.company ? me.company + " – " : "") + (me.name || ""), phone: me.phone || "", pickup: $("bFrom").value.trim().slice(0,150), drop: $("bTo").value.trim().slice(0,150),
+    vehicleType: $("bVeh").value, date: $("bDate").value, goods: $("bGoods").value.trim().slice(0,300), notes: $("bNotes").value.trim().slice(0,1000) };
+  data.name = data.name.slice(0, 100);
+  $("bkSend").disabled = true;
+  const save = addDoc(collection(db, "bookings"), { ...data, uid, status: "new", createdAt: serverTimestamp() });
+  const mail = fetch("https://formsubmit.co/ajax/solution2041@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({ _subject: `New truck request: ${data.pickup} → ${data.drop}`, _template: "table", _captcha: "false",
+      "Customer (account)": data.name, "Mobile": data.phone, "Pickup from": data.pickup, "Deliver to": data.drop,
+      "Vehicle type": (BVEH[data.vehicleType] || [data.vehicleType])[0], "Date needed": data.date || "-", "Goods": data.goods || "-", "Notes": data.notes || "-" }) })
+    .then(r => { if (!r.ok) throw new Error("mail " + r.status); });
+  const [s1] = await Promise.allSettled([save, mail]);
+  if (s1.status === "fulfilled"){
+    myB.unshift({ id: s1.value.id, ...data, status: "new", createdAt: { seconds: Date.now() / 1000, toDate: () => new Date() } });
+    render(); $("bkForm").reset(); $("bkForm").hidden = true; $("bkDone").hidden = false;
+  } else { console.error(s1.reason); say("bkMsg", "error", "Your request could not be sent. Try again.", "অনুরোধ পাঠানো যায়নি। আবার চেষ্টা করুন।"); }
+  $("bkSend").disabled = false;
+};
+
+applyLang();
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23F28C28'/><rect x='6' y='22' width='9' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='3' y='29' width='12' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='7' y='36' width='8' height='3' rx='1.5' fill='%23fff' opacity='.85'/><rect x='18' y='18' width='24' height='22' rx='3' fill='%230B2545'/><path d='M43 25h8.5c1 0 1.9.5 2.4 1.3l3.6 5.6c.3.5.5 1 .5 1.6V40H43z' fill='%230B2545'/><path d='M46 28h5l2.8 4.5H46z' fill='%23F28C28'/><circle cx='26' cy='43' r='5' fill='%23fff' stroke='%230B2545' stroke-width='3'/><circle cx='49' cy='43' r='5' fill='%23fff' stroke='%230B2545' stroke-width='3'/><path d='M35 23.5h-6.5a3 3 0 0 0 0 6h3a3 3 0 0 1 0 6H25' fill='none' stroke='%23F28C28' stroke-width='3' stroke-linecap='round'/></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log in - SOLUTION Transportation & Logistics</title>
 <meta name="description" content="Log in to your SOLUTION customer or driver account.">
@@ -110,6 +111,11 @@
   .ccwrap select{width:100% !important;color:transparent !important;cursor:pointer}
   .ccwrap select option{color:#1A2125;font-weight:500}
   .ccwrap .cc-lab{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;font-weight:600;color:#1E272C;white-space:nowrap;font-size:16px}
+
+  /* লোগো */
+  .brand{flex-direction:row !important;align-items:center;gap:10px}
+  .brand .mark{width:38px;height:38px;flex:none}
+  .brand .bt{display:flex;flex-direction:column;line-height:1}
 </style>
 </head>
 <body>
@@ -117,8 +123,9 @@
 <header class="site-h">
   <div class="in">
     <a class="brand" href="index.html" aria-label="SOLUTION home">
-      <b>SOLUTION</b>
-      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small>
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#F28C28"/><rect x="6" y="22" width="9" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="3" y="29" width="12" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="7" y="36" width="8" height="3" rx="1.5" fill="#fff" opacity=".85"/><rect x="18" y="18" width="24" height="22" rx="3" fill="#0B2545"/><path d="M43 25h8.5c1 0 1.9.5 2.4 1.3l3.6 5.6c.3.5.5 1 .5 1.6V40H43z" fill="#0B2545"/><path d="M46 28h5l2.8 4.5H46z" fill="#F28C28"/><circle cx="26" cy="43" r="5" fill="#fff" stroke="#0B2545" stroke-width="3"/><circle cx="49" cy="43" r="5" fill="#fff" stroke="#0B2545" stroke-width="3"/><path d="M35 23.5h-6.5a3 3 0 0 0 0 6h3a3 3 0 0 1 0 6H25" fill="none" stroke="#F28C28" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="bt"><b>SOLUTION</b>
+      <small data-en="Transportation & Logistics" data-bn="ট্রান্সপোর্টেশন ও লজিস্টিকস">Transportation & Logistics</small></span>
     </a>
     <nav>
       <a href="index.html" class="hide-sm" data-en="Home" data-bn="হোম">Home</a>
@@ -294,6 +301,8 @@ function showAcct(u){
 
 onAuthStateChanged(auth, async user => {
   if (!user){ me = null; $("acct").classList.add("hidden"); $("loginForm").classList.remove("hidden"); return; }
+  // লগইন হলে সরাসরি "আমার অ্যাকাউন্ট" পেজে
+  location.replace("account.html"); return;
   try {
     const d = await getDoc(doc(db, "users", user.uid));
     me = d.exists() ? d.data() : { name: "", status: "pending", phone: "" };
