@@ -451,6 +451,52 @@
   </div>
 </div>
 
+<!-- ===== বুকিং এডিট ===== -->
+<div class="modal hidden" id="bEditBox">
+  <div class="mbox mform" style="max-width:600px">
+    <div class="mhead"><h3 data-en="Edit booking" data-bn="বুকিং এডিট">বুকিং এডিট</h3><button class="x" id="beClose" type="button">✕</button></div>
+    <div id="beMsg" class="msg"></div>
+    <div class="two">
+      <div class="field" id="bef-name"><label data-en="Customer / company" data-bn="কাস্টমার / কোম্পানি">কাস্টমার / কোম্পানি</label><input id="beName">
+        <div class="err" data-en="Write the name" data-bn="নাম লিখুন">নাম লিখুন</div></div>
+      <div class="field" id="bef-phone"><label data-en="Mobile (with country code)" data-bn="মোবাইল (দেশের কোডসহ)">মোবাইল (দেশের কোডসহ)</label><input id="bePhone" placeholder="+8801XXXXXXXXX">
+        <div class="err" data-en="Enter a valid number, e.g. +8801812345678" data-bn="সঠিক নম্বর দিন, যেমন +8801812345678">সঠিক নম্বর দিন, যেমন +8801812345678</div></div>
+    </div>
+    <div class="two">
+      <div class="field" id="bef-from"><label data-en="Pickup from" data-bn="কোথা থেকে">কোথা থেকে</label><input id="beFrom">
+        <div class="err" data-en="Required" data-bn="লিখুন">লিখুন</div></div>
+      <div class="field" id="bef-to"><label data-en="Deliver to" data-bn="কোথায় যাবে">কোথায় যাবে</label><input id="beTo">
+        <div class="err" data-en="Required" data-bn="লিখুন">লিখুন</div></div>
+    </div>
+    <div class="two">
+      <div class="field"><label data-en="Vehicle type" data-bn="গাড়ির ধরন">গাড়ির ধরন</label>
+        <select id="beVeh">
+          <option value="any" data-en="Not sure" data-bn="নিশ্চিত না">নিশ্চিত না</option>
+          <option value="covered_van" data-en="Covered van" data-bn="কাভার্ড ভ্যান">কাভার্ড ভ্যান</option>
+          <option value="open_truck" data-en="Open-body truck" data-bn="খোলা ট্রাক">খোলা ট্রাক</option>
+          <option value="dump_truck" data-en="Dump truck" data-bn="ডাম্প ট্রাক">ডাম্প ট্রাক</option>
+          <option value="heavy" data-en="Heavy-duty" data-bn="ভারী গাড়ি">ভারী গাড়ি</option>
+        </select></div>
+      <div class="field"><label data-en="Date needed" data-bn="কবে লাগবে">কবে লাগবে</label><input id="beDate" type="date"></div>
+    </div>
+    <div class="two">
+      <div class="field"><label data-en="Goods" data-bn="মাল">মাল</label><input id="beGoods"></div>
+      <div class="field"><label data-en="Status" data-bn="অবস্থা">অবস্থা</label>
+        <select id="beSt">
+          <option value="new" data-en="New" data-bn="নতুন">নতুন</option>
+          <option value="contacted" data-en="In progress" data-bn="চলমান">চলমান</option>
+          <option value="done" data-en="Completed" data-bn="সম্পন্ন">সম্পন্ন</option>
+          <option value="cancelled" data-en="Cancelled" data-bn="বাতিল">বাতিল</option>
+        </select></div>
+    </div>
+    <div class="field"><label data-en="Notes" data-bn="নোট">নোট</label><textarea id="beNotes"></textarea></div>
+    <div class="mact">
+      <button class="btn" id="beSave" type="button" data-en="Save changes" data-bn="পরিবর্তন সেভ করুন">পরিবর্তন সেভ করুন</button>
+      <button class="btn gray" id="beCancel" type="button" data-en="Cancel" data-bn="বাতিল">বাতিল</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== নিশ্চিত করার বক্স ===== -->
 <div class="modal hidden" id="askBox" style="z-index:60;align-items:center">
   <div class="mbox" style="max-width:400px;text-align:center">
@@ -1000,7 +1046,7 @@ function renderBookings(){
       <td>${esc(v ? T(v[0], v[1]) : b.vehicleType)}${b.goods ? `<div class="bnote">${esc(b.goods)}</div>` : ""}${b.notes ? `<div class="bnote">📝 ${esc(b.notes)}</div>` : ""}</td>
       <td>${esc(b.date || "-")}</td>
       <td><select class="bst ${esc(b.status)}" data-bid="${b.id}">${opts}</select></td>
-      <td><button class="act del" data-bdel="${b.id}">🗑 ${T("Delete","মুছুন")}</button></td>
+      <td><button class="act ed" data-bedit="${b.id}">✏️ ${T("Edit","এডিট")}</button><button class="act del" data-bdel="${b.id}">🗑 ${T("Delete","মুছুন")}</button></td>
     </tr>`;
   }).join("") : `<tr><td colspan="7" class="empty">${T("No bookings here yet","এখানে এখনো কোনো বুকিং নেই")}</td></tr>`;
 }
@@ -1016,7 +1062,41 @@ $("bRows").addEventListener("change", async e => {
     say("bkMsg", "error", "Could not update. Try again.", "আপডেট হয়নি। আবার চেষ্টা করুন।"); }
   renderBookings();
 });
+/* ---------- বুকিং এডিট ---------- */
+let beId = null;
+function openBEdit(id){
+  const b = bookings.find(x => x.id === id); if (!b) return; beId = id;
+  $("beName").value = b.name || ""; $("bePhone").value = b.phone || ""; $("beFrom").value = b.pickup || ""; $("beTo").value = b.drop || "";
+  $("beVeh").value = BVEH[b.vehicleType] ? b.vehicleType : "any"; $("beDate").value = b.date || ""; $("beGoods").value = b.goods || "";
+  $("beSt").value = BST[b.status] ? b.status : "new"; $("beNotes").value = b.notes || "";
+  document.querySelectorAll("#bEditBox .field.bad").forEach(f => f.classList.remove("bad")); hush("beMsg");
+  $("bEditBox").classList.remove("hidden"); setTimeout(() => $("beName").focus(), 50);
+}
+const closeBEdit = () => { beId = null; $("bEditBox").classList.add("hidden"); };
+$("beClose").onclick = closeBEdit; $("beCancel").onclick = closeBEdit;
+$("bEditBox").addEventListener("click", e => { if (e.target.id === "bEditBox") closeBEdit(); });
+$("beSave").onclick = async () => {
+  const b = bookings.find(x => x.id === beId); if (!b) return;
+  const phone = $("bePhone").value.replace(/[\s-]/g, "");
+  let ok = mark("bef-name", $("beName").value.trim().length < 2);
+  ok = mark("bef-phone", !/^\+?\d{8,15}$/.test(phone)) && ok;
+  ok = mark("bef-from", !$("beFrom").value.trim()) && ok;
+  ok = mark("bef-to", !$("beTo").value.trim()) && ok;
+  if (!ok) return;
+  const data = { name: $("beName").value.trim().slice(0, 100), phone: phone.startsWith("+") ? phone : "+" + phone,
+    pickup: $("beFrom").value.trim().slice(0, 150), drop: $("beTo").value.trim().slice(0, 150), vehicleType: $("beVeh").value,
+    date: $("beDate").value, goods: $("beGoods").value.trim().slice(0, 300), notes: $("beNotes").value.trim().slice(0, 1000), status: $("beSt").value };
+  $("beSave").disabled = true;
+  try {
+    await updateDoc(doc(db, "bookings", b.id), { ...data, updatedBy: auth.currentUser.uid, updatedAt: serverTimestamp() });
+    Object.assign(b, data); closeBEdit(); renderBookings();
+    say("bkMsg", "ok", "Booking updated ✓", "বুকিং আপডেট হয়েছে ✓");
+  } catch(err){ console.error(err); say("beMsg", "error", "Could not save. Try again.", "সেভ হয়নি। আবার চেষ্টা করুন।"); }
+  $("beSave").disabled = false;
+};
+
 $("bRows").addEventListener("click", async e => {
+  const ed = e.target.closest("button[data-bedit]"); if (ed) return openBEdit(ed.dataset.bedit);
   const d = e.target.closest("button[data-bdel]"); if (!d) return;
   const b = bookings.find(x => x.id === d.dataset.bdel);
   if (!await ask(T(`Delete the booking from "${b.name}"?`, `"${b.name}"-এর বুকিং মুছে ফেলবেন?`))) return;
